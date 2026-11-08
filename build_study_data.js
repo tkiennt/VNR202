@@ -4,17 +4,34 @@ function mdToHtml(md) {
   // Normalize line endings
   let text = md.replace(/\r\n/g, '\n');
 
-  // Convert tables
-  // A table block has lines starting and ending with | or containing |
+  // Convert tables, code blocks, lists
   const lines = text.split('\n');
   const result = [];
   let inTable = false;
   let tableRows = [];
   let inMermaid = false;
   let mermaidLines = [];
+  let inToc = false;
 
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
+
+    // Detect Table of Contents header
+    if (line.includes('MỤC LỤC') || line.includes('M?C L?C')) {
+      result.push('<h2 id="muc-luc" class="content-h2"><span class="icon-badge icon-compass">🧭</span> MỤC LỤC ĐIỀU HƯỚNG ÔN TẬP TOÀN MÔN</h2>');
+      result.push(renderInteractiveTOC());
+      inToc = true;
+      continue;
+    }
+
+    // Skip the raw ordered list lines belonging to the TOC
+    if (inToc) {
+      if (/^\d+\.\s*\[/.test(line.trim()) || line.trim() === '') {
+        continue; // skip raw TOC markdown lines
+      } else {
+        inToc = false; // exit TOC block
+      }
+    }
 
     // Mermaid code block
     if (line.trim().startsWith('```mermaid')) {
@@ -34,7 +51,7 @@ function mdToHtml(md) {
 
     // Code blocks
     if (line.trim().startsWith('```')) {
-      continue; // skip other code fences
+      continue;
     }
 
     // Table detection
@@ -131,6 +148,8 @@ function slugify(text) {
 
 function formatInline(str) {
   let s = str;
+  // Markdown links
+  s = s.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="content-link">$1</a>');
   // Bold
   s = s.replace(/\*\*([^*]+)\*\*/g, '<strong class="highlight-strong">$1</strong>');
   // Italic
@@ -144,6 +163,111 @@ function formatInline(str) {
   s = s.replace(/🗺️/g, '<span class="icon-badge icon-map">🗺️</span>');
   s = s.replace(/📘|📗|📙|📕/g, '');
   return s;
+}
+
+function renderInteractiveTOC() {
+  return `
+    <div class="toc-interactive-grid">
+      <div class="toc-card" onclick="window.VNR_NAV.switchTab('timeline')" title="Mở Trục thời gian & 15 Đại hội">
+        <div class="toc-badge">0</div>
+        <div class="toc-body">
+          <div class="toc-title">🗺️ Bản đồ tổng quan toàn môn</div>
+          <div class="toc-desc">Trục thời gian 1858 – 2026 & Bảng 15 Đại hội Đảng</div>
+        </div>
+        <div class="toc-arrow">➔</div>
+      </div>
+
+      <div class="toc-card" onclick="document.getElementById('nhap-mon').scrollIntoView({behavior:'smooth'})" title="Đọc phần Nhập môn">
+        <div class="toc-badge">1</div>
+        <div class="toc-body">
+          <div class="toc-title">📖 Nhập môn Lịch sử Đảng</div>
+          <div class="toc-desc">Đối tượng, chức năng, nhiệm vụ & phương pháp nghiên cứu</div>
+        </div>
+        <div class="toc-arrow">➔</div>
+      </div>
+
+      <div class="toc-card" onclick="window.VNR_NAV.switchChapter('chap-1')" title="Mở nội dung Chương 1">
+        <div class="toc-badge">2</div>
+        <div class="toc-body">
+          <div class="toc-title">📗 Chương 1: Đảng ra đời & Giành chính quyền (1930–1945)</div>
+          <div class="toc-desc">Khai thác thuộc địa, Nguyễn Ái Quốc, Cương lĩnh vs Luận cương, CMT8</div>
+        </div>
+        <div class="toc-arrow">➔</div>
+      </div>
+
+      <div class="toc-card" onclick="window.VNR_NAV.switchChapter('chap-2')" title="Mở nội dung Chương 2">
+        <div class="toc-badge">3</div>
+        <div class="toc-body">
+          <div class="toc-title">📘 Chương 2: Hai cuộc kháng chiến (1945–1975)</div>
+          <div class="toc-desc">Kháng chiến chống Pháp, Giơnevơ, Chống Mỹ cứu nước, 30/4/1975</div>
+        </div>
+        <div class="toc-arrow">➔</div>
+      </div>
+
+      <div class="toc-card" onclick="window.VNR_NAV.switchChapter('chap-3')" title="Mở nội dung Chương 3">
+        <div class="toc-badge">4</div>
+        <div class="toc-body">
+          <div class="toc-title">📙 Chương 3: Quá độ lên CNXH & Đổi mới (1975–2018)</div>
+          <div class="toc-desc">Thống nhất Nhà nước, Đại hội IV–XII, Cương lĩnh 1991 & 2011, WTO</div>
+        </div>
+        <div class="toc-arrow">➔</div>
+      </div>
+
+      <div class="toc-card" onclick="window.VNR_NAV.switchChapter('chap-4')" title="Mở nội dung Chương mở rộng">
+        <div class="toc-badge">5</div>
+        <div class="toc-body">
+          <div class="toc-title">📕 Chương mở rộng: Từ 2018 đến Đại hội XIV (2026)</div>
+          <div class="toc-desc">Đại hội XIII, XIV, Kỷ nguyên mới, Bộ tứ trụ cột NQ 57, 59, 66, 68, PCTN</div>
+        </div>
+        <div class="toc-arrow">➔</div>
+      </div>
+
+      <div class="toc-card highlight-warn" onclick="window.VNR_NAV.switchTab('pitfalls')" title="Xem phân tích 8 câu hỏi bẫy thi">
+        <div class="toc-badge warn">6</div>
+        <div class="toc-body">
+          <div class="toc-title">⚠️ Phụ lục A – Giải quyết các câu bẫy thi & cần đối chiếu</div>
+          <div class="toc-desc">Phân tích chuyên sâu 8 câu hỏi dễ nhầm lẫn trong ngân hàng đề gốc</div>
+        </div>
+        <div class="toc-arrow">➔</div>
+      </div>
+
+      <div class="toc-card highlight-quiz" onclick="window.VNR_NAV.switchTab('quiz')" title="Luyện trắc nghiệm 100 câu">
+        <div class="toc-badge quiz">7</div>
+        <div class="toc-body">
+          <div class="toc-title">✍️ Phụ lục B – Bảng đáp án & Ngân hàng 100 câu trắc nghiệm</div>
+          <div class="toc-desc">Luyện thi trắc nghiệm có giải thích chi tiết và hẹn giờ thi thử</div>
+        </div>
+        <div class="toc-arrow">➔</div>
+      </div>
+
+      <div class="toc-card" onclick="window.VNR_NAV.switchTab('materials')" title="Xem danh mục tài liệu">
+        <div class="toc-badge">8</div>
+        <div class="toc-body">
+          <div class="toc-title">📚 Phụ lục C – Ma trận liên kết nguồn tài liệu giáo trình</div>
+          <div class="toc-desc">12 tài liệu chính thức theo syllabus & link đọc trực tuyến</div>
+        </div>
+        <div class="toc-arrow">➔</div>
+      </div>
+
+      <div class="toc-card" onclick="window.VNR_NAV.switchTab('pitfalls')" title="Xem Checklist & chiến lược thi">
+        <div class="toc-badge">9</div>
+        <div class="toc-body">
+          <div class="toc-title">✅ Phụ lục D – Checklist & chiến lược làm bài thi</div>
+          <div class="toc-desc">Bí quyết đạt điểm cao và các kiến thức nhất định phải thuộc</div>
+        </div>
+        <div class="toc-arrow">➔</div>
+      </div>
+
+      <div class="toc-card" onclick="window.VNR_NAV.switchTab('materials')" title="Tra cứu nguồn văn kiện & Coursera">
+        <div class="toc-badge">10</div>
+        <div class="toc-body">
+          <div class="toc-title">🔗 Nguồn tra cứu văn kiện & Điều kiện Coursera</div>
+          <div class="toc-desc">Lưu ý bắt buộc về chứng chỉ Coursera để đủ điều kiện dự thi</div>
+        </div>
+        <div class="toc-arrow">➔</div>
+      </div>
+    </div>
+  `;
 }
 
 function renderTable(rows) {
@@ -167,7 +291,6 @@ function renderTable(rows) {
     if (cols.length === 0) continue;
     html += '<tr>';
     cols.forEach((col, idx) => {
-      // First column often bold
       const isHeaderCol = (idx === 0);
       html += `<td${isHeaderCol ? ' class="col-header"' : ''}>${formatInline(col)}</td>`;
     });
@@ -178,7 +301,6 @@ function renderTable(rows) {
 }
 
 function renderMermaidAsHtml(chartText) {
-  // Turn mermaid flowcharts / timelines into visual diagram cards
   if (chartText.includes('timeline')) {
     const lines = chartText.split('\n').filter(l => l.includes(':'));
     let html = '<div class="timeline-visual-diagram"><div class="diagram-title">Trục tiến trình sự kiện</div><div class="timeline-nodes-wrap">';
@@ -220,7 +342,6 @@ function renderMermaidAsHtml(chartText) {
     return html;
   }
 
-  // fallback
   return `<pre class="content-code"><code>${chartText}</code></pre>`;
 }
 
@@ -278,4 +399,4 @@ const CHAPTERS = [
 
 const outContent = '/* Auto-generated compiled HTML for study chapters */\nwindow.VNR_CHAPTERS = ' + JSON.stringify(CHAPTERS, null, 2) + ';\n';
 fs.writeFileSync('study_data.js', outContent, 'utf8');
-console.log('Successfully generated study_data.js with ' + CHAPTERS.length + ' chapters!');
+console.log('Successfully updated study_data.js with interactive TOC grid!');

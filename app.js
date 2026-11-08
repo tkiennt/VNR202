@@ -108,6 +108,21 @@
   }
 
   // ==========================================================================
+  // GLOBAL NAVIGATION HELPER (FOR INTERACTIVE TOC & LINKS)
+  // ==========================================================================
+  window.VNR_NAV = {
+    switchTab: function (tabId) {
+      switchTab(tabId);
+    },
+    switchChapter: function (chapId) {
+      state.studyChapter = chapId;
+      switchTab('study');
+      renderStudyGuide();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
+  // ==========================================================================
   // NAVIGATION & TAB SWITCHING
   // ==========================================================================
   function switchTab(tabId) {

@@ -7,19 +7,19 @@
 
 ---
 
-## 🧭 MỤC LỤC
+## 🧭 MỤC LỤC ĐIỀU HƯỚNG ÔN TẬP TOÀN MÔN
 
-0. [Bản đồ tổng quan toàn môn](#-0-bản-đồ-tổng-quan-toàn-môn)
-1. [Nhập môn](#-nhập-môn)
-2. [Chương 1 (1930–1945)](#-chương-1)
-3. [Chương 2 (1945–1975)](#-chương-2)
-4. [Chương 3 (1975–2018)](#-chương-3)
-5. [Chương mở rộng: Từ 2018 đến Đại hội XIV (2026)](#-chương-mở-rộng)
-6. [Phụ lục A – Giải quyết các câu cần đối chiếu (Phụ lục B cũ)](#-phụ-lục-a)
-7. [Phụ lục B – Bảng đáp án nhanh 90 câu](#-phụ-lục-b)
-8. [Phụ lục C – Ma trận liên kết nguồn tài liệu](#-phụ-lục-c)
-9. [Phụ lục D – Checklist & chiến lược thi](#-phụ-lục-d)
-10. [Nguồn tra cứu](#-nguồn-tra-cứu)
+0. [🗺️ Bản đồ tổng quan toàn môn](#0-bản-đồ-tổng-quan-toàn-môn)
+1. [📖 Nhập môn: Đối tượng, chức năng, phương pháp](#nhập-môn)
+2. [📗 Chương 1: Đảng ra đời và lãnh đạo giành chính quyền (1930–1945)](part1.md)
+3. [📘 Chương 2: Lãnh đạo hai cuộc kháng chiến giải phóng dân tộc (1945–1975)](part2.md)
+4. [📙 Chương 3: Quá độ lên chủ nghĩa xã hội và công cuộc Đổi mới (1975–2018)](part3.md)
+5. [📕 Chương mở rộng: Từ 2018 đến Đại hội XIV (2026) – Kỷ nguyên mới](part4.md)
+6. [⚠️ Phụ lục A – Giải quyết các câu bẫy thi & cần đối chiếu](on_tap_lich_su_dang.md#b-danh-sách-câu-cần-đối-chiếu-lại)
+7. [✍️ Phụ lục B – Bảng đáp án & Ngân hàng 90 câu trắc nghiệm](on_tap_lich_su_dang.md)
+8. [📚 Phụ lục C – Ma trận liên kết nguồn tài liệu giáo trình](tl.md)
+9. [✅ Phụ lục D – Checklist & chiến lược làm bài thi](on_tap_lich_su_dang.md#c-checklist-ôn-nhanh)
+10. [🔗 Nguồn tra cứu văn kiện & Điều kiện Coursera](tl.md)
 
 ---
 
