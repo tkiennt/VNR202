@@ -103,8 +103,15 @@
     // Pitfalls
     elements.pitfallsContainer = document.querySelector('#pitfalls-container');
 
-    // Materials
+    // Materials & Source Matrix
     elements.materialsContainer = document.querySelector('#materials-container');
+    elements.sourceMatrixTableBody = document.querySelector('#source-matrix-table-body');
+
+    // Learning Progress
+    elements.progressText = document.querySelector('#progress-text');
+    elements.progressQuizCount = document.querySelector('#progress-quiz-count');
+    elements.progressFcCount = document.querySelector('#progress-fc-count');
+    elements.progressBarFill = document.querySelector('#progress-bar-fill');
   }
 
   // ==========================================================================
@@ -435,6 +442,7 @@
     }
     localStorage.setItem('vnr_fc_mastered', JSON.stringify(state.fcMastered));
     renderFlashcard();
+    updateProgressUI();
   }
 
   function shuffleFlashcards() {
@@ -563,6 +571,12 @@
             <div class="q-explanation-box">
               <strong>${isCorrect ? '✓ Đáp án đúng: ' : '✗ Sai rồi! Đáp án đúng: '} ${q.answer}</strong>
               <div style="margin-top:0.35rem">${q.explanation || 'Kiến thức cốt lõi theo giáo trình chuẩn Bộ GD&ĐT.'}</div>
+              ${q.source ? `
+                <div class="q-source-badge">
+                  <span>📖</span>
+                  <span>Đối chiếu nguồn: <strong>${q.source}</strong></span>
+                </div>
+              ` : ''}
             </div>
           ` : ''}
 
@@ -662,6 +676,21 @@
     } else {
       renderQuizPalette(); // update answered status in exam
     }
+    updateProgressUI();
+  }
+
+  function updateProgressUI() {
+    const totalQuestions = DATA.QUESTIONS ? DATA.QUESTIONS.length : 150;
+    const totalFlashcards = DATA.FLASHCARDS ? DATA.FLASHCARDS.length : 55;
+    const answeredCount = Object.keys(state.userAnswers).length;
+    const masteredCount = state.fcMastered ? state.fcMastered.length : 0;
+    const totalItems = totalQuestions + totalFlashcards;
+    const percent = totalItems > 0 ? Math.round(((answeredCount + masteredCount) / totalItems) * 100) : 0;
+
+    if (elements.progressText) elements.progressText.textContent = `${percent}%`;
+    if (elements.progressQuizCount) elements.progressQuizCount.textContent = answeredCount;
+    if (elements.progressFcCount) elements.progressFcCount.textContent = masteredCount;
+    if (elements.progressBarFill) elements.progressBarFill.style.width = `${percent}%`;
   }
 
   function toggleStarQuestion(qId) {
@@ -803,9 +832,28 @@
   }
 
   // ==========================================================================
-  // VIEW 7: MATERIALS & COURSERA
+  // VIEW 7: MATERIALS & COURSERA & SOURCE MATRIX
   // ==========================================================================
+  function renderSourceMatrix() {
+    if (!elements.sourceMatrixTableBody || !DATA.SOURCE_MATRIX) return;
+
+    elements.sourceMatrixTableBody.innerHTML = DATA.SOURCE_MATRIX.map(item => `
+      <tr>
+        <td style="font-weight:700; color:var(--brand-crimson); line-height:1.45; vertical-align:top">
+          ${item.topic}
+        </td>
+        <td style="vertical-align:top">
+          <div style="font-weight:600; color:var(--text-primary); font-size:0.88rem">${item.doc}</div>
+        </td>
+        <td style="font-size:0.86rem; color:var(--text-secondary); line-height:1.5; vertical-align:top">
+          ${item.note}
+        </td>
+      </tr>
+    `).join('');
+  }
+
   function renderMaterials() {
+    renderSourceMatrix();
     if (!elements.materialsContainer || !DATA.MATERIALS) return;
 
     elements.materialsContainer.innerHTML = DATA.MATERIALS.map(m => `
@@ -1037,6 +1085,7 @@
   document.addEventListener('DOMContentLoaded', () => {
     initElements();
     setupEventListeners();
+    updateProgressUI();
     switchTab('timeline');
   });
 

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>VNR202 • Lịch sử Đảng Cộng sản Việt Nam | Hệ thống Ôn tập & Luyện thi</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⭐</text></svg>">
-  <meta name="description" content="Nền tảng ôn tập học phần VNR202 - Lịch sử Đảng Cộng sản Việt Nam chuẩn Đại học FPT: 100 câu trắc nghiệm, 15 kỳ Đại hội, bảng đối chiếu, flashcards và mẹo thi.">
+  <meta name="description" content="Nền tảng ôn tập học phần VNR202 - Lịch sử Đảng Cộng sản Việt Nam chuẩn Đại học FPT: 150 câu trắc nghiệm có đối chiếu nguồn, 15 kỳ Đại hội, 6 bảng đối chiếu, 55 flashcards và ma trận tài liệu.">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -33,21 +33,23 @@
         </button>
         <button class="nav-tab-btn" data-tab="comparisons">
           <span>⚖️</span> Bảng đối chiếu
+          <span class="badge-count">6</span>
         </button>
         <button class="nav-tab-btn" data-tab="flashcards">
           <span>🗂️</span> Flashcards
-          <span class="badge-count">35</span>
+          <span class="badge-count">55</span>
         </button>
         <button class="nav-tab-btn" data-tab="quiz">
           <span>✍️</span> Luyện thi trắc nghiệm
-          <span class="badge-count">100</span>
+          <span class="badge-count">150</span>
         </button>
         <button class="nav-tab-btn" data-tab="pitfalls">
           <span>⚠️</span> Bẫy thi & Mẹo nhớ
           <span class="badge-count">8</span>
         </button>
         <button class="nav-tab-btn" data-tab="materials">
-          <span>📚</span> Giáo trình & Coursera
+          <span>📚</span> Nguồn tra cứu & Ma trận
+          <span class="badge-count">12</span>
         </button>
       </nav>
 
@@ -62,21 +64,31 @@
   </header>
 
   <!-- ==========================================================================
-       SUB-BANNER: STATS & SYLLABUS NOTICE
+       SUB-BANNER: STATS & SYLLABUS NOTICE & PROGRESS
        ========================================================================== -->
   <aside class="sub-banner">
     <div class="sub-banner-inner">
       <div class="banner-stats">
-        <span class="stat-chip"><strong>100</strong> câu hỏi có đáp án & giải thích</span>
+        <span class="stat-chip"><strong>150</strong> câu trắc nghiệm (đối chiếu nguồn)</span>
         <span>•</span>
         <span class="stat-chip"><strong>15</strong> kỳ Đại hội (1930 – 2026)</span>
         <span>•</span>
-        <span class="stat-chip"><strong>5</strong> Bảng đối chiếu cốt lõi</span>
+        <span class="stat-chip"><strong>6</strong> Bảng đối chiếu</span>
         <span>•</span>
-        <span class="stat-chip"><strong>35</strong> Thẻ nhớ phản xạ</span>
+        <span class="stat-chip"><strong>55</strong> Thẻ nhớ</span>
+        <span>•</span>
+        <span class="stat-chip"><strong>10</strong> Chuyên đề nguồn tra cứu</span>
       </div>
-      <div class="banner-coursera-badge">
-        <span>🎓 Yêu cầu thi: Bắt buộc hoàn thành chứng chỉ Coursera VNR202</span>
+      <div class="banner-progress-wrap">
+        <div class="study-progress-bar">
+          <div class="progress-label">
+            <span>Tiến độ học tập: <strong id="progress-text">0%</strong></span>
+            <span class="progress-detail">(Đã làm <span id="progress-quiz-count">0</span>/150 câu • Thuộc <span id="progress-fc-count">0</span>/55 thẻ)</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-bar-fill" id="progress-bar-fill" style="width: 0%"></div>
+          </div>
+        </div>
       </div>
     </div>
   </aside>
@@ -207,6 +219,9 @@
         <button class="comparison-tab-btn" data-key="chienLuocChienTranh">
           3 Chiến lược chiến tranh của Mỹ
         </button>
+        <button class="comparison-tab-btn" data-key="khoan100VsKhoan10">
+          Khoán 100 (1981) vs Khoán 10 (1988)
+        </button>
         <button class="comparison-tab-btn" data-key="cuongLinh1991vs2011">
           Cương lĩnh 1991 vs Cương lĩnh 2011
         </button>
@@ -236,12 +251,13 @@
         <div class="flashcard-controls-top">
           <div class="fc-category-filter">
             <button class="filter-btn fc-filter-btn active" data-cat="all">Tất cả</button>
+            <button class="filter-btn fc-filter-btn" data-cat="Nhập môn">Nhập môn</button>
             <button class="filter-btn fc-filter-btn" data-cat="Mốc sự kiện">Mốc sự kiện</button>
             <button class="filter-btn fc-filter-btn" data-cat="Đại hội Đảng">Đại hội Đảng</button>
             <button class="filter-btn fc-filter-btn" data-cat="Nghị quyết then chốt">Nghị quyết</button>
             <button class="filter-btn fc-filter-btn" data-cat="Mẹo nhớ cốt lõi">Mẹo thi</button>
           </div>
-          <div class="fc-progress-text" id="fc-counter">1 / 35</div>
+          <div class="fc-progress-text" id="fc-counter">1 / 55</div>
         </div>
 
         <!-- 3D Flip Card -->
@@ -274,13 +290,13 @@
     </section>
 
     <!-- ==========================================================================
-         VIEW 5: QUIZ SIMULATOR (100 CÂU HỎI)
+         VIEW 5: QUIZ SIMULATOR (150 CÂU HỎI ĐỐI CHIẾU NGUỒN)
          ========================================================================== -->
     <section class="view-section" id="view-quiz">
       <div class="view-header">
         <div class="view-header-title">
-          <h2><span>✍️</span> Ngân hàng 100 câu trắc nghiệm & Luyện thi</h2>
-          <p>Luyện tập có phản hồi ngay, hoặc mô phỏng đề thi hết môn có bấm giờ và tính điểm.</p>
+          <h2><span>✍️</span> Ngân hàng 150 câu trắc nghiệm & Luyện thi</h2>
+          <p>Luyện tập có phản hồi ngay, giải thích đối chiếu tài liệu nguồn, hoặc thi thử FPT 40 câu có bấm giờ.</p>
         </div>
       </div>
 
@@ -288,7 +304,7 @@
       <div class="quiz-top-bar">
         <div class="quiz-mode-select">
           <span style="font-size:0.85rem; font-weight:700; color:var(--text-muted)">CHẾ ĐỘ:</span>
-          <button class="filter-btn quiz-mode-btn active" data-mode="practice">🎯 Luyện tập (Hiện đáp án ngay)</button>
+          <button class="filter-btn quiz-mode-btn active" data-mode="practice">🎯 Luyện tập (Hiện đáp án & Nguồn ngay)</button>
           <button class="filter-btn quiz-mode-btn" data-mode="exam">⏱️ Thi thử FPT (40 câu / 30 phút)</button>
           <button class="filter-btn quiz-mode-btn" data-mode="wrong">❌ Ôn câu làm sai</button>
           <button class="filter-btn quiz-mode-btn" data-mode="starred">⭐ Câu đã gắn sao</button>
@@ -303,11 +319,12 @@
       <!-- Chapter Filter (Practice Mode only) -->
       <div class="filter-bar" style="margin-bottom:1.5rem">
         <span style="font-size:0.82rem; font-weight:700; color:var(--text-muted); margin-right:0.25rem">LỌC THEO:</span>
-        <button class="filter-btn quiz-chap-btn active" data-chap="all">Tất cả 100 câu</button>
-        <button class="filter-btn quiz-chap-btn" data-chap="1">Chương 1 (22 câu: 1930–1945)</button>
-        <button class="filter-btn quiz-chap-btn" data-chap="2">Chương 2 (35 câu: 1945–1975)</button>
-        <button class="filter-btn quiz-chap-btn" data-chap="3">Chương 3 (33 câu: 1975–2018)</button>
-        <button class="filter-btn quiz-chap-btn" data-chap="4">Chương mở rộng (10 câu: 2018–2026)</button>
+        <button class="filter-btn quiz-chap-btn active" data-chap="all">Tất cả 150 câu</button>
+        <button class="filter-btn quiz-chap-btn" data-chap="0">Nhập môn (6 câu)</button>
+        <button class="filter-btn quiz-chap-btn" data-chap="1">Chương 1 (36 câu: 1930–1945)</button>
+        <button class="filter-btn quiz-chap-btn" data-chap="2">Chương 2 (50 câu: 1945–1975)</button>
+        <button class="filter-btn quiz-chap-btn" data-chap="3">Chương 3 (43 câu: 1975–2018)</button>
+        <button class="filter-btn quiz-chap-btn" data-chap="4">Chương mở rộng (15 câu: 2018–2026)</button>
       </div>
 
       <!-- Score Card (When exam is submitted) -->
@@ -353,14 +370,49 @@
     </section>
 
     <!-- ==========================================================================
-         VIEW 7: MATERIALS & COURSERA
+         VIEW 7: MATERIALS & COURSERA & SOURCE MATRIX
          ========================================================================== -->
     <section class="view-section" id="view-materials">
       <div class="view-header">
         <div class="view-header-title">
-          <h2><span>📚</span> Danh mục 12 Tài liệu tham khảo & Ma trận Coursera</h2>
-          <p>Hệ thống giáo trình, văn kiện chính thống và lưu ý điều kiện dự thi cuối kỳ môn VNR202.</p>
+          <h2><span>📚</span> Nguồn tra cứu, Ma trận đối chiếu & Coursera</h2>
+          <p>Hệ thống 12 tài liệu chính thống, ma trận đối chiếu chuyên đề và quy chế thi học phần VNR202.</p>
         </div>
+      </div>
+
+      <!-- Source Cross-Reference Matrix Card -->
+      <div class="card" style="margin-bottom: 2rem;">
+        <div class="card-header">
+          <h3 class="card-title"><span>🔍</span> Ma trận đối chiếu tài liệu nguồn (10 Chuyên đề trọng điểm)</h3>
+          <span class="badge-tag">Chuẩn Giáo trình 2021 + Văn kiện chính thức</span>
+        </div>
+        <p style="font-size:0.9rem; color:var(--text-secondary); margin-bottom:1.25rem; line-height:1.5">
+          Bảng đối chiếu cụ thể các nội dung, sự kiện và luận điểm lịch sử trong bài thi với các chương mục và trang tài liệu gốc từ 12 nguồn chính thức. Dùng để đối chiếu, phúc khảo và làm rõ mọi luận điểm tranh cãi.
+        </p>
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th style="width:200px">Chuyên đề trọng điểm</th>
+                <th style="width:260px">Tài liệu nguồn & Số trang</th>
+                <th>Luận điểm cốt lõi & Chỉ dẫn tra cứu</th>
+              </tr>
+            </thead>
+            <tbody id="source-matrix-table-body">
+              <!-- Rendered by app.js -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 12 Materials Grid Title -->
+      <div style="margin-bottom:1rem">
+        <h3 style="font-size:1.15rem; font-weight:700; color:var(--text-primary)">
+          <span>📖</span> Danh mục 12 Tài liệu tham khảo theo Đề cương môn học
+        </h3>
+        <p style="font-size:0.88rem; color:var(--text-secondary)">
+          Bao gồm giáo trình chính thức của Bộ GD&ĐT, các tác phẩm của Chủ tịch Hồ Chí Minh, văn kiện các kỳ Đại hội và khóa học Coursera.
+        </p>
       </div>
 
       <div class="materials-grid" id="materials-container">

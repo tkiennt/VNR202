@@ -279,6 +279,53 @@ a:hover {
   color: var(--brand-crimson);
 }
 
+.banner-progress-wrap {
+  display: flex;
+  align-items: center;
+}
+
+.study-progress-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-width: 280px;
+}
+
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  gap: 0.75rem;
+}
+
+.progress-label strong {
+  color: var(--brand-crimson);
+  font-weight: 700;
+}
+
+.progress-detail {
+  font-size: 0.74rem;
+  color: var(--text-muted);
+}
+
+.progress-track {
+  width: 100%;
+  height: 6px;
+  background-color: var(--bg-surface-alt);
+  border: 1px solid var(--border-color);
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--brand-crimson), var(--brand-gold));
+  border-radius: 9999px;
+  transition: width 0.35s ease;
+}
+
 .banner-coursera-badge {
   display: inline-flex;
   align-items: center;
@@ -1353,6 +1400,21 @@ a:hover {
 
 .q-explanation-box strong {
   color: var(--status-info);
+}
+
+.q-source-badge {
+  margin-top: 0.65rem;
+  padding-top: 0.5rem;
+  border-top: 1px dashed var(--border-color);
+  font-size: 0.82rem;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.q-source-badge strong {
+  color: var(--brand-crimson-dark);
 }
 
 .q-warning-box {
