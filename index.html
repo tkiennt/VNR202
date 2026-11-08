@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VNR202 • Lịch sử Đảng Cộng sản Việt Nam | Hệ thống Ôn tập & Luyện thi</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⭐</text></svg>">
+  <meta name="description" content="Nền tảng ôn tập học phần VNR202 - Lịch sử Đảng Cộng sản Việt Nam chuẩn Đại học FPT: 100 câu trắc nghiệm, 15 kỳ Đại hội, bảng đối chiếu, flashcards và mẹo thi.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ==========================================================================
+       SITE HEADER
+       ========================================================================== -->
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="brand-wrap" onclick="location.reload()">
+        <div class="brand-badge">★ VNR202</div>
+        <div class="brand-info">
+          <h1>LỊCH SỬ ĐẢNG CSVN</h1>
+          <p>Hệ thống Ôn tập & Luyện thi FPT University</p>
+        </div>
+      </div>
+
+      <!-- Navigation Tabs -->
+      <nav class="nav-tabs" aria-label="Main Navigation">
+        <button class="nav-tab-btn active" data-tab="timeline">
+          <span>🗺️</span> Tổng quan & Mốc son
+        </button>
+        <button class="nav-tab-btn" data-tab="study">
+          <span>📖</span> Học lý thuyết
+        </button>
+        <button class="nav-tab-btn" data-tab="comparisons">
+          <span>⚖️</span> Bảng đối chiếu
+        </button>
+        <button class="nav-tab-btn" data-tab="flashcards">
+          <span>🗂️</span> Flashcards
+          <span class="badge-count">35</span>
+        </button>
+        <button class="nav-tab-btn" data-tab="quiz">
+          <span>✍️</span> Luyện thi trắc nghiệm
+          <span class="badge-count">100</span>
+        </button>
+        <button class="nav-tab-btn" data-tab="pitfalls">
+          <span>⚠️</span> Bẫy thi & Mẹo nhớ
+          <span class="badge-count">8</span>
+        </button>
+        <button class="nav-tab-btn" data-tab="materials">
+          <span>📚</span> Giáo trình & Coursera
+        </button>
+      </nav>
+
+      <!-- Search Trigger -->
+      <div class="header-actions">
+        <button class="search-trigger-btn" type="button" title="Tìm kiếm nhanh (Ctrl + K)">
+          <span>🔍 Tìm kiếm...</span>
+          <kbd class="search-shortcut">Ctrl K</kbd>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==========================================================================
+       SUB-BANNER: STATS & SYLLABUS NOTICE
+       ========================================================================== -->
+  <aside class="sub-banner">
+    <div class="sub-banner-inner">
+      <div class="banner-stats">
+        <span class="stat-chip"><strong>100</strong> câu hỏi có đáp án & giải thích</span>
+        <span>•</span>
+        <span class="stat-chip"><strong>15</strong> kỳ Đại hội (1930 – 2026)</span>
+        <span>•</span>
+        <span class="stat-chip"><strong>5</strong> Bảng đối chiếu cốt lõi</span>
+        <span>•</span>
+        <span class="stat-chip"><strong>35</strong> Thẻ nhớ phản xạ</span>
+      </div>
+      <div class="banner-coursera-badge">
+        <span>🎓 Yêu cầu thi: Bắt buộc hoàn thành chứng chỉ Coursera VNR202</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ==========================================================================
+       MAIN CONTAINER
+       ========================================================================== -->
+  <main class="main-container">
+
+    <!-- ==========================================================================
+         VIEW 1: TIMELINE & MASTER OVERVIEW
+         ========================================================================== -->
+    <section class="view-section active" id="view-timeline">
+      <div class="view-header">
+        <div class="view-header-title">
+          <h2><span>🗺️</span> Trục thời gian & Bản đồ toàn môn</h2>
+          <p>Hệ thống hóa toàn bộ tiến trình lịch sử Đảng từ 1858 đến Kỷ nguyên mới (2026)</p>
+        </div>
+        <div class="filter-bar">
+          <button class="filter-btn timeline-filter-btn active" data-era="all">Tất cả thời kỳ</button>
+          <button class="filter-btn timeline-filter-btn" data-era="1858-1930">1858 – 1930</button>
+          <button class="filter-btn timeline-filter-btn" data-era="1930-1945">1930 – 1945</button>
+          <button class="filter-btn timeline-filter-btn" data-era="1945-1954">1945 – 1954</button>
+          <button class="filter-btn timeline-filter-btn" data-era="1954-1975">1954 – 1975</button>
+          <button class="filter-btn timeline-filter-btn" data-era="1975-1986">1975 – 1986</button>
+          <button class="filter-btn timeline-filter-btn" data-era="1986-2018">1986 – 2018</button>
+          <button class="filter-btn timeline-filter-btn" data-era="2018-2026">2018 – 2026</button>
+        </div>
+      </div>
+
+      <div class="overview-grid">
+        <!-- Timeline Track -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title"><span>⏱️</span> Các mốc son lịch sử trọng yếu</h3>
+            <span class="badge-tag">Chuẩn Giáo trình 2021 + Văn kiện mới</span>
+          </div>
+          <div class="timeline-track" id="timeline-events-container">
+            <!-- Rendered by app.js -->
+          </div>
+        </div>
+
+        <!-- 15 Congresses Table -->
+        <div class="card" style="margin-top:1rem">
+          <div class="card-header">
+            <h3 class="card-title"><span>🏛️</span> Bảng tổng hợp các Đại hội đại biểu toàn quốc (Bắt buộc thuộc)</h3>
+            <span class="badge-congress">15 Dấu ấn lịch sử</span>
+          </div>
+          <p style="font-size:0.9rem; color:var(--text-secondary); margin-bottom:1rem">
+            Bảng tra cứu nhanh thời gian, địa điểm, Tổng Bí thư được bầu và các quyết sách chiến lược của từng kỳ Đại hội.
+          </p>
+          <div class="congress-table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th style="width:130px">Đại hội</th>
+                  <th style="width:120px">Thời gian</th>
+                  <th style="width:130px">Địa điểm</th>
+                  <th style="width:150px">Tổng Bí thư</th>
+                  <th>Chủ đề & Quyết sách cốt lõi</th>
+                </tr>
+              </thead>
+              <tbody id="congress-table-body">
+                <!-- Rendered by app.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- General Secretaries -->
+        <div class="card" style="margin-top:1rem">
+          <div class="card-header">
+            <h3 class="card-title"><span>👤</span> Các đời Tổng Bí thư và Dấu ấn lịch sử</h3>
+            <span class="badge-tag">Tra cứu nhanh</span>
+          </div>
+          <div id="gen-sec-container">
+            <!-- Rendered by app.js -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         VIEW 2: STUDY GUIDE (Học Lý Thuyết)
+         ========================================================================== -->
+    <section class="view-section" id="view-study">
+      <div class="view-header">
+        <div class="view-header-title">
+          <h2><span>📖</span> Kiến thức trọng tâm theo từng Chương</h2>
+          <p>Tài liệu ôn tập cô đọng, làm rõ bối cảnh, luận điểm then chốt và các mẹo ghi nhớ.</p>
+        </div>
+      </div>
+
+      <div class="study-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="study-sidebar">
+          <div class="sidebar-title">Mục lục chương học</div>
+          <ul class="study-nav-list" id="study-nav-list">
+            <!-- Rendered by app.js -->
+          </ul>
+        </aside>
+
+        <!-- Chapter Content -->
+        <article class="study-content-panel" id="study-content-area">
+          <!-- Rendered by app.js -->
+        </article>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         VIEW 3: COMPARISONS (Bảng Đối Chiếu)
+         ========================================================================== -->
+    <section class="view-section" id="view-comparisons">
+      <div class="view-header">
+        <div class="view-header-title">
+          <h2><span>⚖️</span> Bảng đối chiếu & So sánh chuyên đề</h2>
+          <p>Các nội dung hay bị nhầm lẫn trong bài thi được phân tích đối chiếu trực quan.</p>
+        </div>
+      </div>
+
+      <div class="comparisons-nav">
+        <button class="comparison-tab-btn active" data-key="cuongLinhVsLuanCuong">
+          Cương lĩnh (2/1930) vs Luận cương (10/1930)
+        </button>
+        <button class="comparison-tab-btn" data-key="baCaoTrao">
+          3 Cao trào cách mạng (30-31, 36-39, 39-45)
+        </button>
+        <button class="comparison-tab-btn" data-key="chienLuocChienTranh">
+          3 Chiến lược chiến tranh của Mỹ
+        </button>
+        <button class="comparison-tab-btn" data-key="cuongLinh1991vs2011">
+          Cương lĩnh 1991 vs Cương lĩnh 2011
+        </button>
+        <button class="comparison-tab-btn" data-key="boTuTruCot">
+          "Bộ tứ trụ cột" Nghị quyết (NQ 57, 59, 66, 68)
+        </button>
+      </div>
+
+      <div class="comparison-content-card" id="comparison-display-area">
+        <!-- Rendered by app.js -->
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         VIEW 4: FLASHCARDS
+         ========================================================================== -->
+    <section class="view-section" id="view-flashcards">
+      <div class="view-header">
+        <div class="view-header-title">
+          <h2><span>🗂️</span> Flashcards ghi nhớ nhanh</h2>
+          <p>Lật thẻ phản xạ mốc thời gian, khẩu hiệu, tác phẩm và các quyết định lịch sử.</p>
+        </div>
+      </div>
+
+      <div class="flashcards-container">
+        <!-- Top Controls -->
+        <div class="flashcard-controls-top">
+          <div class="fc-category-filter">
+            <button class="filter-btn fc-filter-btn active" data-cat="all">Tất cả</button>
+            <button class="filter-btn fc-filter-btn" data-cat="Mốc sự kiện">Mốc sự kiện</button>
+            <button class="filter-btn fc-filter-btn" data-cat="Đại hội Đảng">Đại hội Đảng</button>
+            <button class="filter-btn fc-filter-btn" data-cat="Nghị quyết then chốt">Nghị quyết</button>
+            <button class="filter-btn fc-filter-btn" data-cat="Mẹo nhớ cốt lõi">Mẹo thi</button>
+          </div>
+          <div class="fc-progress-text" id="fc-counter">1 / 35</div>
+        </div>
+
+        <!-- 3D Flip Card -->
+        <div class="flashcard-box-wrap" id="fc-box-wrap" title="Bấm vào thẻ để lật xem đáp án">
+          <div class="flashcard-inner">
+            <!-- Front -->
+            <div class="flashcard-face flashcard-front">
+              <span class="fc-card-badge" id="fc-category-badge">Mốc sự kiện</span>
+              <div class="fc-main-text" id="fc-front-text">3/2/1930</div>
+              <div class="fc-hint" id="fc-hint-text">💡 Gợi ý: Chương 1</div>
+            </div>
+            <!-- Back -->
+            <div class="flashcard-face flashcard-back">
+              <span class="fc-card-badge" style="background:var(--status-success-bg); color:var(--status-success)">Đáp án & Giải nghĩa</span>
+              <div class="fc-main-text" id="fc-back-text">Ngày thành lập Đảng Cộng sản Việt Nam</div>
+              <div style="font-size:0.8rem; color:var(--text-muted)">Bấm lần nữa để lật lại</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom Action Buttons -->
+        <div class="flashcard-actions">
+          <button class="fc-btn" id="fc-prev-btn">◀ Trước</button>
+          <button class="fc-btn primary" id="fc-flip-btn">🔄 Lật thẻ</button>
+          <button class="fc-btn" id="fc-next-btn">Tiếp ▶</button>
+          <button class="fc-btn" id="fc-master-btn">☆ Đánh dấu đã thuộc</button>
+          <button class="fc-btn" id="fc-shuffle-btn" title="Xáo trộn ngẫu nhiên">🎲 Trộn thẻ</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         VIEW 5: QUIZ SIMULATOR (100 CÂU HỎI)
+         ========================================================================== -->
+    <section class="view-section" id="view-quiz">
+      <div class="view-header">
+        <div class="view-header-title">
+          <h2><span>✍️</span> Ngân hàng 100 câu trắc nghiệm & Luyện thi</h2>
+          <p>Luyện tập có phản hồi ngay, hoặc mô phỏng đề thi hết môn có bấm giờ và tính điểm.</p>
+        </div>
+      </div>
+
+      <!-- Quiz Top Toolbar -->
+      <div class="quiz-top-bar">
+        <div class="quiz-mode-select">
+          <span style="font-size:0.85rem; font-weight:700; color:var(--text-muted)">CHẾ ĐỘ:</span>
+          <button class="filter-btn quiz-mode-btn active" data-mode="practice">🎯 Luyện tập (Hiện đáp án ngay)</button>
+          <button class="filter-btn quiz-mode-btn" data-mode="exam">⏱️ Thi thử FPT (40 câu / 30 phút)</button>
+          <button class="filter-btn quiz-mode-btn" data-mode="wrong">❌ Ôn câu làm sai</button>
+          <button class="filter-btn quiz-mode-btn" data-mode="starred">⭐ Câu đã gắn sao</button>
+        </div>
+
+        <div class="quiz-timer-box" id="quiz-timer-wrap" style="display:none">
+          <span>⏳ Còn lại:</span>
+          <span id="quiz-timer-display">30:00</span>
+        </div>
+      </div>
+
+      <!-- Chapter Filter (Practice Mode only) -->
+      <div class="filter-bar" style="margin-bottom:1.5rem">
+        <span style="font-size:0.82rem; font-weight:700; color:var(--text-muted); margin-right:0.25rem">LỌC THEO:</span>
+        <button class="filter-btn quiz-chap-btn active" data-chap="all">Tất cả 100 câu</button>
+        <button class="filter-btn quiz-chap-btn" data-chap="1">Chương 1 (22 câu: 1930–1945)</button>
+        <button class="filter-btn quiz-chap-btn" data-chap="2">Chương 2 (35 câu: 1945–1975)</button>
+        <button class="filter-btn quiz-chap-btn" data-chap="3">Chương 3 (33 câu: 1975–2018)</button>
+        <button class="filter-btn quiz-chap-btn" data-chap="4">Chương mở rộng (10 câu: 2018–2026)</button>
+      </div>
+
+      <!-- Score Card (When exam is submitted) -->
+      <div id="quiz-score-result-card" class="score-result-card" style="display:none"></div>
+
+      <!-- Quiz Main Grid -->
+      <div class="quiz-layout">
+        <!-- Questions Area -->
+        <div id="quiz-questions-list">
+          <!-- Rendered by app.js -->
+        </div>
+
+        <!-- Side Navigation Palette -->
+        <aside class="quiz-palette">
+          <div class="palette-title">
+            <span>Danh sách câu hỏi</span>
+            <button id="quiz-reset-btn" style="background:none; border:none; color:var(--brand-crimson); font-size:0.75rem; cursor:pointer; font-weight:600">Làm lại từ đầu</button>
+          </div>
+          <div class="palette-grid" id="quiz-palette-grid">
+            <!-- Rendered by app.js -->
+          </div>
+          <button class="quiz-submit-btn" id="quiz-submit-btn" style="display:none">
+            Nộp bài & Chấm điểm
+          </button>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         VIEW 6: PITFALLS & EXAM STRATEGY
+         ========================================================================== -->
+    <section class="view-section" id="view-pitfalls">
+      <div class="view-header">
+        <div class="view-header-title">
+          <h2><span>⚠️</span> Cảnh báo bẫy thi & Giải mã câu hỏi tranh cãi</h2>
+          <p>Phân tích 8 câu hỏi dễ nhầm lẫn hoặc có sai sót trong ngân hàng đề thi gốc của trường.</p>
+        </div>
+      </div>
+
+      <div class="pitfalls-grid" id="pitfalls-container">
+        <!-- Rendered by app.js -->
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         VIEW 7: MATERIALS & COURSERA
+         ========================================================================== -->
+    <section class="view-section" id="view-materials">
+      <div class="view-header">
+        <div class="view-header-title">
+          <h2><span>📚</span> Danh mục 12 Tài liệu tham khảo & Ma trận Coursera</h2>
+          <p>Hệ thống giáo trình, văn kiện chính thống và lưu ý điều kiện dự thi cuối kỳ môn VNR202.</p>
+        </div>
+      </div>
+
+      <div class="materials-grid" id="materials-container">
+        <!-- Rendered by app.js -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==========================================================================
+       GLOBAL SEARCH MODAL
+       ========================================================================== -->
+  <div class="search-modal-backdrop" id="search-modal-backdrop">
+    <div class="search-modal" role="dialog" aria-modal="true">
+      <div class="search-input-wrap">
+        <span>🔍</span>
+        <input type="text" id="global-search-input" placeholder="Nhập từ khóa cần tra cứu (ví dụ: Trần Phú, WTO, 1930, Cương lĩnh, NQ 57...)" autocomplete="off">
+        <button id="search-close-btn" style="background:none; border:none; color:var(--text-muted); cursor:pointer; font-size:1.1rem">✕</button>
+      </div>
+      <div class="search-results-list" id="search-results-list">
+        <!-- Search results injected here -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       SITE FOOTER
+       ========================================================================== -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <strong>VNR202 • Lịch sử Đảng Cộng sản Việt Nam</strong> — Khối không chuyên Mác–Lênin, Tư tưởng Hồ Chí Minh
+      </div>
+      <div>
+        Nền tảng ôn tập học tập trực quan • Không AI Slop • Chuẩn Đại học FPT
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="app_data.js"></script>
+  <script src="study_data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
