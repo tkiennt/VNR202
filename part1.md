@@ -71,7 +71,7 @@ flowchart TD
 | Đông Dương Cộng sản Liên đoàn | 9/1929 | Trung Kỳ |
 
 - Ba tổ chức hoạt động **riêng rẽ, tranh giành ảnh hưởng** → nguy cơ chia rẽ → yêu cầu cấp bách **hợp nhất**.
-- **Nguyễn Ái Quốc** chủ trì Hội nghị hợp nhất ở **Cửu Long (Hương Cảng, Trung Quốc)**. *(Giáo trình ghi hội nghị bắt đầu họp ngày 6/1/1930; ngày **3/2/1930** được lấy làm ngày thành lập Đảng; một số tài liệu ghi thời gian hội nghị là 3–7/2/1930 – nên đối chiếu theo giáo trình của bạn.)*
+- **Nguyễn Ái Quốc** chủ trì Hội nghị hợp nhất ở **Cửu Long (Hương Cảng, Trung Quốc)**. *(Hội nghị họp từ ngày **6/1 đến 7/2/1930**; ngày **3/2/1930** được quyết định lấy làm **Ngày thành lập Đảng**; việc một số tài liệu ghi gộp "3–7/2/1930" là chưa chính xác).*
 - Thông qua: **Chính cương vắn tắt, Sách lược vắn tắt, Chương trình tóm tắt, Điều lệ vắn tắt** → **Cương lĩnh chính trị đầu tiên**.
 
 ### 1.5 Nội dung Cương lĩnh chính trị đầu tiên (2/1930)

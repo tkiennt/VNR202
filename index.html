@@ -37,7 +37,7 @@
         </button>
         <button class="nav-tab-btn" data-tab="flashcards">
           <span>🗂️</span> Flashcards
-          <span class="badge-count">55</span>
+          <span class="badge-count">67</span>
         </button>
         <button class="nav-tab-btn" data-tab="quiz">
           <span>✍️</span> Luyện thi trắc nghiệm
@@ -45,7 +45,7 @@
         </button>
         <button class="nav-tab-btn" data-tab="pitfalls">
           <span>⚠️</span> Bẫy thi & Mẹo nhớ
-          <span class="badge-count">8</span>
+          <span class="badge-count">11</span>
         </button>
         <button class="nav-tab-btn" data-tab="materials">
           <span>📚</span> Nguồn tra cứu & Ma trận
@@ -75,7 +75,9 @@
         <span>•</span>
         <span class="stat-chip"><strong>6</strong> Bảng đối chiếu</span>
         <span>•</span>
-        <span class="stat-chip"><strong>55</strong> Thẻ nhớ</span>
+        <span class="stat-chip"><strong>67</strong> Thẻ nhớ</span>
+        <span>•</span>
+        <span class="stat-chip"><strong>11</strong> Bẫy thi & Giải mã</span>
         <span>•</span>
         <span class="stat-chip"><strong>10</strong> Chuyên đề nguồn tra cứu</span>
       </div>
@@ -83,7 +85,7 @@
         <div class="study-progress-bar">
           <div class="progress-label">
             <span>Tiến độ học tập: <strong id="progress-text">0%</strong></span>
-            <span class="progress-detail">(Đã làm <span id="progress-quiz-count">0</span>/150 câu • Thuộc <span id="progress-fc-count">0</span>/55 thẻ)</span>
+            <span class="progress-detail">(Đã làm <span id="progress-quiz-count">0</span>/150 câu • Thuộc <span id="progress-fc-count">0</span>/67 thẻ)</span>
           </div>
           <div class="progress-track">
             <div class="progress-bar-fill" id="progress-bar-fill" style="width: 0%"></div>
@@ -128,6 +130,33 @@
           </div>
           <div class="timeline-track" id="timeline-events-container">
             <!-- Rendered by app.js -->
+          </div>
+        </div>
+
+        <!-- Core 50 Milestones Table (Phụ lục C.2) -->
+        <div class="card" style="margin-top:1rem">
+          <div class="card-header">
+            <h3 class="card-title"><span>🔥</span> Bảng 50 Mốc Thời Gian Vàng "Phải Thuộc" (Ôn thi siêu tốc)</h3>
+            <span class="badge-tag">Cheat Sheet 1911 – 2026</span>
+          </div>
+          <p style="font-size:0.9rem; color:var(--text-secondary); margin-bottom:1rem">
+            50 mốc sự kiện lịch sử cốt lõi xuất hiện với tần suất cao nhất trong ngân hàng đề thi FPT và giáo trình Lịch sử Đảng.
+          </p>
+          <div class="table-container">
+            <table class="data-table" id="milestones-table">
+              <thead>
+                <tr>
+                  <th style="width:60px; text-align:center">#</th>
+                  <th style="width:130px">Thời gian</th>
+                  <th style="width:260px">Sự kiện then chốt</th>
+                  <th>Ý nghĩa & Dấu ấn cốt lõi</th>
+                  <th style="width:130px; text-align:center">Thời kỳ</th>
+                </tr>
+              </thead>
+              <tbody id="milestones-table-body">
+                <!-- Rendered by app.js -->
+              </tbody>
+            </table>
           </div>
         </div>
 
@@ -256,8 +285,9 @@
             <button class="filter-btn fc-filter-btn" data-cat="Đại hội Đảng">Đại hội Đảng</button>
             <button class="filter-btn fc-filter-btn" data-cat="Nghị quyết then chốt">Nghị quyết</button>
             <button class="filter-btn fc-filter-btn" data-cat="Mẹo nhớ cốt lõi">Mẹo thi</button>
+            <button class="filter-btn fc-filter-btn" data-cat="Phản xạ cốt lõi">Phản xạ cốt lõi (12)</button>
           </div>
-          <div class="fc-progress-text" id="fc-counter">1 / 55</div>
+          <div class="fc-progress-text" id="fc-counter">1 / 67</div>
         </div>
 
         <!-- 3D Flip Card -->
@@ -360,7 +390,7 @@
       <div class="view-header">
         <div class="view-header-title">
           <h2><span>⚠️</span> Cảnh báo bẫy thi & Giải mã câu hỏi tranh cãi</h2>
-          <p>Phân tích 8 câu hỏi dễ nhầm lẫn hoặc có sai sót trong ngân hàng đề thi gốc của trường.</p>
+          <p>Phân tích 11 câu hỏi dễ nhầm lẫn hoặc có sai sót trong ngân hàng đề thi gốc của trường.</p>
         </div>
       </div>
 
@@ -417,6 +447,20 @@
 
       <div class="materials-grid" id="materials-container">
         <!-- Rendered by app.js -->
+      </div>
+
+      <!-- Online Verified Citations (Nguồn đối chiếu độc lập) -->
+      <div class="card" style="margin-top: 2rem;">
+        <div class="card-header">
+          <h3 class="card-title"><span>🔗</span> Thư viện liên kết tra cứu & Kiểm chứng trực tuyến (20+ Nguồn báo chí, tạp chí lý luận & văn kiện)</h3>
+          <span class="badge-tag">Đối chiếu độc lập 🔎</span>
+        </div>
+        <p style="font-size:0.9rem; color:var(--text-secondary); margin-bottom:1.25rem; line-height:1.5">
+          Danh mục các bài viết, chuyên đề nghiên cứu và văn bản pháp quy từ các cổng thông tin chính thức của Đảng, Nhà nước và các tạp chí lý luận chuyên ngành, được đối chiếu trực tiếp để xác minh các luận điểm và câu hỏi bẫy thi.
+        </p>
+        <div class="verified-sources-grid" id="verified-sources-container">
+          <!-- Rendered by app.js -->
+        </div>
       </div>
     </section>
 

@@ -65,6 +65,7 @@
     elements.timelineFilterBtns = document.querySelectorAll('.timeline-filter-btn');
     elements.timelineContainer = document.querySelector('#timeline-events-container');
     elements.congressTableBody = document.querySelector('#congress-table-body');
+    elements.milestonesTableBody = document.querySelector('#milestones-table-body');
     elements.genSecContainer = document.querySelector('#gen-sec-container');
 
     // Study Guide
@@ -106,6 +107,7 @@
     // Materials & Source Matrix
     elements.materialsContainer = document.querySelector('#materials-container');
     elements.sourceMatrixTableBody = document.querySelector('#source-matrix-table-body');
+    elements.verifiedSourcesContainer = document.querySelector('#verified-sources-container');
 
     // Learning Progress
     elements.progressText = document.querySelector('#progress-text');
@@ -235,6 +237,19 @@
         </div>
       </div>
     `).join('');
+
+    // Core 50 Milestones Table (Phụ lục C.2)
+    if (elements.milestonesTableBody && DATA.CORE_50_MILESTONES) {
+      elements.milestonesTableBody.innerHTML = DATA.CORE_50_MILESTONES.map((m, idx) => `
+        <tr class="${m.highlight ? 'row-highlight' : ''}">
+          <td style="text-align:center; font-weight:700; color:var(--text-muted)">${idx + 1}</td>
+          <td><strong style="color:var(--brand-crimson)">${m.year}</strong></td>
+          <td><strong>${m.title}</strong></td>
+          <td style="font-size:0.88rem; color:var(--text-secondary); line-height:1.45">${m.desc}</td>
+          <td style="text-align:center"><span class="badge-tag">${m.era}</span></td>
+        </tr>
+      `).join('');
+    }
 
     // Congresses Table
     if (elements.congressTableBody && DATA.CONGRESSES) {
@@ -874,6 +889,37 @@
               </a>
             </div>
           ` : ''}
+        </div>
+      </div>
+    `).join('');
+
+    renderVerifiedSources();
+  }
+
+  function renderVerifiedSources() {
+    if (!elements.verifiedSourcesContainer || !DATA.VERIFIED_SOURCES) return;
+
+    elements.verifiedSourcesContainer.innerHTML = DATA.VERIFIED_SOURCES.map(cat => `
+      <div class="verified-source-group" style="margin-bottom:1.5rem">
+        <h4 style="font-size:1rem; font-weight:700; color:var(--brand-crimson); margin-bottom:0.75rem; display:flex; align-items:center; gap:0.5rem">
+          <span>📌</span> ${cat.category}
+        </h4>
+        <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(320px, 1fr)); gap:1rem">
+          ${cat.items.map(item => `
+            <div class="verified-source-card" style="background:var(--bg-surface); border:1px solid var(--border-color); border-radius:var(--radius-md); padding:1rem; display:flex; flex-direction:column; justify-content:space-between">
+              <div>
+                <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:0.5rem; margin-bottom:0.35rem">
+                  <span class="badge-tag" style="font-size:0.75rem">${item.tag}</span>
+                  <span style="font-size:0.75rem; color:var(--text-muted); font-weight:600">${item.source}</span>
+                </div>
+                <h5 style="font-size:0.92rem; font-weight:700; color:var(--text-primary); margin-bottom:0.4rem; line-height:1.4">${item.title}</h5>
+                <p style="font-size:0.84rem; color:var(--text-secondary); line-height:1.45; margin-bottom:0.75rem">${item.summary}</p>
+              </div>
+              <a href="${item.url}" target="_blank" rel="noopener" style="font-size:0.82rem; font-weight:600; color:var(--brand-crimson); display:inline-flex; align-items:center; gap:0.25rem">
+                Mở tài liệu kiểm chứng trực tuyến ↗
+              </a>
+            </div>
+          `).join('')}
         </div>
       </div>
     `).join('');

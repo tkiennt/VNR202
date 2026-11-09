@@ -1846,6 +1846,23 @@ a:hover {
   }
 }
 
+/* Core 50 Milestones Table & Verified Sources */
+.data-table tr.row-highlight {
+  background: rgba(185, 28, 28, 0.04);
+}
+.data-table tr.row-highlight td strong {
+  color: var(--brand-crimson);
+}
+
+.verified-source-card {
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+.verified-source-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--brand-crimson);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
 /* Print Styles */
 @media print {
   .site-header, .sub-banner, .site-footer, .filter-bar, .search-modal-backdrop, .quiz-palette {

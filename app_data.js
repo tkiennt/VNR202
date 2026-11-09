@@ -5348,8 +5348,8 @@ window.VNR_DATA = {
     {
       "code": "C2-35",
       "title": "Bài học kinh nghiệm nào KHÔNG phù hợp với cuộc kháng chiến chống Mỹ?",
-      "issue": "Đề thi chọn đáp án B, nhưng thực tế cả 4 bài học đều có trong các tài liệu tổng kết.",
-      "solution": "Học thuộc theo đề: Đáp án B. Điểm cần chú ý: Phương án A dùng từ 'ngọn cờ độc lập dân tộc và CNXH' mới là bài học chuẩn, nếu đề viết 'độc lập dân tộc và dân chủ' thì đó là bài học của thời kỳ chống Pháp hoặc giải phóng dân tộc 1930-1945.",
+      "issue": "Đề thi chọn đáp án B ('Kiên định tư tưởng chiến lược tiến công quyết đánh và quyết thắng đế quốc Mỹ'), nhưng thực tế trong tài liệu tổng kết chiến tranh cách mạng 1945–1975, tư tưởng chiến lược tiến công là một bài học hoàn toàn đúng của Đảng.",
+      "solution": "Khi làm bài thi trắc nghiệm: HÃY CHỌN B theo ngân hàng đề (do lỗi câu chữ biên tập trong đề thi gốc). Khi làm bài tự luận hoặc phỏng vấn, bạn vẫn phải khẳng định tư tưởng chiến lược tiến công là bài học đúng của Đảng.",
       "chapter": "Chương 2"
     },
     {
@@ -5365,6 +5365,27 @@ window.VNR_DATA = {
       "issue": "Đề ghi 'Chỉ thị số 3 - NQ/TW tháng 11/2006'.",
       "solution": "Tháng 11/2006, Bộ Chính trị khóa X thực tế ban hành Chỉ thị 06-CT/TW (ngày 7/11/2006). Số '3' trong đề thi là sự nhầm lẫn với Chỉ thị 03-CT/TW ban hành năm 2011 của khóa XI. Dù đề ghi sai số hiệu, nội dung đúng vẫn là: Học tập và làm theo tấm gương đạo đức Hồ Chí Minh.",
       "chapter": "Chương 3"
+    },
+    {
+      "code": "C2-28",
+      "title": "Hình thức khởi nghĩa chống Mỹ – Diệm diễn ra đầu tiên ở đâu?",
+      "issue": "Đáp án trong ngân hàng câu hỏi thi của trường chọn: B. Bình Định. Tuy nhiên, sách giáo khoa và tài liệu nghiên cứu lịch sử Đảng ghi nhận các cuộc khởi nghĩa vũ trang tiêu biểu nổ ra trước Đồng Khởi Bến Tre là Khởi nghĩa Bác Ái (Ninh Thuận, 2/1959) và Khởi nghĩa Trà Bồng (Quảng Ngãi, 8/1959).",
+      "solution": "Khi thi trắc nghiệm: Nếu gặp lại câu hỏi C2-28 với 4 phương án (A. Bến Tre | B. Bình Định | C. Quảng Ngãi | D. Tây Ninh), HÃY CHỌN B. BÌNH ĐỊNH theo barem chấm của ngân hàng câu hỏi để đảm bảo an toàn tuyệt đối.",
+      "chapter": "Chương 2"
+    },
+    {
+      "code": "C2-3",
+      "title": "Sau khi giành chính quyền (sau CMT8 1945), Đảng chủ trương mở rộng mặt trận nào?",
+      "issue": "Đề thi chọn đáp án A: Mặt trận Việt Minh. Nhiều sinh viên phân vân với Mặt trận Liên Việt vì biết sau 1945 có Hội Liên hiệp Quốc dân Việt Nam (Liên Việt).",
+      "solution": "Khi làm bài thi trắc nghiệm: CHỌN A (Mặt trận Việt Minh) theo đáp án đề. Lưu ý rằng Mặt trận Liên hiệp Quốc dân Việt Nam chỉ chính thức hợp nhất với Việt Minh thành Mặt trận Liên Việt vào tháng 3/1951 (thời kỳ Đại hội II).",
+      "chapter": "Chương 2"
+    },
+    {
+      "code": "C2-24 / C2-25",
+      "title": "Hội nghị TW 15 (1/1959) – Phân biệt 2 dạng câu hỏi về thay đổi chiến lược và bạo lực cách mạng",
+      "issue": "Ngân hàng đề có 2 câu hỏi tiếp cận Hội nghị TW 15: Câu C2-24 hỏi về 'thay đổi chiến lược ở điểm nào?' và câu C2-25 hỏi 'Hội nghị nào quyết định dùng bạo lực cách mạng đánh đổ Mỹ – Diệm?'.",
+      "solution": "Cả 2 câu hỏi đều gắn chặt với mốc Hội nghị TW 15 (1/1959): (1) Về chiến lược: Kết hợp đấu tranh chính trị với quân sự, tiến tới khởi nghĩa vũ trang; (2) Về phương pháp: Quyết định để nhân dân miền Nam sử dụng bạo lực cách mạng đánh đổ chính quyền Mỹ – Diệm.",
+      "chapter": "Chương 2"
     }
   ],
   "FLASHCARDS": [
@@ -5752,6 +5773,90 @@ window.VNR_DATA = {
       "front": "Trưởng Ban Chỉ đạo TW về PCTN",
       "back": "Từ 2013: Trực thuộc Bộ Chính trị, do TỔNG BÍ THƯ làm Trưởng ban (trước năm 2013 thuộc Chính phủ do Thủ tướng đứng đầu).",
       "hint": "Mẹo thi"
+    },
+    {
+      "id": 56,
+      "category": "Phản xạ cốt lõi",
+      "front": "Hội nghị nào do Nguyễn Ái Quốc chủ trì năm 1941, quyết định thành lập Mặt trận Việt Minh?",
+      "back": "Hội nghị Ban Chấp hành Trung ương Đảng lần thứ 8 (họp từ 10 đến 19/5/1941 tại Pác Bó, Cao Bằng).",
+      "hint": "Chương 1 • 5/1941"
+    },
+    {
+      "id": 57,
+      "category": "Phản xạ cốt lõi",
+      "front": "Hội nghị Ban Chấp hành Trung ương lần thứ 6 (11/1939) họp ở đâu, do ai chủ trì?",
+      "back": "Họp tại Bà Điểm, Hóc Môn (Gia Định), do Tổng Bí thư Nguyễn Văn Cừ chủ trì (mở đầu chuyển hướng chiến lược).",
+      "hint": "Chương 1 • 11/1939"
+    },
+    {
+      "id": 58,
+      "category": "Phản xạ cốt lõi",
+      "front": "Luật 10/59 do chính quyền Ngô Đình Diệm ban hành vào ngày tháng năm nào?",
+      "back": "Ngày 06/05/1959. Nội dung: Đặt cộng sản ra ngoài vòng pháp luật, lê máy chém lưu động tàn sát nhân dân miền Nam.",
+      "hint": "Chương 2 • 6/5/1959"
+    },
+    {
+      "id": 59,
+      "category": "Phản xạ cốt lõi",
+      "front": "Phong trào Đồng Khởi năm 1960 nổ ra đầu tiên ở huyện nào của tỉnh Bến Tre?",
+      "back": "Huyện Mỏ Cày (ngày 17/01/1960 tại xã Định Thủy), do đồng chí Nguyễn Thị Định và Tỉnh ủy Bến Tre chỉ đạo.",
+      "hint": "Chương 2 • 17/1/1960"
+    },
+    {
+      "id": 60,
+      "category": "Phản xạ cốt lõi",
+      "front": "Đại hội lần thứ I Mặt trận Dân tộc giải phóng miền Nam Việt Nam (2/1962) bầu ai làm Chủ tịch?",
+      "back": "Luật sư Nguyễn Hữu Thọ (Đại hội họp tại Kà Tum, Tây Ninh).",
+      "hint": "Chương 2 • 2/1962"
+    },
+    {
+      "id": 61,
+      "category": "Phản xạ cốt lõi",
+      "front": "Hội nghị Trung ương 6 khóa II (tháng 7/1954) xác định kẻ thù chính, nguy hiểm trước mắt là ai?",
+      "back": "Đế quốc Mỹ (chuẩn bị thay chân thực dân Pháp xâm lược miền Nam Việt Nam).",
+      "hint": "Chương 2 • Sau Điện Biên Phủ"
+    },
+    {
+      "id": 62,
+      "category": "Phản xạ cốt lõi",
+      "front": "Nghị quyết nào của Bộ Chính trị đặt KH, CN, đổi mới sáng tạo và chuyển đổi số là đột phá quan trọng hàng đầu?",
+      "back": "Nghị quyết số 57-NQ/TW (ban hành ngày 22/12/2024).",
+      "hint": "Chương mở rộng • 22/12/2024"
+    },
+    {
+      "id": 63,
+      "category": "Phản xạ cốt lõi",
+      "front": "Nghị quyết số 68-NQ/TW (04/05/2025) xác định vị thế của kinh tế tư nhân như thế nào?",
+      "back": "Là 'một động lực quan trọng nhất của nền kinh tế quốc gia' (phát triển từ 'động lực quan trọng' trước đây).",
+      "hint": "Chương mở rộng • 4/5/2025"
+    },
+    {
+      "id": 64,
+      "category": "Phản xạ cốt lõi",
+      "front": "Mục tiêu phát triển năm 2030 và 2045 do Đại hội XIII của Đảng đề ra là gì?",
+      "back": "• Năm 2030 (100 năm lập Đảng): Nước đang phát triển, có công nghiệp hiện đại, thu nhập trung bình cao.\n• Năm 2045 (100 năm lập nước): Nước phát triển, thu nhập cao.",
+      "hint": "Chương 3 & Mở rộng • Đại hội XIII"
+    },
+    {
+      "id": 65,
+      "category": "Phản xạ cốt lõi",
+      "front": "Ba đột phá chiến lược được khẳng định xuyên suốt từ Đại hội XI, XII đến Đại hội XIII là gì?",
+      "back": "1. Hoàn thiện thể chế kinh tế thị trường định hướng XHCN.\n2. Phát triển nguồn nhân lực, nhất là nhân lực chất lượng cao.\n3. Xây dựng kết cấu hạ tầng đồng bộ, hiện đại.",
+      "hint": "Chương 3 & Mở rộng • 3 Đột phá"
+    },
+    {
+      "id": 66,
+      "category": "Phản xạ cốt lõi",
+      "front": "Đại hội XIV của Đảng họp ở đâu, vào thời gian nào và ai được bầu làm Tổng Bí thư?",
+      "back": "Họp tại Thủ đô Hà Nội, từ ngày 19 đến 23/01/2026. Đồng chí Tô Lâm được bầu làm Tổng Bí thư Ban Chấp hành Trung ương Đảng.",
+      "hint": "Chương mở rộng • 1/2026"
+    },
+    {
+      "id": 67,
+      "category": "Phản xạ cốt lõi",
+      "front": "Dãy số hiệu các Chỉ thị của Bộ Chính trị về Học tập và làm theo tấm gương Bác qua các thời kỳ?",
+      "back": "Chỉ thị 06-CT/TW (2006) → Chỉ thị 03-CT/TW (2011) → Chỉ thị 05-CT/TW (2016) → Chỉ thị 07-CT/TW (giai đoạn mới).",
+      "hint": "Chương 3 • 4 thế hệ Chỉ thị"
     }
   ],
   "MATERIALS": [
@@ -5854,6 +5959,527 @@ window.VNR_DATA = {
       "publisher": "Coursera",
       "year": 2026,
       "note": "ĐIỀU KIỆN TIÊN QUYẾT: Sinh viên bắt buộc hoàn thành khóa học & có chứng chỉ để đủ điều kiện dự thi cuối kỳ."
+    }
+  ],
+  "CORE_50_MILESTONES": [
+    {
+      "id": 1,
+      "year": "1911",
+      "title": "Ra đi tìm đường cứu nước",
+      "desc": "Nguyễn Tất Thành rời Bến Nhà Rồng trên tàu Amiral Latouche-Tréville.",
+      "era": "1858-1930"
+    },
+    {
+      "id": 2,
+      "year": "1920",
+      "title": "Tìm thấy con đường cứu nước",
+      "desc": "Đọc Sơ thảo Luận cương Lênin (7/1920) và tham gia sáng lập ĐCS Pháp tại ĐH Tours (12/1920).",
+      "era": "1858-1930"
+    },
+    {
+      "id": 3,
+      "year": "1925",
+      "title": "Hội VN Cách mạng Thanh niên",
+      "desc": "Nguyễn Ái Quốc thành lập Hội tại Quảng Châu; xuất bản tuần báo Thanh Niên.",
+      "era": "1858-1930"
+    },
+    {
+      "id": 4,
+      "year": "1927",
+      "title": "Xuất bản Đường Kách mệnh",
+      "desc": "Tác phẩm lý luận cách mạng giải phóng dân tộc kim chỉ nam của Nguyễn Ái Quốc.",
+      "era": "1858-1930"
+    },
+    {
+      "id": 5,
+      "year": "1929",
+      "title": "Ba tổ chức cộng sản ra đời",
+      "desc": "Đông Dương CS Đảng (6/1929), An Nam CS Đảng (8/1929), Đông Dương CS Liên đoàn (9/1929).",
+      "era": "1858-1930"
+    },
+    {
+      "id": 6,
+      "year": "03/02/1930",
+      "title": "Thành lập Đảng Cộng sản Việt Nam",
+      "desc": "Hội nghị hợp nhất (6/1–7/2/1930) do Nguyễn Ái Quốc chủ trì tại Cửu Long, Hương Cảng.",
+      "era": "1930-1945",
+      "highlight": true
+    },
+    {
+      "id": 7,
+      "year": "10/1930",
+      "title": "Luận cương chính trị tháng 10",
+      "desc": "Hội nghị TW 1 đổi tên thành ĐCS Đông Dương; Trần Phú làm Tổng Bí thư đầu tiên.",
+      "era": "1930-1945"
+    },
+    {
+      "id": 8,
+      "year": "1930–1931",
+      "title": "Phong trào Xô Viết Nghệ Tĩnh",
+      "desc": "Đỉnh cao phong trào cách mạng 1930–1931; cuộc tập dượt đầu tiên cho Cách mạng Tháng Tám.",
+      "era": "1930-1945"
+    },
+    {
+      "id": 9,
+      "year": "06/1932",
+      "title": "Chương trình hành động của Đảng",
+      "desc": "Đảng CS Đông Dương đề ra yêu cầu tự do ngôn luận, hội họp, bãi công, cải thiện đời sống.",
+      "era": "1930-1945"
+    },
+    {
+      "id": 10,
+      "year": "03/1935",
+      "title": "Đại hội đại biểu lần thứ I",
+      "desc": "Họp tại Ma Cao (Trung Quốc); bầu Lê Hồng Phong làm Tổng Bí thư; phục hồi tổ chức.",
+      "era": "1930-1945"
+    },
+    {
+      "id": 11,
+      "year": "1936–1939",
+      "title": "Mặt trận Dân chủ Đông Dương",
+      "desc": "Cuộc tập dượt thứ hai; kết hợp đấu tranh công khai, hợp pháp, nghị trường, báo chí.",
+      "era": "1930-1945"
+    },
+    {
+      "id": 12,
+      "year": "01/09/1939",
+      "title": "Chiến tranh thế giới II bùng nổ",
+      "desc": "Bối cảnh quốc tế thay đổi sâu sắc, Đảng rút vào hoạt động bí mật, chuẩn bị vũ trang.",
+      "era": "1930-1945"
+    },
+    {
+      "id": 13,
+      "year": "11/1939",
+      "title": "Hội nghị Ban Chấp hành TW 6",
+      "desc": "Họp tại Bà Điểm (Hóc Môn), mở đầu chuyển hướng chiến lược: giải phóng dân tộc lên hàng đầu.",
+      "era": "1930-1945"
+    },
+    {
+      "id": 14,
+      "year": "11/1940",
+      "title": "Hội nghị Ban Chấp hành TW 7",
+      "desc": "Họp tại Đình Bảng (Bắc Ninh), hoãn khởi nghĩa Nam Kỳ, duy trì du kích Bắc Sơn.",
+      "era": "1930-1945"
+    },
+    {
+      "id": 15,
+      "year": "05/1941",
+      "title": "Hội nghị Ban Chấp hành TW 8",
+      "desc": "Họp tại Pác Bó (Cao Bằng) do Nguyễn Ái Quốc chủ trì; hoàn chỉnh chuyển hướng; lập Việt Minh.",
+      "era": "1930-1945",
+      "highlight": true
+    },
+    {
+      "id": 16,
+      "year": "1943",
+      "title": "Đề cương về văn hóa Việt Nam",
+      "desc": "Văn kiện xác lập 3 nguyên tắc vận động văn hóa: Dân tộc hóa, Đại chúng hóa, Khoa học hóa.",
+      "era": "1930-1945"
+    },
+    {
+      "id": 17,
+      "year": "22/12/1944",
+      "title": "Việt Nam Tuyên truyền Giải phóng quân",
+      "desc": "Thành lập tại Cao Bằng do Võ Nguyên Giáp chỉ huy; tiền thân của Quân đội nhân dân Việt Nam.",
+      "era": "1930-1945"
+    },
+    {
+      "id": 18,
+      "year": "09/03/1945",
+      "title": "Nhật đảo chính Pháp",
+      "desc": "Ban Thường vụ TW ra Chỉ thị 'Nhật - Pháp bắn nhau và hành động của chúng ta' (12/3/1945).",
+      "era": "1930-1945"
+    },
+    {
+      "id": 19,
+      "year": "16–17/08/1945",
+      "title": "Quốc dân Đại hội Tân Trào",
+      "desc": "Thông qua 10 chính sách lớn của Việt Minh, bầu Ủy ban Dân tộc Giải phóng do Hồ Chí Minh làm Chủ tịch.",
+      "era": "1930-1945"
+    },
+    {
+      "id": 20,
+      "year": "19–25/08/1945",
+      "title": "Tổng khởi nghĩa tháng Tám",
+      "desc": "Giành chính quyền thắng lợi ở Hà Nội (19/8), Huế (23/8), Sài Gòn (25/8).",
+      "era": "1930-1945"
+    },
+    {
+      "id": 21,
+      "year": "02/09/1945",
+      "title": "Tuyên ngôn Độc lập",
+      "desc": "Chủ tịch Hồ Chí Minh đọc Tuyên ngôn tại Quảng trường Ba Đình, khai sinh nước VNDCCH.",
+      "era": "1945-1954",
+      "highlight": true
+    },
+    {
+      "id": 22,
+      "year": "25/11/1945",
+      "title": "Chỉ thị Kháng chiến kiến quốc",
+      "desc": "Xác định kẻ thù chính là thực dân Pháp; khẩu hiệu 'Dân tộc trên hết, Tổ quốc trên hết'.",
+      "era": "1945-1954"
+    },
+    {
+      "id": 23,
+      "year": "06/01/1946",
+      "title": "Tổng tuyển cử toàn quốc",
+      "desc": "Bầu Quốc hội đầu tiên của nước Việt Nam Dân chủ Cộng hòa theo nguyên tắc phổ thông đầu phiếu.",
+      "era": "1945-1954"
+    },
+    {
+      "id": 24,
+      "year": "06/03/1946",
+      "title": "Hiệp định Sơ bộ Việt – Pháp",
+      "desc": "Chủ trương 'Hòa để tiến'; Pháp công nhận VN là quốc gia tự do trong khối Liên hiệp Pháp.",
+      "era": "1945-1954"
+    },
+    {
+      "id": 25,
+      "year": "19/12/1946",
+      "title": "Toàn quốc kháng chiến bùng nổ",
+      "desc": "Chủ tịch Hồ Chí Minh ra Lời kêu gọi Toàn quốc kháng chiến: 'Chúng ta thà hy sinh tất cả...'",
+      "era": "1945-1954",
+      "highlight": true
+    },
+    {
+      "id": 26,
+      "year": "Thu – Đông 1947",
+      "title": "Chiến dịch Việt Bắc Thu – Đông",
+      "desc": "Đánh bại cuộc hành quân của Pháp lên Việt Bắc, bảo vệ vững chắc cơ quan đầu não kháng chiến.",
+      "era": "1945-1954"
+    },
+    {
+      "id": 27,
+      "year": "Thu – Đông 1950",
+      "title": "Chiến dịch Biên giới Thu – Đông",
+      "desc": "Khai thông biên giới Việt – Trung, giành quyền chủ động chiến lược trên chiến trường chính Bắc Bộ.",
+      "era": "1945-1954"
+    },
+    {
+      "id": 28,
+      "year": "02/1951",
+      "title": "Đại hội đại biểu lần thứ II",
+      "desc": "Họp tại Tuyên Quang; Đảng ra công khai (Đảng Lao động VN); 'Đại hội kháng chiến thắng lợi'.",
+      "era": "1945-1954"
+    },
+    {
+      "id": 29,
+      "year": "07/05/1954",
+      "title": "Chiến thắng Điện Biên Phủ",
+      "desc": "Đỉnh cao kháng chiến chống Pháp; đánh bại kế hoạch Nava, 'lừng lẫy năm châu, chấn động địa cầu'.",
+      "era": "1945-1954",
+      "highlight": true
+    },
+    {
+      "id": 30,
+      "year": "21/07/1954",
+      "title": "Ký kết Hiệp định Giơnevơ",
+      "desc": "Công nhận độc lập, chủ quyền, thống nhất, toàn vẹn lãnh thổ; vĩ tuyến 17 làm giới tuyến quân sự tạm thời.",
+      "era": "1945-1954"
+    },
+    {
+      "id": 31,
+      "year": "01/1959",
+      "title": "Nghị quyết Trung ương 15",
+      "desc": "Mở đường sử dụng bạo lực cách mạng, kết hợp đấu tranh chính trị với đấu tranh vũ trang ở miền Nam.",
+      "era": "1954-1975",
+      "highlight": true
+    },
+    {
+      "id": 32,
+      "year": "06/05/1959",
+      "title": "Mỹ – Diệm ban hành Luật 10/59",
+      "desc": "Đặt cộng sản ra ngoài vòng pháp luật, lê máy chém khắp miền Nam, kích hoạt phong trào quật khởi.",
+      "era": "1954-1975"
+    },
+    {
+      "id": 33,
+      "year": "17/01/1960",
+      "title": "Phong trào Đồng Khởi bùng nổ",
+      "desc": "Khởi đầu tại Mỏ Cày (Bến Tre); chuyển cách mạng miền Nam từ thế giữ gìn lực lượng sang thế tiến công.",
+      "era": "1954-1975",
+      "highlight": true
+    },
+    {
+      "id": 34,
+      "year": "09/1960",
+      "title": "Đại hội đại biểu lần thứ III",
+      "desc": "Họp tại Hà Nội; hoàn chỉnh đường lối chung: 2 nhiệm vụ chiến lược đồng thời ở hai miền.",
+      "era": "1954-1975"
+    },
+    {
+      "id": 35,
+      "year": "20/12/1960",
+      "title": "Thành lập Mặt trận DTGP miền Nam",
+      "desc": "Thành lập tại Tây Ninh; đoàn kết toàn thể các tầng lớp nhân dân miền Nam chống Mỹ – Diệm.",
+      "era": "1954-1975"
+    },
+    {
+      "id": 36,
+      "year": "1961–1965",
+      "title": "Đánh bại Chiến tranh đặc biệt",
+      "desc": "Quân ngụy + cố vấn Mỹ + ấp chiến lược; bị bẻ gãy qua các trận Ấp Bắc, Bình Giã, Ba Gia, Đồng Xoài.",
+      "era": "1954-1975"
+    },
+    {
+      "id": 37,
+      "year": "1965–1968",
+      "title": "Đánh bại Chiến tranh cục bộ",
+      "desc": "Quân viễn chinh Mỹ trực tiếp tham chiến; thất bại sau Vạn Tường, 2 mùa khô và Tổng tiến công Mậu Thân 1968.",
+      "era": "1954-1975"
+    },
+    {
+      "id": 38,
+      "year": "1969–1973",
+      "title": "Đánh bại Việt Nam hóa chiến tranh",
+      "desc": "Dùng người Việt đánh người Việt; đập tan cuộc tập kích B-52 ('Điện Biên Phủ trên không' 12/1972).",
+      "era": "1954-1975"
+    },
+    {
+      "id": 39,
+      "year": "27/01/1973",
+      "title": "Ký kết Hiệp định Pari",
+      "desc": "Buộc Mỹ phải rút hết quân đội về nước, tôn trọng các quyền dân tộc cơ bản của Việt Nam.",
+      "era": "1954-1975"
+    },
+    {
+      "id": 40,
+      "year": "30/04/1975",
+      "title": "Đại thắng mùa Xuân 1975",
+      "desc": "Chiến dịch Hồ Chí Minh toàn thắng; giải phóng hoàn toàn miền Nam, thống nhất non sông.",
+      "era": "1954-1975",
+      "highlight": true
+    },
+    {
+      "id": 41,
+      "year": "25/04/1976",
+      "title": "Tổng tuyển cử Quốc hội khóa VI",
+      "desc": "Bầu Quốc hội thống nhất chung; đặt tên nước là Cộng hòa xã hội chủ nghĩa Việt Nam (2/7/1976).",
+      "era": "1975-1986"
+    },
+    {
+      "id": 42,
+      "year": "12/1976",
+      "title": "Đại hội đại biểu lần thứ IV",
+      "desc": "Đổi tên Đảng thành Đảng Cộng sản Việt Nam; thông qua Kế hoạch 5 năm 1976–1980.",
+      "era": "1975-1986"
+    },
+    {
+      "id": 43,
+      "year": "17/02/1979",
+      "title": "Chiến tranh bảo vệ biên giới phía Bắc",
+      "desc": "Quân và dân 6 tỉnh biên giới kiên cường chiến đấu bảo vệ toàn vẹn lãnh thổ Tổ quốc.",
+      "era": "1975-1986"
+    },
+    {
+      "id": 44,
+      "year": "03/1982",
+      "title": "Đại hội đại biểu lần thứ V",
+      "desc": "Khẳng định 2 nhiệm vụ chiến lược; xác định nông nghiệp là mặt trận hàng đầu.",
+      "era": "1975-1986"
+    },
+    {
+      "id": 45,
+      "year": "12/1986",
+      "title": "Đại hội VI – Đại hội Đổi mới",
+      "desc": "Đổi mới tư duy trước hết là tư duy kinh tế; chuyển sang kinh tế hàng hóa nhiều thành phần.",
+      "era": "1986-2018",
+      "highlight": true
+    },
+    {
+      "id": 46,
+      "year": "06/1991",
+      "title": "Đại hội VII – Cương lĩnh 1991",
+      "desc": "Cương lĩnh xây dựng đất nước trong thời kỳ quá độ (6 đặc trưng); khẳng định CN Mác-Lênin & tư tưởng HCM.",
+      "era": "1986-2018"
+    },
+    {
+      "id": 47,
+      "year": "04/2001",
+      "title": "Đại hội IX – KTTT định hướng XHCN",
+      "desc": "Chính thức xác định kinh tế thị trường định hướng XHCN là mô hình kinh tế tổng quát thời kỳ quá độ.",
+      "era": "1986-2018"
+    },
+    {
+      "id": 48,
+      "year": "11/01/2007",
+      "title": "Việt Nam gia nhập WTO",
+      "desc": "Chính thức là thành viên thứ 150 của Tổ chức Thương mại Thế giới, hội nhập kinh tế quốc tế sâu rộng.",
+      "era": "1986-2018",
+      "highlight": true
+    },
+    {
+      "id": 49,
+      "year": "01/2011",
+      "title": "Đại hội XI – Cương lĩnh bổ sung 2011",
+      "desc": "Cương lĩnh bổ sung phát triển 2011 (8 đặc trưng, 3 đột phá chiến lược thể chế, nhân lực, hạ tầng).",
+      "era": "1986-2018"
+    },
+    {
+      "id": 50,
+      "year": "2021–2026",
+      "title": "Đại hội XIII, XIV & NQ 57, 68",
+      "desc": "ĐH XIII (tầm nhìn 2030–2045); NQ 57 (KH-CN, CĐS); NQ 68 (Kinh tế tư nhân); ĐH XIV (Kỷ nguyên vươn mình).",
+      "era": "2018-2026",
+      "highlight": true
+    }
+  ],
+  "VERIFIED_SOURCES": [
+    {
+      "category": "Phong trào Đồng Khởi & Phong trào miền Nam (1954–1960)",
+      "items": [
+        {
+          "title": "Tài liệu tuyên truyền kỷ niệm phong trào Đồng Khởi",
+          "source": "Cổng TTĐT Tỉnh Khánh Hòa",
+          "url": "https://khanhhoa.gov.vn/Resources/Docs/SubDomain/HomePage/Tuyentruyen/2021/KT-878.pdf",
+          "tag": "Đồng Khởi 1960",
+          "summary": "Phân tích nguyên nhân, ý nghĩa bước ngoặt lịch sử của phong trào Đồng Khởi 1960 làm lung lay chính quyền Ngô Đình Diệm."
+        },
+        {
+          "title": "Nhân tố quyết định thắng lợi phong trào Đồng Khởi Bến Tre 1960",
+          "source": "Tạp chí Luật sư Việt Nam",
+          "url": "https://lsvn.vn/nhan-to-quyet-dinh-thang-loi-phong-trao-dong-khoi-ben-tre-1960-a1771.html",
+          "tag": "Bến Tre • Mỏ Cày",
+          "summary": "Làm rõ vai trò lãnh đạo của Đảng bộ tỉnh Bến Tre và nữ tướng Nguyễn Thị Định tại Mỏ Cày trong ngày 17/1/1960."
+        },
+        {
+          "title": "Nghiên cứu về phong trào Đồng Khởi ở Nam Bộ (ĐH Đồng Tháp)",
+          "source": "Tạp chí Khoa học Đại học Đồng Tháp",
+          "url": "https://dthujs.vn/index.php/dthujs/article/download/3127/2038/18348",
+          "tag": "Nghiên cứu khoa học",
+          "summary": "Tổng kết đánh giá lý luận: Đồng Khởi đánh dấu bước nhảy vọt, chuyển cách mạng miền Nam từ giữ gìn lực lượng sang thế tiến công."
+        }
+      ]
+    },
+    {
+      "category": "Hiệp định Giơnevơ & Chính sách tàn bạo của Mỹ – Diệm",
+      "items": [
+        {
+          "title": "Giai đoạn 1955–1975: Nhân dân miền Nam chống Mỹ và tay sai",
+          "source": "Cổng Thông tin điện tử Chính phủ",
+          "url": "https://chinhphu.vn/giai-doan-1955-1975-xay-dung-cnxh-va-dau-tranh-thong-nhat-dat-nuoc/ii-nhan-dan-mien-nam-truc-tiep-chong-xam-luoc-my-va-tay-sai-lam-pha-san-nhieu-chien-luoc-chien-t-10000630",
+          "tag": "Giơnevơ & Luật 10/59",
+          "summary": "Tư liệu lịch sử về việc chính quyền Diệm cự tuyệt hiệp thương tổng tuyển cử, ban hành Luật 10/59 lê máy chém đàn áp cách mạng."
+        },
+        {
+          "title": "Đánh thắng chiến lược Chiến tranh đặc biệt của Mỹ (1961–1965)",
+          "source": "Cổng Thông tin điện tử Chính phủ",
+          "url": "https://chinhphu.vn/giai-doan-1955-1975-xay-dung-cnxh-va-dau-tranh-thong-nhat-dat-nuoc/2-danh-thang-chien-luoc-chien-tranh-dac-biet-cua-my-1961-1965-10001594",
+          "tag": "Chiến tranh đặc biệt",
+          "summary": "Hệ thống hóa tiến trình đập tan quốc sách ấp chiến lược và đánh đổ chế độ độc tài Ngô Đình Diệm (11/1963)."
+        },
+        {
+          "title": "Đại tướng Võ Nguyên Giáp: 'We Open the File' về Luật 10/59",
+          "source": "Marxists Internet Archive (Kho tư liệu Mác-xít)",
+          "url": "https://www.marxists.org/archive/giap/works/1961/we-open-the-file/ch02-part2-3.htm",
+          "tag": "Tư liệu quốc tế",
+          "summary": "Tài liệu lên án tính chất phản động của đạo luật 10/59 ban hành ngày 6/5/1959 đặt những người yêu nước ra ngoài vòng pháp luật."
+        }
+      ]
+    },
+    {
+      "category": "Hội nghị Trung ương 6, 7, 8 & Cách mạng Tháng Tám (1939–1945)",
+      "items": [
+        {
+          "title": "Hội nghị Trung ương 8 – Bước chuyển căn bản dẫn đến thành công CMT8",
+          "source": "Tạp chí Thương hiệu & Công luận",
+          "url": "https://thuonghieucongluan.com.vn/hoi-nghi-trung-uong-8-buoc-chuyen-can-ban-dan-den-thanh-cong-cua-cach-mang-thang-tam-a275080.html",
+          "tag": "Hội nghị TW 8 (5/1941)",
+          "summary": "Phân tích hoàn chỉnh chuyển hướng chỉ đạo chiến lược, đặt giải phóng dân tộc lên trên hết tại Pác Bó tháng 5/1941."
+        },
+        {
+          "title": "Hội nghị TW 8 (5/1941) và sự sáng tạo trong phát triển đường lối cách mạng",
+          "source": "Tạp chí Chính trị & Phát triển",
+          "url": "https://vjol.info.vn/tcchinhtrivaphattrien/article/download/139628/114160/",
+          "tag": "Tạp chí lý luận",
+          "summary": "Đối chiếu văn kiện: 'Trong lúc này nếu không giải quyết được vấn đề dân tộc giải phóng... thì quyền lợi giai cấp vạn năm cũng không đòi lại được'."
+        },
+        {
+          "title": "Nhân tố quyết định thành công của Cách mạng Tháng Tám 1945",
+          "source": "Báo Nhân Dân",
+          "url": "https://nhandan.vn/special/nhan-to-quyet-dinh-thanh-cong-cua-Cach-mang-Thang-Tam/index.html",
+          "tag": "Báo Nhân Dân",
+          "summary": "Chuyên đề kỷ niệm 80 năm CMT8 làm rõ vai trò quyết định của Mặt trận Việt Minh và nghệ thuật chớp thời cơ."
+        }
+      ]
+    },
+    {
+      "category": "Cương lĩnh chính trị đầu tiên & Luận cương chính trị (1930)",
+      "items": [
+        {
+          "title": "So sánh Cương lĩnh chính trị đầu tiên và Luận cương chính trị 10/1930",
+          "source": "Hệ thống Pháp luật Việt Nam (Luật Minh Khuê)",
+          "url": "https://luatminhkhue.vn/so-sanh-cuong-linh-chinh-tri-va-luan-cuong-chinh-tri.aspx",
+          "tag": "So sánh văn kiện",
+          "summary": "Bảng so sánh chuẩn học thuật về mục tiêu, lực lượng, mối quan hệ dân tộc - giai cấp giữa Nguyễn Ái Quốc và Trần Phú."
+        },
+        {
+          "title": "Tư duy lý luận về cách mạng dân tộc dân chủ nhân dân qua các văn kiện Đảng",
+          "source": "Tạp chí Lịch sử Đảng",
+          "url": "https://vjol.info.vn/tclichsuDang/article/download/141060/115297/",
+          "tag": "Tạp chí Lịch sử Đảng",
+          "summary": "Nghiên cứu quá trình Đảng ta khắc phục hạn chế tả khuynh của Luận cương 10/1930 qua các hội nghị TW 6, 7, 8 (1939–1941)."
+        }
+      ]
+    },
+    {
+      "category": "Chỉ thị Học tập theo Bác & Đấu tranh phòng chống tham nhũng",
+      "items": [
+        {
+          "title": "Toàn văn Chỉ thị 06-CT/TW ngày 07/11/2006 của Bộ Chính trị khóa X",
+          "source": "Thư viện Văn bản Pháp luật",
+          "url": "https://luatminhkhue.vn/van-ban/chi-thi-06-ct-tw-nam-2006.aspx",
+          "tag": "Chỉ thị 06-CT/TW",
+          "summary": "Văn bản gốc phát động Cuộc vận động Học tập và làm theo tấm gương đạo đức Hồ Chí Minh (giải mã câu hỏi bẫy C3-32)."
+        },
+        {
+          "title": "Chỉ thị 03-CT/TW (14/5/2011) và Chỉ thị 05-CT/TW (15/5/2016)",
+          "source": "Cổng TTĐT Bộ Tư pháp & Báo Mới",
+          "url": "https://vbpl.moj.gov.vn/TW/Lists/vbpq/Attachments/54805/1973.CT.TTg.doc",
+          "tag": "06 → 03 → 05 → 07",
+          "summary": "Hệ thống các chỉ thị kế tiếp nhau qua các nhiệm kỳ Đại hội X, XI, XII về tư tưởng, đạo đức, phong cách Hồ Chí Minh."
+        },
+        {
+          "title": "Nghị quyết 04-NQ/TW ngày 21/8/2006 về phòng, chống tham nhũng, lãng phí",
+          "source": "Cơ sở dữ liệu Quốc gia Văn bản Pháp luật",
+          "url": "https://vbpl.vn/TW/Lists/vbpq/Attachments/25140/04.NQ.TW.doc",
+          "tag": "NQ 04 (TW 3 khóa X)",
+          "summary": "Nghị quyết mang tính bước ngoặt của Trung ương về tăng cường sự lãnh đạo của Đảng đối với công tác phòng chống tham nhũng."
+        }
+      ]
+    },
+    {
+      "category": "Văn kiện Đại hội XIV & Nghị quyết 57, 68 đột phá",
+      "items": [
+        {
+          "title": "Tư liệu Văn kiện Đại hội XIV của Đảng Cộng sản Việt Nam",
+          "source": "Báo Điện tử Đảng Cộng sản Việt Nam",
+          "url": "https://tulieuvankien.dangcongsan.vn/bo-chinh-tri-ban-bi-thu-ban-chap-hanh-trung-uong/dai-hoi-dang/lan-thu-xiv",
+          "tag": "Đại hội XIV (2026)",
+          "summary": "Toàn bộ văn kiện, nghị quyết, báo cáo chính trị tổng kết 40 năm đổi mới và định hướng bước vào kỷ nguyên vươn mình của dân tộc."
+        },
+        {
+          "title": "Một số vấn đề mới, cốt lõi trong văn kiện Đại hội XIV của Đảng",
+          "source": "Báo Nhân Dân (Chuyên đề đặc biệt)",
+          "url": "https://nhandan.vn/special/Motsovandemoi_cotloi_va_kinhnghiem_40namdoimoi_trong_vankien_DaihoiXIV_cua_Dang/index.html",
+          "tag": "Báo Nhân Dân",
+          "summary": "Làm rõ thông điệp 4 kiên định, tăng trưởng 2 con số, tháo gỡ điểm nghẽn thể chế và đột phá KH-CN, đổi mới sáng tạo."
+        },
+        {
+          "title": "Nghị quyết 57-NQ/TW: Đột phá phát triển KH, CN, ĐMST và CĐS quốc gia",
+          "source": "Tạp chí Tòa án nhân dân",
+          "url": "https://www.tapchitoaan.vn/index.php/toan-van-nghi-quyet-57-nqtw-ve-dot-pha-phat-trien-khoa-hoc-cong-nghe-doi-moi-sang-tao-va-chuyen-doi-so-quoc-gia16401.html",
+          "tag": "NQ 57-NQ/TW",
+          "summary": "Nâng tầm khoa học công nghệ và chuyển đổi số lên thành 'đột phá quan trọng hàng đầu', người dân và doanh nghiệp là trung tâm."
+        },
+        {
+          "title": "Nghị quyết 68-NQ/TW: Kinh tế tư nhân là động lực quan trọng nhất",
+          "source": "Báo Nhân Dân & Tạp chí Quản lý nhà nước",
+          "url": "https://nhandan.vn/special/nghi-quyet-68-phat-trien-kinh-te-tu-nhan/index.html",
+          "tag": "NQ 68-NQ/TW",
+          "summary": "Khẳng định kinh tế tư nhân là động lực quan trọng nhất của nền kinh tế quốc gia, mục tiêu 2 triệu doanh nghiệp vào năm 2030."
+        }
+      ]
     }
   ]
 };
