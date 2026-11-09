@@ -1,1030 +1,134 @@
 const fs = require('fs');
 
-// Read source files
-const part0 = fs.readFileSync('part0.md', 'utf8');
-const part1 = fs.readFileSync('part1.md', 'utf8');
-const part2 = fs.readFileSync('part2.md', 'utf8');
-const part3 = fs.readFileSync('part3.md', 'utf8');
-const part4 = fs.readFileSync('part4.md', 'utf8');
-const tl = fs.readFileSync('tl.md', 'utf8');
-const onTap = fs.readFileSync('on_tap_lich_su_dang.md', 'utf8');
+// 1. Parse 700 Official Questions for VNR202 (chuẩn đề cương & giáo trình FPT 2021)
+function parse700Questions() {
+  const filePath = fs.existsSync('docs/ngan_hang_700_cau_trac_nghiem_lsd.md')
+    ? 'docs/ngan_hang_700_cau_trac_nghiem_lsd.md'
+    : 'ngan_hang_700_cau_trac_nghiem_lsd.md';
+  const content = fs.readFileSync(filePath, 'utf8');
 
-// 1. Parse Existing 100 Questions
-function parseQuestions() {
-  const files = [
-    { file: 'part1.md', chapter: 1, chapterName: 'Chương 1: 1930 – 1945', prefix: 'C1' },
-    { file: 'part2.md', chapter: 2, chapterName: 'Chương 2: 1945 – 1975', prefix: 'C2' },
-    { file: 'part3.md', chapter: 3, chapterName: 'Chương 3: 1975 – 2018', prefix: 'C3' },
-    { file: 'part4.md', chapter: 4, chapterName: 'Chương mở rộng: 2018 – 2026', prefix: 'TL' }
+  const c1 = content.indexOf('## CHƯƠNG 1:');
+  const c2 = content.indexOf('## CHƯƠNG 2:');
+  const c3 = content.indexOf('## CHƯƠNG 3:');
+
+  const chapters = [
+    {
+      num: 1,
+      name: 'Chương 1: Đảng Cộng sản Việt Nam ra đời và lãnh đạo đấu tranh giành chính quyền (1930 – 1945)',
+      start: c1,
+      end: c2,
+      prefix: 'C1',
+      source: 'Giáo trình Lịch sử Đảng Cộng sản Việt Nam 2021, Chương 1 (tr. 35 – 125)'
+    },
+    {
+      num: 2,
+      name: 'Chương 2: Đảng lãnh đạo hai cuộc kháng chiến chống ngoại xâm, hoàn thành giải phóng dân tộc, thống nhất đất nước (1945 – 1975)',
+      start: c2,
+      end: c3,
+      prefix: 'C2',
+      source: 'Giáo trình Lịch sử Đảng Cộng sản Việt Nam 2021, Chương 2 (tr. 127 – 235)'
+    },
+    {
+      num: 3,
+      name: 'Chương 3: Đảng lãnh đạo cả nước quá độ lên chủ nghĩa xã hội và tiến hành công cuộc đổi mới (1975 đến nay)',
+      start: c3,
+      end: content.length,
+      prefix: 'C3',
+      source: 'Giáo trình Lịch sử Đảng Cộng sản Việt Nam 2021, Chương 3 (tr. 237 – 434)'
+    }
   ];
 
   const questions = [];
 
-  files.forEach(fInfo => {
-    const content = fs.readFileSync(fInfo.file, 'utf8');
-    const qBlocks = [];
-    const pattern = new RegExp('\\*\\*(' + fInfo.prefix + '-\\d+)\\.\\*\\*([\\s\\S]*?)(?=(?:\\*\\*(?:' + fInfo.prefix + '-\\d+|TL-\\d+)\\.\\*\\*)|(?:---)|(?:# )|$)', 'g');
+  chapters.forEach(ch => {
+    const chText = content.substring(ch.start, ch.end);
+    const dapAnPos = chText.indexOf('### BẢNG TRA CỨU ĐÁP ÁN');
+    const questionsText = dapAnPos !== -1 ? chText.substring(0, dapAnPos) : chText;
+
+    const qPattern = /####\s*Câu\s*(\d+)[:.]?\s*([\s\S]*?)(?=####\s*Câu\s*\d+|###|##|$)/g;
     let m;
-    while ((m = pattern.exec(content)) !== null) {
-      qBlocks.push({ id: m[1], body: m[2].trim() });
-    }
+    while ((m = qPattern.exec(questionsText)) !== null) {
+      const qNum = parseInt(m[1], 10);
+      const qBody = m[2].trim();
 
-    qBlocks.forEach(b => {
-      const id = b.id;
-      const text = b.body;
+      const lines = qBody.split('\n').map(l => l.trim()).filter(Boolean);
+      let qTitle = '';
+      const optLines = [];
 
-      if (id === 'C2-21') {
-        questions.push({
-          id: 'C2-21',
-          chapter: 2,
-          chapterName: 'Chương 2: 1945 – 1975',
-          question: 'Đại hội III (5–10/9/1960, Hà Nội) hoàn chỉnh đường lối chung của cách mạng Việt Nam và vạch ra hai nhiệm vụ chiến lược là:',
-          options: [
-            { id: 'A', text: 'Tiến hành cách mạng XHCN ở miền Bắc; giải phóng miền Nam khỏi ách thống trị của đế quốc Mỹ và tay sai, thực hiện thống nhất nước nhà, hoàn thành độc lập và dân chủ trong cả nước' },
-            { id: 'B', text: 'Tập trung toàn lực xây dựng CNXH ở miền Bắc, tạm thời giữ nguyên hiện trạng chia cắt ở miền Nam' },
-            { id: 'C', text: 'Tiến hành đồng thời cải cách ruộng đất triệt để ở cả hai miền Nam – Bắc' },
-            { id: 'D', text: 'Đưa quân tình nguyện mở rộng chiến tranh giải phóng toàn bộ bán đảo Đông Dương' }
-          ],
-          answer: 'A',
-          explanation: 'Đại hội III (9/1960) xác định vị trí hai chiến lược: Miền Bắc là hậu phương lớn có vai trò quyết định nhất; Miền Nam là tiền tuyến lớn có vai trò quyết định trực tiếp đối với sự nghiệp giải phóng miền Nam.',
-          warning: 'Đề gốc để dạng tự luận/học thuộc; đây là câu hỏi cốt lõi bắt buộc nhớ của Chương 2.',
-          source: 'Giáo trình 2021, Chương 2, tr. 182-185',
-          tags: ['Đại hội III', 'Nhiệm vụ chiến lược', 'Chương 2']
-        });
-        return;
-      }
+      lines.forEach(l => {
+        if (/^[*-]\s*(\d+\.)?\s*(\*{2})?([A-D])\./i.test(l) || /^[*-]\s*(\*{2})?([A-D])\./i.test(l)) {
+          optLines.push(l);
+        } else if (!l.startsWith('>') && optLines.length === 0) {
+          qTitle += (qTitle ? ' ' : '') + l;
+        }
+      });
 
-      let qText = '';
-      let opts = [];
+      const options = [];
+      optLines.forEach(l => {
+        const optMatch = l.match(/^[*-]\s*(\*{2})?([A-D])\.\s*(\*{2})?\s*([\s\S]*)/i);
+        if (optMatch) {
+          const optId = optMatch[2].toUpperCase();
+          let optText = optMatch[4].trim();
+          optText = optText.replace(/\(Đáp án đúng\)/i, '').replace(/\(đáp án đúng\)/i, '').replace(/\*{2}/g, '').trim();
+          options.push({ id: optId, text: optText });
+        }
+      });
+
       let answer = '';
-      let explanation = '';
-      let warning = '';
-
-      const ansMatch = text.match(/✅\s*([^\n\r]+)/);
+      const ansMatch = qBody.match(/\*\*Đáp án đúng:\*\*\s*\*\*([A-D])\*\*/i) ||
+                       qBody.match(/\*\*Đáp án đúng:\*\*\s*([A-D])/i) ||
+                       qBody.match(/Đáp án đúng:\s*([A-D])/i);
       if (ansMatch) {
-        const ansRaw = ansMatch[1].trim();
-        const letterMatch = ansRaw.match(/\*\*([A-D])\*\*/);
-        if (letterMatch) {
-          answer = letterMatch[1];
-        } else if (/Kiến thức đúng:\s*([A-D])/i.test(ansRaw)) {
-          answer = ansRaw.match(/Kiến thức đúng:\s*([A-D])/i)[1];
-        } else if (/Đáp án của đề:\s*([A-D])/i.test(ansRaw)) {
-          answer = ansRaw.match(/Đáp án của đề:\s*([A-D])/i)[1];
-        } else if (ansRaw.startsWith('**')) {
-          const m = ansRaw.match(/\*\*([^*]+)\*\*/);
-          if (m && ['A','B','C','D'].includes(m[1].trim())) answer = m[1].trim();
-        }
-
-        if (ansRaw.includes('—')) {
-          explanation = ansRaw.substring(ansRaw.indexOf('—') + 1).trim();
-        } else if (ansRaw.includes('(')) {
-          explanation = ansRaw.substring(ansRaw.indexOf('(')).trim();
-        }
-        
-        if (text.includes('⚠️')) {
-          warning = text.substring(text.indexOf('⚠️')).trim().replace(/\n+/g, ' ');
-        }
-      }
-
-      const optStartIdx = text.search(/\bA\.\s/);
-      if (optStartIdx !== -1) {
-        qText = text.substring(0, optStartIdx).trim();
-        const optsText = text.substring(optStartIdx, text.indexOf('✅') !== -1 ? text.indexOf('✅') : undefined);
-        const optMatches = [...optsText.matchAll(/([A-D])\.\s*([^·|\n\r]+)/g)];
-        opts = optMatches.map(m => ({
-          id: m[1],
-          text: m[2].trim().replace(/\s*·\s*$/, '').replace(/\s*\|\s*$/, '')
-        }));
+        answer = ansMatch[1].toUpperCase();
       } else {
-        qText = text.substring(0, text.indexOf('✅')).trim();
+        const foundInOpt = optLines.find(l => /đáp án đúng/i.test(l));
+        if (foundInOpt) {
+          const mOpt = foundInOpt.match(/([A-D])\./i);
+          if (mOpt) answer = mOpt[1].toUpperCase();
+        }
       }
 
-      qText = qText.replace(/\*\*/g, '').replace(/\n+/g, ' ').trim();
-
-      if (id === 'C3-23' && opts.length === 2) {
-        warning = 'Đề gốc chỉ có 2 phương án A và B (câu hỏi khuyết C, D trong ngân hàng câu hỏi gốc).';
+      let explanation = '';
+      const expMatch = qBody.match(/>\s*\*\*Đáp án đúng:\*\*[^\n\r]*—\s*\*([^*]+)\*/i);
+      if (expMatch) {
+        explanation = expMatch[1].trim();
       }
 
+      const correctOpt = options.find(o => o.id === answer);
+      const optText = correctOpt ? correctOpt.text : '';
+      const fullExplanation = explanation 
+        ? `Đáp án đúng là ${answer}: ${explanation}`
+        : (optText ? `Đáp án đúng là ${answer}: ${optText}` : `Đáp án đúng là ${answer}.`);
+
+      // Tags
       const tags = [];
-      if (/đại hội/i.test(qText)) tags.push('Đại hội');
-      if (/cương lĩnh|luận cương/i.test(qText)) tags.push('Cương lĩnh');
-      if (/chiến lược|chiến dịch/i.test(qText)) tags.push('Quân sự');
-      if (/kinh tế|thị trường/i.test(qText)) tags.push('Kinh tế');
-      if (/hiệp định/i.test(qText)) tags.push('Hiệp định');
-      if (/nghị quyết|chỉ thị/i.test(qText)) tags.push('Nghị quyết');
-      tags.push(fInfo.prefix);
+      if (/đại hội/i.test(qTitle)) tags.push('Đại hội');
+      if (/cương lĩnh|luận cương/i.test(qTitle)) tags.push('Cương lĩnh');
+      if (/chiến lược|chiến dịch|kháng chiến|quân sự/i.test(qTitle)) tags.push('Quân sự');
+      if (/kinh tế|thị trường|công nghiệp/i.test(qTitle)) tags.push('Kinh tế');
+      if (/hiệp định|ngoại giao/i.test(qTitle)) tags.push('Hiệp định');
+      if (/nghị quyết|chỉ thị/i.test(qTitle)) tags.push('Nghị quyết');
+      tags.push(ch.prefix);
 
       questions.push({
-        id,
-        chapter: fInfo.chapter,
-        chapterName: fInfo.chapterName,
-        question: qText,
-        options: opts,
-        answer: answer || 'A',
-        explanation: explanation || '',
-        warning: warning || '',
-        source: `Giáo trình 2021, Chương ${fInfo.chapter}`,
+        id: `${ch.prefix}-${qNum}`,
+        chapter: ch.num,
+        chapterName: ch.name,
+        question: qTitle,
+        options,
+        answer,
+        explanation: fullExplanation,
+        source: ch.source,
         tags
       });
-    });
+    }
   });
 
   return questions;
 }
 
-const questions = parseQuestions();
-
-// Detailed explanations for existing questions
-const detailedExplanations = {
-  'C1-1': 'Cách mạng tháng Mười Nga (1917) và Quốc tế Cộng sản (1919) đã thức tỉnh phong trào đấu tranh giải phóng dân tộc ở các nước thuộc địa, phụ thuộc (Mục 1.1a, tr. 15 Giáo trình 2021).',
-  'C1-2': 'Giai cấp công nhân Việt Nam ra đời từ cuộc khai thác thuộc địa lần thứ nhất (1897–1914) của thực dân Pháp, trước cả giai cấp tư sản dân tộc (Mục 1.1b, tr. 22).',
-  'C1-3': 'Cuộc khai thác thuộc địa lần thứ hai (1919–1929) đầu tư quy mô lớn nhưng khiến cơ cấu kinh tế Việt Nam mất cân đối, què quặt, lạc hậu, nghèo nàn và lệ thuộc vào Pháp (Mục 1.1b, tr. 25).',
-  'C1-4': 'Giai cấp công nhân Việt Nam là lực lượng lãnh đạo cách mạng nhờ có sứ mệnh lịch sử vẻ vang, tiếp thu chủ nghĩa Mác – Lênin và có Đảng tiên phong lãnh đạo (Mục 1.1b, tr. 27).',
-  'C1-7': 'Nguyễn Ái Quốc khẳng định việc thành lập Đảng ngày 3/2/1930 là một bước ngoặt vô cùng quan trọng, chấm dứt thời kỳ khủng hoảng về đường lối cứu nước kéo dài hàng thập kỷ (tr. 42).',
-  'C1-8': 'Đồng chí Trần Phú được bầu làm Tổng Bí thư đầu tiên của Đảng tại Hội nghị Ban Chấp hành Trung ương tháng 10/1930 họp tại Hương Cảng (tr. 50).',
-  'C1-9': 'Luận cương chính trị tháng 10/1930 do Trần Phú soạn thảo xác định nhiệm vụ: Đánh đổ đế quốc Pháp, phong kiến và tư sản phản cách mạng, làm cho nước Việt Nam độc lập tự do (tr. 52).',
-  'C1-11': 'Trong thời kỳ 1930–1931, mâu thuẫn xã hội gay gắt; kẻ thù chủ yếu của cách mạng được xác định là thực dân Pháp (đế quốc) và phong kiến tay sai (tr. 56).',
-  'C1-12': 'Phong trào Xô Viết Nghệ Tĩnh bắt đầu bùng nổ từ ngày Quốc tế Lao động 1/5/1930 với các cuộc biểu tình rầm rộ của công nhân Vinh – Bến Thủy và nông dân các huyện lân cận (tr. 58).',
-  'C1-13': 'Giai đoạn 1932–1935 là thời kỳ toàn Đảng đấu tranh kiên cường để khôi phục hệ thống tổ chức và phong trào cách mạng sau sự khủng bố trắng của kẻ thù (tr. 64).',
-  'C1-17': 'Chiến tranh thế giới thứ hai bùng nổ vào tháng 9 năm 1939 khi phát xít Đức tấn công Ba Lan, tác động trực tiếp và sâu sắc đến tình hình Đông Dương (tr. 75).',
-  'C1-21': 'Hội nghị Trung ương 8 (5/1941) tại Pác Bó xác định hình thức chính quyền sau cách mạng là Chính phủ Việt Nam Dân chủ Cộng hòa, đại diện cho toàn thể quốc dân (tr. 88).',
-  'C1-22': 'Nội dung B sai vì tại Hội nghị TW 8 (5/1941), Đảng chủ trương tạm gác khẩu hiệu "đánh đổ địa chủ, chia ruộng đất cho dân cày", chỉ tịch thu ruộng đất của đế quốc và Việt gian chia cho dân cày nghèo (tr. 89).',
-  'C2-1': 'Ngay sau Cách mạng Tháng Tám 1945, nước Việt Nam Dân chủ Cộng hòa rơi vào tình thế "ngàn cân treo sợi tóc" trước sự bao vây của thù trong giặc ngoài (quân Tưởng, quân Anh, Pháp, Nhật, giặc đói, giặc dốt, tài chính kiệt quệ).',
-  'C2-2': 'Sau CMT8 đến 1954, kẻ thù chính, nguy hiểm nhất và trực tiếp nhất của nhân dân Việt Nam là thực dân Pháp xâm lược (tr. 102).',
-  'C2-7': 'Ngày 12/12/1946, Ban Thường vụ Trung ương Đảng ra Chỉ thị "Toàn dân kháng chiến"; đến đêm 19/12/1946 Chủ tịch Hồ Chí Minh mới phát động "Lời kêu gọi Toàn quốc kháng chiến" (tr. 115).',
-  'C2-9': 'Mục tiêu của cuộc Toàn quốc kháng chiến chống Pháp là đánh phản động thực dân Pháp xâm lược, giành thống nhất và độc lập dân tộc (tr. 117).',
-  'C2-10': 'Đường lối kháng chiến chống Pháp chỉ rõ triển vọng: "mặc dù lâu dài, gian khổ, khó khăn song nhất định thắng lợi" (tr. 118).',
-  'C2-11': 'Đại hội II (2/1951) xác định con đường đi lên CNXH ở Việt Nam là một quá trình đấu tranh lâu dài, đại thể trải qua 3 giai đoạn: hoàn thành giải phóng dân tộc; xóa bỏ tàn tích phong kiến; xây dựng cơ sở CNXH (tr. 135).',
-  'C2-12': 'Đại hội II của Đảng (2/1951 tại Tuyên Quang) được mệnh danh là "Đại hội kháng chiến thắng lợi", đưa Đảng ra hoạt động công khai với tên gọi Đảng Lao động Việt Nam (tr. 136).',
-  'C2-13': 'Chiến thắng lịch sử Điện Biên Phủ ngày 7/5/1954 là đỉnh cao chói lọi của cuộc kháng chiến chống thực dân Pháp, quyết định việc ký kết Hiệp định Giơnevơ.',
-  'C2-15': 'Sau thất bại thảm hại ở tập đoàn cứ điểm Điện Biên Phủ, thực dân Pháp buộc phải ngồi vào bàn đàm phán và ký kết Hiệp định Giơnevơ lập lại hòa bình ở Đông Dương.',
-  'C2-16': 'Hiệp định Giơnevơ 1954 lần đầu tiên ghi nhận các quyền dân tộc cơ bản của Việt Nam, Lào, Campuchia: độc lập, chủ quyền, thống nhất và toàn vẹn lãnh thổ.',
-  'C2-17': 'Hiệp định Giơnevơ 1954 quy định giới tuyến quân sự tạm thời tại vĩ tuyến 17 (sông Bến Hải, Quảng Trị) để tập kết chuyển quân trong thời hạn 2 năm trước khi tổng tuyển cử.',
-  'C2-18': 'Đặc điểm lớn nhất của cách mạng Việt Nam sau 1954 là một đảng lãnh đạo đồng thời hai chiến lược cách mạng ở hai miền: CM XHCN ở miền Bắc và CM dân tộc dân chủ nhân dân ở miền Nam.',
-  'C2-19': 'Đại hội đại biểu toàn quốc lần thứ III (5–10/9/1960) được tổ chức tại Thủ đô Hà Nội.',
-  'C2-20': 'Đường lối chung xây dựng CNXH ở miền Bắc trong thời kỳ chống Mỹ được đề ra và hoàn chỉnh tại Đại hội lần thứ III (1960).',
-  'C2-24': 'Nghị quyết Hội nghị TW 15 (1/1959) đánh dấu bước ngoặt chuyển cách mạng miền Nam sang kết hợp đấu tranh chính trị với đấu tranh vũ trang, tiến tới khởi nghĩa bạo lực cách mạng.',
-  'C2-25': 'Hội nghị Trung ương 15 (1/1959) đã quyết định cho phép nhân dân miền Nam sử dụng bạo lực cách mạng để đánh đổ ách kìm kẹp của chính quyền Mỹ – Diệm.',
-  'C2-26': 'Luật 10/59 lê máy chém đi khắp miền Nam tàn sát người yêu nước là ngòi nổ trực tiếp thổi bùng lên phong trào Đồng Khởi năm 1960.',
-  'C2-30': 'Giai đoạn 1961–1965, đế quốc Mỹ tiến hành chiến lược "Chiến tranh đặc biệt" ở miền Nam Việt Nam (công thức: quân đội Sài Gòn + cố vấn Mỹ + vũ khí trang bị Mỹ + quốc sách ấp chiến lược).',
-  'C2-31': 'Hội nghị TW 11 (3/1965) và 12 (12/1965) khi Mỹ ồ ạt đổ quân vào miền Nam đã đề ra khẩu hiệu chung của toàn dân tộc: "Tất cả để đánh thắng giặc Mỹ xâm lược".',
-  'C2-33': 'Cuộc kháng chiến chống Mỹ, cứu nước toàn thắng với mốc son chói lọi của Chiến dịch Hồ Chí Minh lịch sử trưa ngày 30/4/1975 giải phóng hoàn toàn miền Nam.',
-  'C2-34': 'Nhân tố hàng đầu quyết định mọi thắng lợi của kháng chiến chống Mỹ là sự lãnh đạo của Đảng với đường lối chính trị, quân sự độc lập, tự chủ, đúng đắn và sáng tạo.',
-  'C3-1': 'Nghị quyết Hội nghị Trung ương 24 (9/1975) khẳng định thống nhất đất nước vừa là nguyện vọng tha thiết của nhân dân cả nước, vừa là quy luật khách quan của lịch sử.',
-  'C3-2': 'Nhiệm vụ bức thiết hàng đầu sau ngày 30/4/1975 là thống nhất đất nước về mặt Nhà nước để hoàn thiện bộ máy chính quyền chung cho cả nước.',
-  'C3-3': 'Đoàn đại biểu miền Nam tham dự Hội nghị hiệp thương chính trị thống nhất Tổ quốc (11/1975) do đồng chí Phạm Hùng dẫn đầu.',
-  'C3-4': 'Cuộc Tổng tuyển cử ngày 25/4/1976 bầu ra Quốc hội thống nhất được tiến hành theo 4 nguyên tắc dân chủ: phổ thông, bình đẳng, trực tiếp và bỏ phiếu kín.',
-  'C3-5': 'Kỳ họp thứ nhất Quốc hội khóa VI (tháng 7/1976) đã quyết định đặt tên nước là Cộng hòa xã hội chủ nghĩa Việt Nam, chọn Hà Nội là Thủ đô, đổi tên Sài Gòn thành TP Hồ Chí Minh.',
-  'C3-6': 'Đại hội lần thứ IV của Đảng (12/1976) đã quyết định đổi tên Đảng Lao động Việt Nam thành Đảng Cộng sản Việt Nam.',
-  'C3-7': 'Đại hội lần thứ IV họp tại Hà Nội từ ngày 14–20/12/1976 quyết định đổi tên Đảng thành Đảng Cộng sản Việt Nam.',
-  'C3-8': 'Đại hội IV (1976) đã thông qua Kế hoạch phát triển kinh tế – xã hội 5 năm 1976–1980.',
-  'C3-9': 'Mục tiêu của Kế hoạch 5 năm 1976–1980 là bảo đảm nhu cầu đời sống của nhân dân, tích lũy để xây dựng cơ sở vật chất kỹ thuật của CNXH.',
-  'C3-10': 'Ngày 17/2/1979, quân đội Trung Quốc đã bất ngờ mở cuộc tấn công quy mô lớn trên toàn tuyến biên giới phía Bắc nước ta.',
-  'C3-11': 'Đại hội lần thứ V của Đảng (3/1982) xác định nông nghiệp là mặt trận hàng đầu trong chặng đường đầu tiên của thời kỳ quá độ.',
-  'C3-12': 'Đại hội V khẳng định hai nhiệm vụ chiến lược: Xây dựng thành công chủ nghĩa xã hội và bảo vệ vững chắc Tổ quốc Việt Nam XHCN.',
-  'C3-13': 'Đại hội đại biểu toàn quốc lần thứ VI (12/1986) đi vào lịch sử với tư cách là Đại hội Đổi mới toàn diện đất nước, nhìn thẳng vào sự thật, đánh giá đúng sự thật.',
-  'C3-14': 'Bài học kinh nghiệm 10 năm Đổi mới (1986–1996) được Đại hội VIII tổng kết: xây dựng nền kinh tế hàng hóa nhiều thành phần vận hành theo cơ chế thị trường có sự quản lý của Nhà nước.',
-  'C3-15': 'Đảng ta khẳng định: Đổi mới không phải là thay đổi mục tiêu CNXH mà là làm cho mục tiêu ấy được thực hiện có hiệu quả bằng những quan niệm đúng đắn và bước đi phù hợp.',
-  'C3-16': 'Cơ chế tập trung quan liêu, bao cấp để lại tác hại nặng nề kéo dài là nhiều hiện tượng tiêu cực trong xã hội, thói ỷ lại, trì trệ và tham nhũng lãng phí.',
-  'C3-17': 'Quan điểm xã hội thời kỳ đổi mới: kết hợp chặt chẽ các mục tiêu kinh tế với các mục tiêu xã hội ngay trong từng bước và trong suốt quá trình phát triển.',
-  'C3-18': 'Đại hội VIII chủ trương: tăng trưởng kinh tế phải gắn liền với tiến bộ và công bằng xã hội ngay trong từng bước và suốt quá trình phát triển.',
-  'C3-19': 'Mô hình "kinh tế thị trường định hướng xã hội chủ nghĩa" được Đại hội IX (4/2001) chính thức xác định là mô hình kinh tế tổng quát trong thời kỳ quá độ.',
-  'C3-20': 'Đại hội X (4/2006) có điểm mới đột phá: xác định xây dựng chỉnh đốn Đảng là then chốt và chính thức cho phép đảng viên làm kinh tế tư nhân.',
-  'C3-21': 'Một quan điểm then chốt của Đảng về CNH – HĐH: lấy việc phát huy nguồn lực con người là yếu tố cơ bản cho sự phát triển nhanh và bền vững.',
-  'C3-22': 'Mặt trận Tổ quốc và các đoàn thể chính trị – xã hội (Đoàn Thanh niên, Công đoàn, Hội Phụ nữ, Hội Nông dân, Hội Cựu chiến binh) hợp thành hệ thống các tổ chức chính trị – xã hội.',
-  'C3-24': 'Việc ký kết Hiệp định Pari về Campuchia ngày 23/10/1991 đã giải tỏa rào cản quốc tế lớn nhất, mở đường cho Việt Nam bình thường hóa và mở rộng quan hệ với các nước.',
-  'C3-25': 'Ngày 11/1/2007, Việt Nam chính thức trở thành thành viên thứ 150 của Tổ chức Thương mại Thế giới (WTO).',
-  'C3-26': 'Nghị quyết Hội nghị TW 7 khóa IX (3/2003) khẳng định: Đất đai là tài nguyên quốc gia vô cùng quý giá, là tư liệu đặc biệt, là nguồn nội lực và nguồn vốn to lớn.',
-  'C3-27': 'Hội nghị Trung ương 8 khóa IX (7/2003) ban hành Nghị quyết chuyên đề về "Chiến lược bảo vệ Tổ quốc trong tình hình mới".',
-  'C3-28': 'Nghị quyết 36-NQ/TW ngày 26/3/2004 của Bộ Chính trị về công tác đối với người Việt Nam ở nước ngoài, khẳng định cộng đồng kiều bào là bộ phận không thể tách rời của dân tộc.',
-  'C3-29': 'Hội nghị TW 4 khóa X (2/2007) thông qua Nghị quyết 09-NQ/TW về Chiến lược biển Việt Nam đến năm 2020: phấn đấu trở thành quốc gia mạnh về biển, làm giàu từ biển.',
-  'C3-30': 'Hội nghị TW 3 khóa X (21/8/2006) ban hành Nghị quyết số 04-NQ/TW về tăng cường sự lãnh đạo của Đảng đối với công tác phòng, chống tham nhũng, lãng phí.',
-  'C3-31': 'Hội nghị TW 5 khóa X (7/2007) ban hành Nghị quyết 14-NQ/TW về tăng cường công tác kiểm tra, giám sát của Đảng.',
-  'C3-33': 'Nghị quyết số 20-NQ/TW ngày 25/10/2017 (TW 6 khóa XII) về tăng cường công tác bảo vệ, chăm sóc và nâng cao sức khỏe nhân dân trong tình hình mới.'
-};
-
-questions.forEach(q => {
-  if (detailedExplanations[q.id] && (!q.explanation || q.explanation.length < 10)) {
-    q.explanation = detailedExplanations[q.id];
-  }
-});
-
-// 2. 50 NEW HIGH-YIELD QUESTIONS FOR EXPANDED QUESTION BANK
-const EXTRA_QUESTIONS = [
-  // Nhập môn (C0-1 đến C0-6)
-  {
-    id: 'C0-1',
-    chapter: 0,
-    chapterName: 'Nhập môn Lịch sử Đảng',
-    question: 'Đối tượng nghiên cứu của môn học Lịch sử Đảng Cộng sản Việt Nam là gì?',
-    options: [
-      { id: 'A', text: 'Toàn bộ tiến trình lịch sử dựng nước và giữ nước của dân tộc Việt Nam từ thời Hùng Vương' },
-      { id: 'B', text: 'Sự ra đời, phát triển và hoạt động lãnh đạo của Đảng qua các thời kỳ lịch sử' },
-      { id: 'C', text: 'Chỉ nghiên cứu hệ thống văn kiện và các kỳ Đại hội toàn quốc của Đảng' },
-      { id: 'D', text: 'Quá trình hoạt động quốc tế của các đảng cộng sản và công nhân trên thế giới' }
-    ],
-    answer: 'B',
-    explanation: 'Đối tượng nghiên cứu của Lịch sử Đảng là sự ra đời, phát triển và hoạt động lãnh đạo của Đảng qua các thời kỳ lịch sử, làm sáng tỏ các quy luật và bài học kinh nghiệm.',
-    source: 'Giáo trình 2021, Nhập môn, tr. 7-10',
-    tags: ['Nhập môn', 'Đối tượng']
-  },
-  {
-    id: 'C0-2',
-    chapter: 0,
-    chapterName: 'Nhập môn Lịch sử Đảng',
-    question: 'Chức năng nào được coi là chức năng hàng đầu của khoa học Lịch sử Đảng Cộng sản Việt Nam?',
-    options: [
-      { id: 'A', text: 'Chức năng nhận thức' },
-      { id: 'B', text: 'Chức năng phê phán' },
-      { id: 'C', text: 'Chức năng dự báo' },
-      { id: 'D', text: 'Chức năng giải trí' }
-    ],
-    answer: 'A',
-    explanation: 'Chức năng nhận thức là chức năng hàng đầu, cung cấp tri thức khoa học, đầy đủ, có hệ thống về sự ra đời và quá trình lãnh đạo cách mạng của Đảng.',
-    source: 'Giáo trình 2021, Nhập môn, tr. 11',
-    tags: ['Nhập môn', 'Chức năng']
-  },
-  {
-    id: 'C0-3',
-    chapter: 0,
-    chapterName: 'Nhập môn Lịch sử Đảng',
-    question: 'Phương pháp nghiên cứu cơ bản, chủ yếu và đặc thù của khoa học Lịch sử Đảng là sự kết hợp giữa:',
-    options: [
-      { id: 'A', text: 'Phương pháp diễn dịch và phương pháp quy nạp' },
-      { id: 'B', text: 'Phương pháp lịch sử và phương pháp logic' },
-      { id: 'C', text: 'Phương pháp thống kê và phương pháp phỏng vấn sâu' },
-      { id: 'D', text: 'Phương pháp phân tích định lượng và thực nghiệm mô hình' }
-    ],
-    answer: 'B',
-    explanation: 'Phương pháp lịch sử (tái hiện sự kiện theo trình tự thời gian) kết hợp chặt chẽ với phương pháp logic (khái quát bản chất, quy luật) là phương pháp cơ bản của môn học.',
-    source: 'Giáo trình 2021, Nhập môn, tr. 12-14',
-    tags: ['Nhập môn', 'Phương pháp']
-  },
-  {
-    id: 'C0-4',
-    chapter: 0,
-    chapterName: 'Nhập môn Lịch sử Đảng',
-    question: 'Khoa học Lịch sử Đảng Cộng sản Việt Nam có bao nhiêu chức năng cơ bản?',
-    options: [
-      { id: 'A', text: '2 chức năng (Nhận thức, Giáo dục)' },
-      { id: 'B', text: '3 chức năng (Nhận thức, Giáo dục, Dự báo)' },
-      { id: 'C', text: '4 chức năng (Nhận thức, Giáo dục, Dự báo, Phê phán)' },
-      { id: 'D', text: '5 chức năng' }
-    ],
-    answer: 'C',
-    explanation: 'Khoa học Lịch sử Đảng có 4 chức năng cơ bản: Chức năng nhận thức, Chức năng giáo dục, Chức năng dự báo, và Chức năng phê phán.',
-    source: 'Giáo trình 2021, Nhập môn, tr. 11-12',
-    tags: ['Nhập môn', 'Chức năng']
-  },
-  {
-    id: 'C0-5',
-    chapter: 0,
-    chapterName: 'Nhập môn Lịch sử Đảng',
-    question: 'Để đủ điều kiện dự thi kết thúc học phần VNR202 tại Đại học FPT, sinh viên bắt buộc phải hoàn thành điều kiện tiên quyết nào?',
-    options: [
-      { id: 'A', text: 'Tham gia đầy đủ 100% các buổi sinh hoạt chuyên đề ngoại khóa' },
-      { id: 'B', text: 'Hoàn thành khóa học trực tuyến môn Lịch sử ĐCSVN trên nền tảng Coursera và có chứng chỉ' },
-      { id: 'C', text: 'Xuất bản một bài nghiên cứu khoa học về đề tài lịch sử' },
-      { id: 'D', text: 'Đạt điểm tối đa trong bài kiểm tra giữa kỳ tại lớp' }
-    ],
-    answer: 'B',
-    explanation: 'Theo đề cương môn học VNR202 của Đại học FPT (tl.md mục 12), sinh viên bắt buộc phải hoàn thành khóa học trực tuyến trên nền tảng Coursera và có chứng chỉ để đủ điều kiện dự thi cuối kỳ.',
-    source: 'Đề cương môn học VNR202, Đại học FPT (tl.md)',
-    tags: ['Nhập môn', 'FPT', 'Coursera']
-  },
-  {
-    id: 'C0-6',
-    chapter: 0,
-    chapterName: 'Nhập môn Lịch sử Đảng',
-    question: 'Nguyên tắc phương pháp luận hàng đầu khi nghiên cứu, học tập Lịch sử Đảng là bảo đảm sự thống nhất giữa:',
-    options: [
-      { id: 'A', text: 'Tính lý luận và tính cảm tính' },
-      { id: 'B', text: 'Tính đảng và tính khoa học' },
-      { id: 'C', text: 'Tính dân tộc và tính giai cấp' },
-      { id: 'D', text: 'Tính truyền thống và tính hiện đại' }
-    ],
-    answer: 'B',
-    explanation: 'Tính đảng và tính khoa học thống nhất hữu cơ với nhau: Đứng vững trên lập trường của giai cấp công nhân để tôn trọng sự thật lịch sử khách quan.',
-    source: 'Giáo trình 2021, Nhập môn, tr. 13',
-    tags: ['Nhập môn', 'Phương pháp luận']
-  },
-
-  // Bổ sung Chương 1 (C1-23 đến C1-36)
-  {
-    id: 'C1-23',
-    chapter: 1,
-    chapterName: 'Chương 1: 1930 – 1945',
-    question: 'Hiệp ước nào triều đình nhà Nguyễn ký với thực dân Pháp chính thức thừa nhận quyền bảo hộ của Pháp trên toàn bộ đất nước Việt Nam?',
-    options: [
-      { id: 'A', text: 'Hiệp ước Nhâm Tuất (1862)' },
-      { id: 'B', text: 'Hiệp ước Giáp Tuất (1874)' },
-      { id: 'C', text: 'Hiệp ước Hác-măng (1883) và Pa-tơ-nốt (1884)' },
-      { id: 'D', text: 'Hiệp ước Thiên Tân (1885)' }
-    ],
-    answer: 'C',
-    explanation: 'Hiệp ước Hác-măng (1883) và Pa-tơ-nốt (1884) đánh dấu sự đầu hàng hoàn toàn của triều Nguyễn, biến nước ta thành thuộc địa nửa phong kiến.',
-    source: 'Giáo trình 2021, Chương 1, tr. 19',
-    tags: ['Chương 1', 'Bối cảnh']
-  },
-  {
-    id: 'C1-24',
-    chapter: 1,
-    chapterName: 'Chương 1: 1930 – 1945',
-    question: 'Khởi nghĩa Hương Khê (1885–1896) do ai lãnh đạo, là đỉnh cao tiêu biểu nhất của phong trào Cần Vương?',
-    options: [
-      { id: 'A', text: 'Phan Đình Phùng và Cao Thắng' },
-      { id: 'B', text: 'Đinh Công Tráng và Phạm Bành' },
-      { id: 'C', text: 'Nguyễn Thiện Thuật' },
-      { id: 'D', text: 'Hoàng Hoa Thám' }
-    ],
-    answer: 'A',
-    explanation: 'Khởi nghĩa Hương Khê (1885–1896) do Phan Đình Phùng và Cao Thắng lãnh đạo tại Hà Tĩnh, là cuộc khởi nghĩa có quy mô lớn nhất và tiêu biểu nhất của phong trào Cần Vương.',
-    source: 'Giáo trình 2021, Chương 1, tr. 20',
-    tags: ['Chương 1', 'Phong trào yêu nước']
-  },
-  {
-    id: 'C1-25',
-    chapter: 1,
-    chapterName: 'Chương 1: 1930 – 1945',
-    question: 'Khác biệt căn bản trong con đường cứu nước của Phan Bội Châu so với Phan Châu Trinh đầu thế kỷ XX là gì?',
-    options: [
-      { id: 'A', text: 'Phan Bội Châu chủ trương bạo động vũ trang và dựa vào Nhật; Phan Châu Trinh chủ trương cải cách "Khai dân trí, chấn dân khí, hậu dân sinh"' },
-      { id: 'B', text: 'Phan Bội Châu chủ trương dựa vào Pháp; Phan Châu Trinh chủ trương dựa vào Nga' },
-      { id: 'C', text: 'Phan Bội Châu theo khuynh hướng vô sản; Phan Châu Trinh theo khuynh hướng phong kiến' },
-      { id: 'D', text: 'Cả hai đều chủ trương chỉ đấu tranh trên lĩnh vực văn hóa' }
-    ],
-    answer: 'A',
-    explanation: 'Phan Bội Châu chủ trương bạo động vũ trang đánh Pháp (phong trào Đông Du); trong khi Phan Châu Trinh chủ trương cải cách duy tân hòa bình dựa vào Pháp để đánh đổ phong kiến hủ bại.',
-    source: 'Giáo trình 2021, Chương 1, tr. 21-22',
-    tags: ['Chương 1', 'Nhân vật']
-  },
-  {
-    id: 'C1-26',
-    chapter: 1,
-    chapterName: 'Chương 1: 1930 – 1945',
-    question: 'Cuộc khởi nghĩa Yên Bái (2/1930) do tổ chức chính trị nào lãnh đạo với khẩu hiệu nổi tiếng "Không thành công cũng thành nhân"?',
-    options: [
-      { id: 'A', text: 'Tân Việt Cách mạng Đảng' },
-      { id: 'B', text: 'Việt Nam Quốc dân Đảng (Nguyễn Thái Học)' },
-      { id: 'C', text: 'Hội Việt Nam Cách mạng Thanh niên' },
-      { id: 'D', text: 'Đông Dương Cộng sản Đảng' }
-    ],
-    answer: 'B',
-    explanation: 'Việt Nam Quốc dân Đảng do Nguyễn Thái Học lãnh đạo đã phát động khởi nghĩa Yên Bái (9/2/1930). Thất bại của khởi nghĩa này đánh dấu sự phá sản hoàn toàn của khuynh hướng dân chủ tư sản.',
-    source: 'Giáo trình 2021, Chương 1, tr. 23',
-    tags: ['Chương 1', 'Việt Nam Quốc dân Đảng']
-  },
-  {
-    id: 'C1-27',
-    chapter: 1,
-    chapterName: 'Chương 1: 1930 – 1945',
-    question: 'Năm 1925, Nguyễn Ái Quốc đã xuất bản tác phẩm nào tại Pháp vạch trần tội ác dã man của thực dân Pháp đối với các dân tộc thuộc địa?',
-    options: [
-      { id: 'A', text: 'Bản án chế độ thực dân Pháp' },
-      { id: 'B', text: 'Đường Kách mệnh' },
-      { id: 'C', text: 'Con rồng tre' },
-      { id: 'D', text: 'Yêu sách của nhân dân An Nam' }
-    ],
-    answer: 'A',
-    explanation: 'Năm 1925, tác phẩm "Bản án chế độ thực dân Pháp" (Le Procès de la colonisation française) của Nguyễn Ái Quốc được xuất bản tại Paris, gây tiếng vang lớn trên thế giới.',
-    source: 'Giáo trình 2021, Chương 1, tr. 28',
-    tags: ['Chương 1', 'Hồ Chí Minh', 'Tác phẩm']
-  },
-  {
-    id: 'C1-28',
-    chapter: 1,
-    chapterName: 'Chương 1: 1930 – 1945',
-    question: 'Chủ trương "Vô sản hóa" (1928) của Hội Việt Nam Cách mạng Thanh niên nhằm mục đích chính là gì?',
-    options: [
-      { id: 'A', text: 'Đưa hội viên vào các nhà máy, hầm mỏ cùng lao động để truyền bá chủ nghĩa Mác – Lênin và rèn luyện lập trường giai cấp' },
-      { id: 'B', text: 'Tịch thu toàn bộ tài sản của tư sản để lập quỹ cách mạng' },
-      { id: 'C', text: 'Buộc mọi hội viên phải gia nhập công đoàn quốc tế' },
-      { id: 'D', text: 'Kêu gọi công nhân tổng bãi công trên toàn quốc ngay lập tức' }
-    ],
-    answer: 'A',
-    explanation: 'Phong trào Vô sản hóa (1928) đưa cán bộ cách mạng thâm nhập sâu vào các trung tâm công nghiệp để tuyên truyền giác ngộ giai cấp công nhân và thúc đẩy phong trào công nhân phát triển tự giác.',
-    source: 'Giáo trình 2021, Chương 1, tr. 32',
-    tags: ['Chương 1', 'Thanh niên', 'Vô sản hóa']
-  },
-  {
-    id: 'C1-29',
-    chapter: 1,
-    chapterName: 'Chương 1: 1930 – 1945',
-    question: 'Tại Hội nghị hợp nhất thành lập Đảng (đầu năm 1930), Nguyễn Ái Quốc tham dự với tư cách gì?',
-    options: [
-      { id: 'A', text: 'Đại biểu đại diện cho An Nam Cộng sản Đảng' },
-      { id: 'B', text: 'Đại biểu đại diện cho Đông Dương Cộng sản Đảng' },
-      { id: 'C', text: 'Phái viên của Quốc tế Cộng sản có đầy đủ quyền quyết định việc hợp nhất' },
-      { id: 'D', text: 'Quan sát viên danh dự của Đảng Cộng sản Pháp' }
-    ],
-    answer: 'C',
-    explanation: 'Nguyễn Ái Quốc chủ trì Hội nghị với tư cách là phái viên của Quốc tế Cộng sản, có uy tín tuyệt đối và quyền hạn cao nhất để thống nhất các tổ chức cộng sản đang chia rẽ.',
-    source: 'Giáo trình 2021, Chương 1, tr. 38',
-    tags: ['Chương 1', 'Hội nghị thành lập Đảng']
-  },
-  {
-    id: 'C1-30',
-    chapter: 1,
-    chapterName: 'Chương 1: 1930 – 1945',
-    question: 'Những tổ chức cộng sản nào đã trực tiếp cử đại biểu tham dự Hội nghị hợp nhất thành lập Đảng vào đầu năm 1930?',
-    options: [
-      { id: 'A', text: 'Đông Dương Cộng sản Đảng và An Nam Cộng sản Đảng' },
-      { id: 'B', text: 'Đông Dương Cộng sản Đảng và Đông Dương Cộng sản Liên đoàn' },
-      { id: 'C', text: 'An Nam Cộng sản Đảng và Đông Dương Cộng sản Liên đoàn' },
-      { id: 'D', text: 'Cả ba tổ chức cộng sản đều có đại biểu dự họp ngay từ đầu' }
-    ],
-    answer: 'A',
-    explanation: 'Hội nghị ban đầu chỉ gồm đại biểu của Đông Dương CSĐ (Trịnh Đình Cửu, Nguyễn Đức Cảnh) và An Nam CSĐ (Châu Văn Liêm, Nguyễn Thiệu). Đông Dương CS Liên đoàn gia nhập sau đó vào ngày 24/2/1930.',
-    source: 'Giáo trình 2021, Chương 1, tr. 38-39',
-    tags: ['Chương 1', 'Hội nghị thành lập Đảng']
-  },
-  {
-    id: 'C1-31',
-    chapter: 1,
-    chapterName: 'Chương 1: 1930 – 1945',
-    question: 'Tác phẩm "Vấn đề dân cày" (1938) xuất bản công khai trong thời kỳ Mặt trận Dân chủ do hai đồng chí nào biên soạn dưới bút danh Qua Ninh và Vân Đình?',
-    options: [
-      { id: 'A', text: 'Trường Chinh và Võ Nguyên Giáp' },
-      { id: 'B', text: 'Nguyễn Văn Cừ và Hà Huy Tập' },
-      { id: 'C', text: 'Trần Phú và Lê Hồng Phong' },
-      { id: 'D', text: 'Phạm Văn Đồng và Hoàng Văn Thụ' }
-    ],
-    answer: 'A',
-    explanation: 'Tác phẩm "Vấn đề dân cày" do Qua Ninh (Trường Chinh) và Vân Đình (Võ Nguyên Giáp) biên soạn, phân tích sâu sắc thực trạng bóc lột nông dân ở Đông Dương.',
-    source: 'Giáo trình 2021, Chương 1, tr. 71',
-    tags: ['Chương 1', 'Tác phẩm', 'Mặt trận Dân chủ']
-  },
-  {
-    id: 'C1-32',
-    chapter: 1,
-    chapterName: 'Chương 1: 1930 – 1945',
-    question: 'Tác phẩm "Tự chỉ trích" (7/1939) nhằm uốn nắn các lệch lạc tư tưởng và củng cố sự đoàn kết thống nhất trong nội bộ Đảng do ai viết?',
-    options: [
-      { id: 'A', text: 'Trần Phú' },
-      { id: 'B', text: 'Hà Huy Tập' },
-      { id: 'C', text: 'Nguyễn Văn Cừ' },
-      { id: 'D', text: 'Lê Hồng Phong' }
-    ],
-    answer: 'C',
-    explanation: 'Tổng Bí thư Nguyễn Văn Cừ là tác giả cuốn "Tự chỉ trích" (7/1939), nêu cao tinh thần tự phê bình và phê bình trong Đảng.',
-    source: 'Giáo trình 2021, Chương 1, tr. 73',
-    tags: ['Chương 1', 'Nguyễn Văn Cừ', 'Tác phẩm']
-  },
-  {
-    id: 'C1-33',
-    chapter: 1,
-    chapterName: 'Chương 1: 1930 – 1945',
-    question: 'Đề cương về văn hóa Việt Nam (1943) do đồng chí Trường Chinh khởi thảo xác định ba nguyên tắc vận động của nền văn hóa mới là:',
-    options: [
-      { id: 'A', text: 'Dân tộc hóa, Đại chúng hóa, Khoa học hóa' },
-      { id: 'B', text: 'Cách mạng hóa, Hiện đại hóa, Quốc tế hóa' },
-      { id: 'C', text: 'Tiên tiến, Đậm đà bản sắc, Đại chúng' },
-      { id: 'D', text: 'Yêu nước, Đoàn kết, Nhân đạo' }
-    ],
-    answer: 'A',
-    explanation: 'Đề cương về văn hóa Việt Nam năm 1943 khẳng định 3 nguyên tắc nền tảng xây dựng nền văn hóa mới: Dân tộc hóa, Đại chúng hóa và Khoa học hóa.',
-    source: 'Giáo trình 2021, Chương 1, tr. 82',
-    tags: ['Chương 1', 'Văn hóa', 'Trường Chinh']
-  },
-  {
-    id: 'C1-34',
-    chapter: 1,
-    chapterName: 'Chương 1: 1930 – 1945',
-    question: 'Đội Việt Nam Tuyên truyền Giải phóng quân được thành lập vào ngày tháng năm nào, gồm bao nhiêu chiến sĩ ban đầu?',
-    options: [
-      { id: 'A', text: '22/12/1944, gồm 34 chiến sĩ (do Võ Nguyên Giáp chỉ huy)' },
-      { id: 'B', text: '19/8/1945, gồm 100 chiến sĩ' },
-      { id: 'C', text: '15/5/1945, gồm 50 chiến sĩ' },
-      { id: 'D', text: '2/9/1945, gồm 34 chiến sĩ' }
-    ],
-    answer: 'A',
-    explanation: 'Ngày 22/12/1944, tại khu rừng Sam Cao (Nguyên Bình, Cao Bằng), Đội Việt Nam Tuyên truyền Giải phóng quân gồm 34 chiến sĩ được thành lập theo chỉ thị của Hồ Chí Minh.',
-    source: 'Giáo trình 2021, Chương 1, tr. 85',
-    tags: ['Chương 1', 'Quân sự', 'Võ Nguyên Giáp']
-  },
-  {
-    id: 'C1-35',
-    chapter: 1,
-    chapterName: 'Chương 1: 1930 – 1945',
-    question: 'Bốn tỉnh giành được chính quyền sớm nhất cả nước trong Cách mạng Tháng Tám năm 1945 (vào ngày 18/8/1945) là:',
-    options: [
-      { id: 'A', text: 'Bắc Giang, Hải Dương, Hà Tĩnh, Quảng Nam' },
-      { id: 'B', text: 'Hà Nội, Huế, Sài Gòn, Hải Phòng' },
-      { id: 'C', text: 'Cao Bằng, Bắc Kạn, Lạng Sơn, Thái Nguyên' },
-      { id: 'D', text: 'Tuyên Quang, Phú Thọ, Quảng Ngãi, Mỹ Tho' }
-    ],
-    answer: 'A',
-    explanation: 'Bắc Giang, Hải Dương, Hà Tĩnh và Quảng Nam là 4 tỉnh giành chính quyền ở tỉnh lỵ sớm nhất cả nước vào ngày 18/8/1945.',
-    source: 'Giáo trình 2021, Chương 1, tr. 94',
-    tags: ['Chương 1', 'Cách mạng Tháng Tám']
-  },
-  {
-    id: 'C1-36',
-    chapter: 1,
-    chapterName: 'Chương 1: 1930 – 1945',
-    question: 'Vua Bảo Đại tuyên bố thoái vị tại Ngọ Môn (Huế) vào ngày 30/8/1945 với câu nói nổi tiếng nào?',
-    options: [
-      { id: 'A', text: '"Thà làm dân một nước độc lập hơn làm vua một nước nô lệ"' },
-      { id: 'B', text: '"Nước Việt Nam là một, dân tộc Việt Nam là một"' },
-      { id: 'C', text: '"Không có gì quý hơn độc lập tự do"' },
-      { id: 'D', text: '"Giang sơn gấm vóc xin trao lại cho nhân dân"' }
-    ],
-    answer: 'A',
-    explanation: 'Chiều 30/8/1945, tại cửa Ngọ Môn, vua Bảo Đại đọc Chiếu thoái vị và tuyên bố: "Trẫm thà làm dân một nước độc lập hơn làm vua một nước nô lệ", chấm dứt chế độ phong kiến ngàn năm.',
-    source: 'Giáo trình 2021, Chương 1, tr. 95',
-    tags: ['Chương 1', 'Bảo Đại', 'Cách mạng Tháng Tám']
-  },
-
-  // Bổ sung Chương 2 (C2-36 đến C2-50)
-  {
-    id: 'C2-36',
-    chapter: 2,
-    chapterName: 'Chương 2: 1945 – 1975',
-    question: 'Để giải quyết nạn mù chữ cấp bách sau Cách mạng Tháng Tám 1945, Chủ tịch Hồ Chí Minh đã ký sắc lệnh thành lập cơ quan nào vào ngày 8/9/1945?',
-    options: [
-      { id: 'A', text: 'Hội Truyền bá Quốc ngữ' },
-      { id: 'B', text: 'Nha Bình dân học vụ (Sắc lệnh số 17-SL)' },
-      { id: 'C', text: 'Bộ Giáo dục Quốc dân' },
-      { id: 'D', text: 'Ủy ban Chống mù chữ toàn quốc' }
-    ],
-    answer: 'B',
-    explanation: 'Ngày 8/9/1945, Chủ tịch Hồ Chí Minh ký Sắc lệnh số 17-SL thành lập Nha Bình dân học vụ, phát động phong trào xóa mù chữ quy mô lớn trên toàn quốc.',
-    source: 'Giáo trình 2021, Chương 2, tr. 104',
-    tags: ['Chương 2', 'Bình dân học vụ']
-  },
-  {
-    id: 'C2-37',
-    chapter: 2,
-    chapterName: 'Chương 2: 1945 – 1975',
-    question: 'Cuộc Tổng tuyển cử đầu tiên bầu Quốc hội khóa I của nước Việt Nam Dân chủ Cộng hòa diễn ra vào ngày tháng năm nào?',
-    options: [
-      { id: 'A', text: '2/9/1945' },
-      { id: 'B', text: '6/1/1946' },
-      { id: 'C', text: '25/4/1976' },
-      { id: 'D', text: '19/12/1946' }
-    ],
-    answer: 'B',
-    explanation: 'Ngày 6/1/1946, nhân dân cả nước hăng hái đi bỏ phiếu bầu ra 333 đại biểu Quốc hội khóa I, khẳng định tính hợp pháp, chính thống của Nhà nước VNDCCH.',
-    source: 'Giáo trình 2021, Chương 2, tr. 106',
-    tags: ['Chương 2', 'Tổng tuyển cử 1946']
-  },
-  {
-    id: 'C2-38',
-    chapter: 2,
-    chapterName: 'Chương 2: 1945 – 1975',
-    question: 'Tác phẩm "Kháng chiến nhất định thắng lợi" (1947) giải thích đường lối kháng chiến toàn dân, toàn diện, trường kỳ của Đảng do ai soạn thảo?',
-    options: [
-      { id: 'A', text: 'Hồ Chí Minh' },
-      { id: 'B', text: 'Trường Chinh' },
-      { id: 'C', text: 'Võ Nguyên Giáp' },
-      { id: 'D', text: 'Phạm Văn Đồng' }
-    ],
-    answer: 'B',
-    explanation: 'Đồng chí Trường Chinh là tác giả tác phẩm "Kháng chiến nhất định thắng lợi" (xuất bản 9/1947), luận giải đầy đủ đường lối kháng chiến chống thực dân Pháp.',
-    source: 'Giáo trình 2021, Chương 2, tr. 120',
-    tags: ['Chương 2', 'Trường Chinh', 'Tác phẩm']
-  },
-  {
-    id: 'C2-39',
-    chapter: 2,
-    chapterName: 'Chương 2: 1945 – 1975',
-    question: 'Chiến dịch nào trong kháng chiến chống Pháp là chiến dịch tiến công lớn đầu tiên của bộ đội chủ lực ta, khai thông biên giới Việt – Trung?',
-    options: [
-      { id: 'A', text: 'Chiến dịch Việt Bắc Thu Đông (1947)' },
-      { id: 'B', text: 'Chiến dịch Biên giới Thu Đông (1950)' },
-      { id: 'C', text: 'Chiến dịch Hòa Bình (1951)' },
-      { id: 'D', text: 'Chiến dịch Tây Bắc (1952)' }
-    ],
-    answer: 'B',
-    explanation: 'Chiến dịch Biên giới Thu Đông 1950 là chiến dịch tiến công lớn đầu tiên do ta chủ động mở, đập tan hành lang Đông – Tây của Pháp, khai thông biên giới với các nước XHCN.',
-    source: 'Giáo trình 2021, Chương 2, tr. 126',
-    tags: ['Chương 2', 'Chiến dịch Biên giới']
-  },
-  {
-    id: 'C2-40',
-    chapter: 2,
-    chapterName: 'Chương 2: 1945 – 1975',
-    question: 'Đại hội đại biểu toàn quốc lần thứ II của Đảng (2/1951 tại Tuyên Quang) đã quyết định đổi tên Đảng thành gì?',
-    options: [
-      { id: 'A', text: 'Đảng Cộng sản Đông Dương' },
-      { id: 'B', text: 'Đảng Lao động Việt Nam' },
-      { id: 'C', text: 'Đảng Cộng sản Việt Nam' },
-      { id: 'D', text: 'Mặt trận Liên Việt' }
-    ],
-    answer: 'B',
-    explanation: 'Đại hội II (2/1951) quyết định tách Đảng Cộng sản Đông Dương để thành lập ở mỗi nước một đảng riêng; ở Việt Nam Đảng ra hoạt động công khai lấy tên là Đảng Lao động Việt Nam.',
-    source: 'Giáo trình 2021, Chương 2, tr. 132',
-    tags: ['Chương 2', 'Đại hội II', 'Đổi tên Đảng']
-  },
-  {
-    id: 'C2-41',
-    chapter: 2,
-    chapterName: 'Chương 2: 1945 – 1975',
-    question: 'Kế hoạch quân sự Nava do thực dân Pháp và can thiệp Mỹ đề ra năm 1953 nhằm mục đích chính là gì?',
-    options: [
-      { id: 'A', text: 'Xoay chuyển cục diện chiến tranh, hy vọng trong 18 tháng giành lấy thắng lợi quyết định để kết thúc chiến tranh trong danh dự' },
-      { id: 'B', text: 'Rút quân Pháp về nước ngay lập tức để bảo toàn lực lượng' },
-      { id: 'C', text: 'Mở rộng chiến tranh xâm lược sang toàn bộ khu vực Đông Nam Á' },
-      { id: 'D', text: 'Tập trung toàn bộ binh lực đánh chiếm vùng đồng bằng sông Cửu Long' }
-    ],
-    answer: 'A',
-    explanation: 'Kế hoạch Nava (5/1953) là nỗ lực cao nhất của Pháp và Mỹ nhằm xoay chuyển cục diện chiến tranh Đông Dương trong vòng 18 tháng để tìm một lối thoát danh dự.',
-    source: 'Giáo trình 2021, Chương 2, tr. 142',
-    tags: ['Chương 2', 'Kế hoạch Nava']
-  },
-  {
-    id: 'C2-42',
-    chapter: 2,
-    chapterName: 'Chương 2: 1945 – 1975',
-    question: 'Chiến dịch Điện Biên Phủ lịch sử (1954) diễn ra qua bao nhiêu đợt tiến công của quân ta?',
-    options: [
-      { id: 'A', text: '2 đợt' },
-      { id: 'B', text: '3 đợt tiến công (Đợt 1: 13-17/3; Đợt 2: 30/3-30/4; Đợt 3: 1-7/5/1954)' },
-      { id: 'C', text: '4 đợt' },
-      { id: 'D', text: '5 đợt' }
-    ],
-    answer: 'B',
-    explanation: 'Chiến dịch Điện Biên Phủ diễn ra qua 3 đợt tiến công liên tục suốt 56 ngày đêm (từ 13/3 đến 7/5/1954) tiêu diệt hoàn toàn tập đoàn cứ điểm mạnh nhất Đông Dương.',
-    source: 'Giáo trình 2021, Chương 2, tr. 146',
-    tags: ['Chương 2', 'Điện Biên Phủ']
-  },
-  {
-    id: 'C2-43',
-    chapter: 2,
-    chapterName: 'Chương 2: 1945 – 1975',
-    question: 'Tướng chỉ huy tập đoàn cứ điểm Điện Biên Phủ của thực dân Pháp đã bị bắt sống và đầu hàng vào lúc 17h30 ngày 7/5/1954 là ai?',
-    options: [
-      { id: 'A', text: 'Tướng Đờ Cát-xtơ-ri (De Castries)' },
-      { id: 'B', text: 'Tướng Na-va (Navarre)' },
-      { id: 'C', text: 'Tướng Xa-lăng (Salan)' },
-      { id: 'D', text: 'Tướng Lơ-cléc (Leclerc)' }
-    ],
-    answer: 'A',
-    explanation: 'Đúng 17h30 ngày 7/5/1954, toàn bộ cơ quan chỉ huy của tập đoàn cứ điểm Điện Biên Phủ do tướng Đờ Cát-xtơ-ri đứng đầu bị quân ta bắt sống.',
-    source: 'Giáo trình 2021, Chương 2, tr. 148',
-    tags: ['Chương 2', 'Điện Biên Phủ']
-  },
-  {
-    id: 'C2-44',
-    chapter: 2,
-    chapterName: 'Chương 2: 1945 – 1975',
-    question: 'Tác phẩm "Đề cương cách mạng miền Nam" (8/1956) đặt nền móng lý luận cho phong trào cách mạng giải phóng miền Nam do đồng chí nào khởi thảo?',
-    options: [
-      { id: 'A', text: 'Lê Duẩn' },
-      { id: 'B', text: 'Nguyễn Văn Linh' },
-      { id: 'C', text: 'Phạm Hùng' },
-      { id: 'D', text: 'Võ Văn Kiệt' }
-    ],
-    answer: 'A',
-    explanation: 'Bí thư Xứ ủy Nam Bộ Lê Duẩn đã khởi thảo tác phẩm "Đề cương cách mạng miền Nam" (8/1956) tại Sài Gòn, định hướng con đường bạo lực cách mạng giải phóng miền Nam.',
-    source: 'Giáo trình 2021, Chương 2, tr. 165',
-    tags: ['Chương 2', 'Lê Duẩn', 'Đề cương miền Nam']
-  },
-  {
-    id: 'C2-45',
-    chapter: 2,
-    chapterName: 'Chương 2: 1945 – 1975',
-    question: 'Chiến thắng quân sự nào của quân dân ta ở Quảng Ngãi (8/1965) mở đầu cao trào "Tìm Mỹ mà đánh, lùng ngụy mà diệt", được coi là trận "Ấp Bắc đối với quân Mỹ"?',
-    options: [
-      { id: 'A', text: 'Chiến thắng Núi Thành' },
-      { id: 'B', text: 'Chiến thắng Vạn Tường' },
-      { id: 'C', text: 'Chiến thắng Ba Gia' },
-      { id: 'D', text: 'Chiến thắng Đồng Xoài' }
-    ],
-    answer: 'B',
-    explanation: 'Trận Vạn Tường (18/8/1965) chứng minh quân dân miền Nam có đầy đủ khả năng đánh thắng quân viễn chinh Mỹ trong Chiến tranh cục bộ.',
-    source: 'Giáo trình 2021, Chương 2, tr. 195',
-    tags: ['Chương 2', 'Vạn Tường', 'Chiến tranh cục bộ']
-  },
-  {
-    id: 'C2-46',
-    chapter: 2,
-    chapterName: 'Chương 2: 1945 – 1975',
-    question: 'Cuộc Tổng tiến công và nổi dậy Tết Mậu Thân 1968 có ý nghĩa chiến lược quan trọng nhất là gì?',
-    options: [
-      { id: 'A', text: 'Giải phóng hoàn toàn các đô thị lớn ở miền Nam' },
-      { id: 'B', text: 'Làm phá sản chiến lược "Chiến tranh cục bộ", buộc Mỹ phải tuyên bố "phi Mỹ hóa" chiến tranh và chấp nhận ngồi vào bàn đàm phán Paris' },
-      { id: 'C', text: 'Lật đổ chính quyền Việt Nam Cộng hòa của Nguyễn Văn Thiệu' },
-      { id: 'D', text: 'Buộc toàn bộ lính Mỹ rút khỏi miền Nam ngay trong năm 1968' }
-    ],
-    answer: 'B',
-    explanation: 'Tết Mậu Thân 1968 giáng đòn bất ngờ vào trung tâm sào huyệt của đối phương, làm lung lay ý chí xâm lược của chính quyền Washington, mở ra cục diện vừa đánh vừa đàm.',
-    source: 'Giáo trình 2021, Chương 2, tr. 199',
-    tags: ['Chương 2', 'Tết Mậu Thân 1968']
-  },
-  {
-    id: 'C2-47',
-    chapter: 2,
-    chapterName: 'Chương 2: 1945 – 1975',
-    question: 'Trận quyết chiến trên không 12 ngày đêm cuối tháng 12 năm 1972 đập tan cuộc tập kích chiến lược B-52 của Mỹ vào Hà Nội, Hải Phòng được mệnh danh là:',
-    options: [
-      { id: 'A', text: '"Chiến dịch Đường 9 – Nam Lào"' },
-      { id: 'B', text: '"Điện Biên Phủ trên không"' },
-      { id: 'C', text: '"Sấm rền trên bầu trời"' },
-      { id: 'D', text: '"Chiến dịch Linebacker II thất bại"' }
-    ],
-    answer: 'B',
-    explanation: 'Thắng lợi "Điện Biên Phủ trên không" (18–29/12/1972) bắn rơi 81 máy bay Mỹ (trong đó có 34 B-52), đập tan tối hậu thư của Ních-xơn, buộc Mỹ phải ký Hiệp định Pari.',
-    source: 'Giáo trình 2021, Chương 2, tr. 210',
-    tags: ['Chương 2', 'Điện Biên Phủ trên không']
-  },
-  {
-    id: 'C2-48',
-    chapter: 2,
-    chapterName: 'Chương 2: 1945 – 1975',
-    question: 'Trong cuộc Tổng tiến công và nổi dậy mùa Xuân 1975, ba chiến dịch tiến công đòn bẩy chiến lược lần lượt diễn ra là:',
-    options: [
-      { id: 'A', text: 'Chiến dịch Tây Nguyên → Chiến dịch Huế – Đà Nẵng → Chiến dịch Hồ Chí Minh' },
-      { id: 'B', text: 'Chiến dịch Trị Thiên → Chiến dịch Tây Nguyên → Chiến dịch Sài Gòn' },
-      { id: 'C', text: 'Chiến dịch Buôn Ma Thuột → Chiến dịch Phước Long → Chiến dịch Hồ Chí Minh' },
-      { id: 'D', text: 'Chiến dịch Tây Nguyên → Chiến dịch Xuân Lộc → Chiến dịch Hồ Chí Minh' }
-    ],
-    answer: 'A',
-    explanation: 'Cuộc Tổng tiến công và nổi dậy mùa Xuân 1975 diễn ra theo chuỗi 3 chiến dịch chiến lược: Chiến dịch Tây Nguyên (4-24/3), Chiến dịch Huế - Đà Nẵng (21-29/3) và đỉnh cao Chiến dịch Hồ Chí Minh (26-30/4).',
-    source: 'Giáo trình 2021, Chương 2, tr. 222-226',
-    tags: ['Chương 2', 'Đại thắng 1975']
-  },
-  {
-    id: 'C2-49',
-    chapter: 2,
-    chapterName: 'Chương 2: 1945 – 1975',
-    question: 'Đòn "điểm huyệt" mở màn thắng lợi rực rỡ cho Chiến dịch Tây Nguyên (tháng 3/1975) là trận đánh then chốt vào thị xã nào?',
-    options: [
-      { id: 'A', text: 'Thị xã Buôn Ma Thuột (ngày 10/3/1975)' },
-      { id: 'B', text: 'Thị xã Pleiku' },
-      { id: 'C', text: 'Thị xã Kon Tum' },
-      { id: 'D', text: 'Thị xã An Lộc' }
-    ],
-    answer: 'A',
-    explanation: 'Đòn tiến công giải phóng Buôn Ma Thuột ngày 10/3/1975 đánh trúng mắt xích hiểm yếu nhất, làm sụp đổ toàn bộ hệ thống phòng thủ của quân ngụy ở Tây Nguyên.',
-    source: 'Giáo trình 2021, Chương 2, tr. 223',
-    tags: ['Chương 2', 'Buôn Ma Thuột', 'Tây Nguyên']
-  },
-  {
-    id: 'C2-50',
-    chapter: 2,
-    chapterName: 'Chương 2: 1945 – 1975',
-    question: 'Chiến dịch giải phóng Sài Gòn – Gia Định được Bộ Chính trị Trung ương Đảng quyết định mang tên "Chiến dịch Hồ Chí Minh" vào ngày nào?',
-    options: [
-      { id: 'A', text: '14/4/1975' },
-      { id: 'B', text: '26/4/1975' },
-      { id: 'C', text: '30/4/1975' },
-      { id: 'D', text: '1/5/1975' }
-    ],
-    answer: 'A',
-    explanation: 'Ngày 14/4/1975, Bộ Chính trị gửi bức điện lịch sử đồng ý chiến dịch giải phóng Sài Gòn mang tên "Chiến dịch Hồ Chí Minh".',
-    source: 'Giáo trình 2021, Chương 2, tr. 226',
-    tags: ['Chương 2', 'Chiến dịch Hồ Chí Minh']
-  },
-
-  // Bổ sung Chương 3 (C3-34 đến C3-43)
-  {
-    id: 'C3-34',
-    chapter: 3,
-    chapterName: 'Chương 3: 1975 – 2018',
-    question: 'Hội nghị Trung ương 6 khóa IV (tháng 8/1979) đánh dấu bước đột phá đầu tiên tìm tòi đường lối đổi mới kinh tế của Đảng với chủ trương nổi bật nào?',
-    options: [
-      { id: 'A', text: 'Xóa bỏ ngay lập tức toàn bộ các hợp tác xã nông nghiệp' },
-      { id: 'B', text: '"Làm cho sản xuất bung ra", tận dụng năng lực sản xuất của các thành phần kinh tế' },
-      { id: 'C', text: 'Tư nhân hóa toàn bộ doanh nghiệp nhà nước' },
-      { id: 'D', text: 'Mở cửa hoàn toàn cho các nhà đầu tư nước ngoài' }
-    ],
-    answer: 'B',
-    explanation: 'Hội nghị TW 6 khóa IV (8/1979) là bước đột phá mở đầu quá trình tìm tòi đổi mới, cho phép khắc phục tình trạng ngăn sông cấm chợ, "làm cho sản xuất bung ra".',
-    source: 'Giáo trình 2021, Chương 3, tr. 248',
-    tags: ['Chương 3', 'Tiền Đổi mới']
-  },
-  {
-    id: 'C3-35',
-    chapter: 3,
-    chapterName: 'Chương 3: 1975 – 2018',
-    question: 'Chỉ thị số 100-CT/TW (tháng 1/1981) của Ban Bí thư Trung ương Đảng (Khoán 100) đưa ra chủ trương đột phá gì trong nông nghiệp?',
-    options: [
-      { id: 'A', text: 'Khoán sản phẩm đến nhóm lao động và người lao động trong hợp tác xã nông nghiệp' },
-      { id: 'B', text: 'Giao toàn bộ ruộng đất thành sở hữu tư nhân' },
-      { id: 'C', text: 'Chuyển đổi toàn bộ đất lúa sang nuôi trồng thủy sản' },
-      { id: 'D', text: 'Xóa bỏ các hình thức khoán việc truyền thống' }
-    ],
-    answer: 'A',
-    explanation: 'Chỉ thị 100-CT/TW (Khoán 100, 13/1/1981) gắn trách nhiệm và lợi ích của người lao động trực tiếp với sản phẩm cuối cùng, tạo động lực sản xuất lớn trong nông nghiệp.',
-    source: 'Giáo trình 2021, Chương 3, tr. 250',
-    tags: ['Chương 3', 'Khoán 100', 'Nông nghiệp']
-  },
-  {
-    id: 'C3-36',
-    chapter: 3,
-    chapterName: 'Chương 3: 1975 – 2018',
-    question: 'Ba chương trình kinh tế lớn được Đại hội lần thứ VI của Đảng (12/1986) đề ra cho chặng đường đầu tiên của thời kỳ quá độ là:',
-    options: [
-      { id: 'A', text: 'Lương thực – thực phẩm, Hàng tiêu dùng, Hàng xuất khẩu' },
-      { id: 'B', text: 'Công nghiệp nặng, Giao thông vận tải, Năng lượng' },
-      { id: 'C', text: 'Cải cách hành chính, Đổi mới giáo dục, Y tế' },
-      { id: 'D', text: 'Xóa đói giảm nghèo, Đô thị hóa, Xây dựng nông thôn mới' }
-    ],
-    answer: 'A',
-    explanation: 'Đại hội VI (12/1986) điều chỉnh chiến lược kinh tế, tập trung nguồn lực thực hiện bằng được ba chương trình kinh tế lớn: Lương thực - thực phẩm, Hàng tiêu dùng và Hàng xuất khẩu.',
-    source: 'Giáo trình 2021, Chương 3, tr. 268',
-    tags: ['Chương 3', 'Đại hội VI', 'Đổi mới']
-  },
-  {
-    id: 'C3-37',
-    chapter: 3,
-    chapterName: 'Chương 3: 1975 – 2018',
-    question: 'Nghị quyết số 10-NQ/TW (Khoán 10) ngày 5/4/1988 của Bộ Chính trị có nội dung đột phá nào về kinh tế nông nghiệp?',
-    options: [
-      { id: 'A', text: 'Thừa nhận hộ gia đình là đơn vị kinh tế tự chủ, giao khoán đất ổn định lâu dài' },
-      { id: 'B', text: 'Thành lập các nông trường quốc doanh quy mô tập trung' },
-      { id: 'C', text: 'Tập trung hóa công tác phân phối lương thực về Nhà nước' },
-      { id: 'D', text: 'Cấm chuyển nhượng quyền sử dụng đất nông nghiệp' }
-    ],
-    answer: 'A',
-    explanation: 'Nghị quyết 10 của Bộ Chính trị (Khoán 10, 5/4/1988) khẳng định hộ gia đình là đơn vị kinh tế tự chủ, cởi trói sức sản xuất, đưa Việt Nam từ thiếu đói trở thành nước xuất khẩu gạo.',
-    source: 'Giáo trình 2021, Chương 3, tr. 272',
-    tags: ['Chương 3', 'Khoán 10', 'Nông nghiệp']
-  },
-  {
-    id: 'C3-38',
-    chapter: 3,
-    chapterName: 'Chương 3: 1975 – 2018',
-    question: 'Trong Cương lĩnh xây dựng đất nước năm 1991, Đảng xác định con đường đi lên CNXH ở nước ta là quá độ bỏ qua chế độ tư bản chủ nghĩa, nghĩa là:',
-    options: [
-      { id: 'A', text: 'Bỏ qua việc xác lập vị trí thống trị của quan hệ sản xuất và kiến trúc thượng tầng TBCN' },
-      { id: 'B', text: 'Bỏ qua hoàn toàn nền văn minh công nghiệp và thành tựu nhân loại' },
-      { id: 'C', text: 'Xóa bỏ ngay lập tức mọi hình thức tư hữu và kinh tế thị trường' },
-      { id: 'D', text: 'Đóng cửa nền kinh tế, không giao thương với các nước tư bản' }
-    ],
-    answer: 'A',
-    explanation: 'Quá độ bỏ qua chế độ tư bản chủ nghĩa là bỏ qua việc xác lập vị trí thống trị của QHSX và KTTT TBCN, nhưng tiếp thu, kế thừa những thành tựu mà nhân loại đã đạt được dưới CNTB.',
-    source: 'Giáo trình 2021, Chương 3, tr. 288',
-    tags: ['Chương 3', 'Cương lĩnh 1991', 'Quá độ']
-  },
-  {
-    id: 'C3-39',
-    chapter: 3,
-    chapterName: 'Chương 3: 1975 – 2018',
-    question: 'Việt Nam chính thức thiết lập quan hệ ngoại giao và bình thường hóa quan hệ với Hợp chúng quốc Hoa Kỳ vào thời gian nào?',
-    options: [
-      { id: 'A', text: 'Tháng 7 năm 1995 (ngày 11/7 và 12/7/1995)' },
-      { id: 'B', text: 'Tháng 1 năm 2000' },
-      { id: 'C', text: 'Tháng 12 năm 1991' },
-      { id: 'D', text: 'Tháng 11 năm 2007' }
-    ],
-    answer: 'A',
-    explanation: 'Ngày 11/7/1995 (giờ Mỹ), Tổng thống Bill Clinton tuyên bố bình thường hóa quan hệ; ngày 12/7/1995 (giờ VN), Thủ tướng Võ Văn Kiệt tuyên bố thiết lập quan hệ ngoại giao đầy đủ với Hoa Kỳ.',
-    source: 'Giáo trình 2021, Chương 3, tr. 302',
-    tags: ['Chương 3', 'Đối ngoại', 'Bình thường hóa']
-  },
-  {
-    id: 'C3-40',
-    chapter: 3,
-    chapterName: 'Chương 3: 1975 – 2018',
-    question: 'Việt Nam chính thức trở thành thành viên thứ 7 của Hiệp hội các quốc gia Đông Nam Á (ASEAN) vào ngày tháng năm nào?',
-    options: [
-      { id: 'A', text: '28/7/1995 (tại Hội nghị Bộ trưởng Ngoại giao ASEAN ở Brunei)' },
-      { id: 'B', text: '8/8/1995' },
-      { id: 'C', text: '11/1/2007' },
-      { id: 'D', text: '23/10/1991' }
-    ],
-    answer: 'A',
-    explanation: 'Ngày 28/7/1995, tại Brunei, Việt Nam chính thức gia nhập ASEAN, mở ra kỷ nguyên hội nhập khu vực toàn diện.',
-    source: 'Giáo trình 2021, Chương 3, tr. 303',
-    tags: ['Chương 3', 'ASEAN', 'Hội nhập']
-  },
-  {
-    id: 'C3-41',
-    chapter: 3,
-    chapterName: 'Chương 3: 1975 – 2018',
-    question: 'Nghị quyết Trung ương 4 khóa XII (30/10/2016) đã nhận diện và kiên quyết ngăn chặn, đẩy lùi bao nhiêu biểu hiện suy thoái và "tự diễn biến", "tự chuyển hóa"?',
-    options: [
-      { id: 'A', text: '10 biểu hiện' },
-      { id: 'B', text: '18 biểu hiện' },
-      { id: 'C', text: '27 biểu hiện (9 tư tưởng chính trị, 9 đạo đức lối sống, 9 tự diễn biến tự chuyển hóa)' },
-      { id: 'D', text: '36 biểu hiện' }
-    ],
-    answer: 'C',
-    explanation: 'NQ TW 4 khóa XII chỉ rõ 27 biểu hiện cụ thể suy thoái về tư tưởng chính trị, đạo đức, lối sống và các biểu hiện "tự diễn biến", "tự chuyển hóa" trong nội bộ.',
-    source: 'Giáo trình 2021, Chương 3, tr. 352',
-    tags: ['Chương 3', 'Xây dựng Đảng', 'NQ TW 4']
-  },
-  {
-    id: 'C3-42',
-    chapter: 3,
-    chapterName: 'Chương 3: 1975 – 2018',
-    question: 'Cương lĩnh xây dựng đất nước trong thời kỳ quá độ (bổ sung, phát triển năm 2011) xác định xã hội XHCN mà nhân dân ta xây dựng có bao nhiêu đặc trưng cơ bản?',
-    options: [
-      { id: 'A', text: '6 đặc trưng' },
-      { id: 'B', text: '7 đặc trưng' },
-      { id: 'C', text: '8 đặc trưng cơ bản' },
-      { id: 'D', text: '10 đặc trưng' }
-    ],
-    answer: 'C',
-    explanation: 'Cương lĩnh 2011 xác lập hệ thống 8 đặc trưng của xã hội XHCN ở Việt Nam (so với 6 đặc trưng của Cương lĩnh 1991).',
-    source: 'Giáo trình 2021, Chương 3, tr. 338',
-    tags: ['Chương 3', 'Cương lĩnh 2011', 'Đặc trưng']
-  },
-  {
-    id: 'C3-43',
-    chapter: 3,
-    chapterName: 'Chương 3: 1975 – 2018',
-    question: 'Cương lĩnh 2011 xác định Nhà nước pháp quyền xã hội chủ nghĩa của nhân dân, do nhân dân, vì nhân dân đặt dưới sự lãnh đạo của ai?',
-    options: [
-      { id: 'A', text: 'Quốc hội nước CHXHCN Việt Nam' },
-      { id: 'B', text: 'Đảng Cộng sản Việt Nam' },
-      { id: 'C', text: 'Mặt trận Tổ quốc Việt Nam' },
-      { id: 'D', text: 'Tòa án nhân dân tối cao' }
-    ],
-    answer: 'B',
-    explanation: 'Đặc trưng thứ 7 của Cương lĩnh 2011 khẳng định: Có Nhà nước pháp quyền XHCN của nhân dân, do nhân dân, vì nhân dân do Đảng Cộng sản lãnh đạo.',
-    source: 'Giáo trình 2021, Chương 3, tr. 339',
-    tags: ['Chương 3', 'Nhà nước pháp quyền']
-  },
-
-  // Bổ sung Chương Mở rộng (TL-11 đến TL-15)
-  {
-    id: 'TL-11',
-    chapter: 4,
-    chapterName: 'Chương mở rộng: 2018 – 2026',
-    question: 'Trong công tác đấu tranh phòng, chống tham nhũng, tiêu cực, mục tiêu "4 không" được Tổng Bí thư Nguyễn Phú Trọng nhấn mạnh là:',
-    options: [
-      { id: 'A', text: 'Không thể, không dám, không muốn, không cần tham nhũng' },
-      { id: 'B', text: 'Không vùng cấm, không ngoại lệ, không nể nang, không can thiệp' },
-      { id: 'C', text: 'Không chậm trễ, không bao che, không khoan nhượng, không dung thứ' },
-      { id: 'D', text: 'Không tố giác, không xử phạt, không thanh tra, không kiểm tra' }
-    ],
-    answer: 'A',
-    explanation: 'Xây dựng cơ chế phòng ngừa chặt chẽ để "không thể tham nhũng", cơ chế răn đe nghiêm khắc để "không dám tham nhũng", giáo dục đạo đức để "không muốn tham nhũng" và chính sách đãi ngộ thỏa đáng để "không cần tham nhũng".',
-    source: 'Tác phẩm của TBT Nguyễn Phú Trọng về PCTN, tr. 45-48',
-    tags: ['Chương mở rộng', 'PCTN', 'Nguyễn Phú Trọng']
-  },
-  {
-    id: 'TL-12',
-    chapter: 4,
-    chapterName: 'Chương mở rộng: 2018 – 2026',
-    question: 'Đại hội XIII của Đảng (2021) xác định mốc năm 2045 là năm kỷ niệm sự kiện lịch sử trọng đại nào của đất nước?',
-    options: [
-      { id: 'A', text: 'Kỷ niệm 100 năm thành lập Đảng Cộng sản Việt Nam (1930 – 2030)' },
-      { id: 'B', text: 'Kỷ niệm 100 năm thành lập nước Việt Nam Dân chủ Cộng hòa, nay là nước CHXHCN Việt Nam (1945 – 2045)' },
-      { id: 'C', text: 'Kỷ niệm 70 năm Chiến thắng Điện Biên Phủ' },
-      { id: 'D', text: 'Kỷ niệm 70 năm ngày giải phóng hoàn toàn miền Nam' }
-    ],
-    answer: 'B',
-    explanation: 'Năm 2045 là dấu mốc kỷ niệm 100 năm thành lập nước, với mục tiêu trở thành nước phát triển, thu nhập cao.',
-    source: 'Văn kiện Đại hội XIII, Tập 1, tr. 112',
-    tags: ['Chương mở rộng', 'Đại hội XIII', 'Tầm nhìn 2045']
-  },
-  {
-    id: 'TL-13',
-    chapter: 4,
-    chapterName: 'Chương mở rộng: 2018 – 2026',
-    question: 'Nghị quyết số 59-NQ/TW của Bộ Chính trị trong "bộ tứ trụ cột" tập trung vào nội dung chiến lược nào?',
-    options: [
-      { id: 'A', text: 'Định hướng chiến lược hội nhập quốc tế toàn diện, sâu rộng trong giai đoạn mới' },
-      { id: 'B', text: 'Đột phá phát triển khoa học công nghệ' },
-      { id: 'C', text: 'Phát triển kinh tế tư nhân' },
-      { id: 'D', text: 'Đổi mới công tác lập pháp' }
-    ],
-    answer: 'A',
-    explanation: 'NQ 59-NQ/TW của Bộ Chính trị xác định định hướng chiến lược tham gia hội nhập quốc tế toàn diện, sâu rộng trong giai đoạn phát triển mới.',
-    source: 'Văn kiện Nghị quyết Bộ Chính trị (2025)',
-    tags: ['Chương mở rộng', 'Bộ tứ trụ cột', 'Hội nhập']
-  },
-  {
-    id: 'TL-14',
-    chapter: 4,
-    chapterName: 'Chương mở rộng: 2018 – 2026',
-    question: 'Nghị quyết số 66-NQ/TW của Bộ Chính trị trong "bộ tứ trụ cột" tập trung vào đột phá nào sau đây?',
-    options: [
-      { id: 'A', text: 'Đổi mới mạnh mẽ công tác xây dựng, hoàn thiện thể chế và hệ thống pháp luật kiến tạo phát triển' },
-      { id: 'B', text: 'Xây dựng kết cấu hạ tầng giao thông tốc độ cao' },
-      { id: 'C', text: 'Chuyển đổi số trong ngành giáo dục đại học' },
-      { id: 'D', text: 'Hiện đại hóa lực lượng vũ trang nhân dân' }
-    ],
-    answer: 'A',
-    explanation: 'NQ 66-NQ/TW nhấn mạnh đột phá đổi mới tư duy lập pháp: xây dựng pháp luật kiến tạo phát triển, dỡ bỏ mọi rào cản thể chế kìm hãm nguồn lực.',
-    source: 'Văn kiện Nghị quyết Bộ Chính trị (2025)',
-    tags: ['Chương mở rộng', 'Bộ tứ trụ cột', 'Thể chế pháp luật']
-  },
-  {
-    id: 'TL-15',
-    chapter: 4,
-    chapterName: 'Chương mở rộng: 2018 – 2026',
-    question: 'Đại hội XIV của Đảng (1/2026) xác định yếu tố nào là động lực chính của mô hình tăng trưởng mới?',
-    options: [
-      { id: 'A', text: 'Khai thác tài nguyên thiên nhiên và tăng trưởng dựa vào xuất khẩu thô' },
-      { id: 'B', text: 'Khoa học, công nghệ, đổi mới sáng tạo và chuyển đổi số quốc gia' },
-      { id: 'C', text: 'Dựa chủ yếu vào nguồn vốn vay ODA nước ngoài' },
-      { id: 'D', text: 'Gia tăng nguồn lao động phổ thông giá rẻ' }
-    ],
-    answer: 'B',
-    explanation: 'Đại hội XIV xác định chuyển mạnh mô hình tăng trưởng sang năng suất, chất lượng và hiệu quả, lấy khoa học công nghệ, đổi mới sáng tạo và chuyển đổi số quốc gia là động lực chính.',
-    source: 'Văn kiện Đại hội XIV (1/2026)',
-    tags: ['Chương mở rộng', 'Đại hội XIV', 'Động lực phát triển']
-  }
-];
-
-// Combine questions
-const allQuestions = [...questions, ...EXTRA_QUESTIONS];
-console.log('Total questions combined:', allQuestions.length);
+const allQuestions = parse700Questions();
+console.log('Total official questions loaded:', allQuestions.length);
 
 // 3. Congresses Dataset
 const CONGRESSES = [

@@ -3,3 +3,9 @@ node_modules/
 .DS_Store
 Thumbs.db
 *.log
+
+# Tài liệu tham khảo, ngân hàng câu hỏi & ghi chú (.md) - Không push lên Git
+docs/
+tai_lieu/
+*.md
+!README.md

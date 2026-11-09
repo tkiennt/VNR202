@@ -1,18 +1,44 @@
-# 📘 HỆ THỐNG ÔN TẬP & LUYỆN THI VNR202 (LỊCH SỬ ĐẢNG CỘNG SẢN VIỆT NAM)
+# HỆ THỐNG KHẢO THÍ & ÔN TẬP VNR202 (LỊCH SỬ ĐẢNG CỘNG SẢN VIỆT NAM)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![GitHub Pages](https://img.shields.io/badge/Deploy-GitHub%20Pages-success.svg)](https://tkiennt.github.io/VNR202/)
 
-> **Website ôn tập và luyện thi trắc nghiệm học phần VNR202 dành cho sinh viên Đại học FPT**  
-> Giao diện chuẩn Academic Light Theme (sạch sẽ, độ tương phản cao, tối ưu khả năng đọc, không dùng AI Slop), tích hợp 100 câu trắc nghiệm chuẩn, 15 kỳ Đại hội, 5 bảng đối chiếu cốt lõi, 35 flashcards phản xạ và giải mã các câu hỏi bẫy thi.
+> **Website khảo thí và ôn tập trắc nghiệm học phần VNR202 chuẩn Đại học FPT**  
+> Giao diện Academic Light Theme chuẩn mực (trang nhã, độ tương phản cao, tối ưu đọc hiểu, không emoji rườm rà), tích hợp ngân hàng 700 câu trắc nghiệm chuẩn giáo trình 2021, cấu trúc đề thi Progress Test (PT) & Final Exam (FE), 15 kỳ Đại hội, 6 bảng đối chiếu chuyên đề, 67 thẻ ghi nhớ phản xạ và 18 nguồn kiểm chứng trực tuyến.
 
 🌐 **Trải nghiệm trực tuyến (Live Demo):** [https://tkiennt.github.io/VNR202/](https://tkiennt.github.io/VNR202/)
 
 ---
 
-## ⚖️ TUYÊN BỐ BẢN QUYỀN & MIỄN TRỪ TRÁCH NHIỆM (DISCLAIMER)
+## CẤU TRÚC DỰ ÁN (PHÂN ĐỊNH MÃ NGUỒN VÀ TÀI LIỆU)
 
-> ⚠️ **LƯU Ý QUAN TRỌNG:**
+Dự án được phân định rõ ràng giữa **Mã nguồn chạy ứng dụng** (được đẩy lên Git) và **Tài liệu học tập / Ghi chú thô** (được giữ cục bộ trong `docs/` và được loại trừ bởi `.gitignore`):
+
+### 1. Mã nguồn ứng dụng (Source Code — Tracked on Git)
+* `index.html`: Cấu trúc trang web khảo thí, chia theo các tab chức năng.
+* `style.css`: Hệ số thiết kế CSS chuẩn học thuật (Academic Light Theme, độ tương phản cao, layout responsive).
+* `app.js`: Toàn bộ logic ứng dụng:
+  * Chế độ *Luyện tập (Practice)*: Phản hồi tức thì (Instant feedback), tô màu xanh/đỏ tại chỗ, đối chiếu giáo trình không giật trang.
+  * Chế độ *Progress Test (PT)*: 25 câu (13 Chương 1 + 12 Chương 2), thời gian 20 phút, trọng số 20%.
+  * Chế độ *Final Exam (FE)*: 60 câu (20 C1 + 20 C2 + 20 C3), thời gian 60 phút, trọng số 30%, tính điểm thang 10 và xét Pass/Fail (&ge; 4.0).
+  * Chế độ *Ôn câu làm sai* & *Đánh dấu sao*.
+  * Bộ máy tìm kiếm toàn trang (`Ctrl + K`).
+* `app_data.js`: Dữ liệu tĩnh đã biên dịch: 700 câu trắc nghiệm, 15 kỳ Đại hội, 67 flashcards, 11 bẫy thi, 50 mốc son và 18 nguồn đối chiếu trực tuyến.
+* `study_data.js`: Dữ liệu nội dung lý thuyết các chương theo chuẩn đầu ra CLO.
+* `generate_app_data.js` & `build_study_data.js`: Script tự động biên dịch dữ liệu từ thư mục `docs/`.
+* `server.js`: Web server Node.js phục vụ chạy thử nghiệm cục bộ.
+
+### 2. Tài liệu & Ngân hàng câu hỏi gốc (Documentation — Local in `docs/`, Untracked)
+Toàn bộ các file tài liệu Markdown (`.md`) được gom vào thư mục `docs/` và không push lên Git (theo cấu hình `.gitignore`):
+* `docs/ngan_hang_700_cau_trac_nghiem_lsd.md`: Ngân hàng 700 câu hỏi trắc nghiệm gốc kèm đáp án và giải thích.
+* `docs/lich_su_dang_bo_kien_thuc_day_du.md`: Bộ tổng hợp kiến thức đầy đủ toàn môn.
+* `docs/part0.md` &ndash; `docs/part4.md`: Đề cương chi tiết từng chương.
+* `docs/on_tap_lich_su_dang.md` & `docs/tl.md`: Tài liệu ôn thi và ma trận đối chiếu gốc.
+
+---
+
+## TUYÊN BỐ BẢN QUYỀN & MIỄN TRỪ TRÁCH NHIỆM (DISCLAIMER)
+
 > 1. **Bản quyền toàn bộ các câu hỏi trắc nghiệm, nội dung giáo trình, văn kiện và dữ liệu học tập KHÔNG THUỘC VỀ TÁC GIẢ của kho mã nguồn này.**
 > 2. Các câu hỏi và nội dung được trích xuất, tổng hợp từ ngân hàng câu hỏi ôn tập, đề cương môn học **VNR202 tại Trường Đại học FPT** và các tài liệu chính thống của Bộ GD&ĐT nhằm mục đích **học tập cá nhân, ôn thi phi thương mại (Educational / Fair Use)**.
 > 3. Tác giả chỉ sở hữu bản quyền phần mã nguồn giao diện (HTML/CSS/JavaScript) được cấp phép theo giấy phép [MIT License](LICENSE).

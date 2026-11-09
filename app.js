@@ -20,15 +20,15 @@
     fcMastered: JSON.parse(localStorage.getItem('vnr_fc_mastered') || '[]'),
 
     // Quiz state
-    quizMode: 'practice', // 'practice' | 'exam' | 'wrong' | 'starred'
-    quizChapterFilter: 'all', // 'all' | 1 | 2 | 3 | 4
+    quizMode: 'practice', // 'practice' | 'exam-pt' | 'exam-fe' | 'wrong' | 'starred'
+    quizChapterFilter: 'all', // 'all' | '1' | '2' | '3'
     quizQuestions: [],
     userAnswers: {}, // { [qId]: 'A' }
     starredQuestions: JSON.parse(localStorage.getItem('vnr_starred') || '[]'),
     wrongQuestions: JSON.parse(localStorage.getItem('vnr_wrong') || '[]'),
-    examDurationMinutes: 30,
+    examDurationMinutes: 20,
     examTimer: null,
-    examTimeRemaining: 1800, // in seconds
+    examTimeRemaining: 1200, // in seconds
     examSubmitted: false,
     examScore: null,
 
@@ -100,6 +100,8 @@
     elements.quizSubmitBtn = document.querySelector('#quiz-submit-btn');
     elements.quizResetBtn = document.querySelector('#quiz-reset-btn');
     elements.quizScoreResultCard = document.querySelector('#quiz-score-result-card');
+    elements.quizExamSpec = document.querySelector('#quiz-exam-spec');
+    elements.quizChapFilterBar = document.querySelector('#quiz-chap-filter-bar');
 
     // Pitfalls
     elements.pitfallsContainer = document.querySelector('#pitfalls-container');
@@ -400,14 +402,14 @@
     elements.fcBoxWrap.classList.remove('flipped');
 
     elements.fcFrontText.textContent = card.front;
-    elements.fcBackText.innerHTML = card.back + (isMastered ? '<div style="margin-top:0.75rem; color:var(--status-success); font-weight:700">✓ Bạn đã ghi nhớ thẻ này</div>' : '');
+    elements.fcBackText.innerHTML = card.back + (isMastered ? '<div style="margin-top:0.75rem; color:var(--status-success); font-weight:700">✓ Đã ghi nhớ thẻ này</div>' : '');
     elements.fcCategoryBadge.textContent = card.category;
-    elements.fcHintText.textContent = `💡 Gợi ý: ${card.hint}`;
+    elements.fcHintText.textContent = `Gợi ý: ${card.hint}`;
     elements.fcCounter.textContent = `${state.fcIndex + 1} / ${state.fcCards.length}`;
 
     // Update Master button label
     if (elements.fcMasterBtn) {
-      elements.fcMasterBtn.innerHTML = isMastered ? '✓ Đã thuộc' : '☆ Đánh dấu đã thuộc';
+      elements.fcMasterBtn.innerHTML = isMastered ? '✓ Đã thuộc' : 'Đánh dấu đã thuộc';
       if (isMastered) {
         elements.fcMasterBtn.classList.add('memorized');
       } else {
@@ -471,7 +473,7 @@
   }
 
   // ==========================================================================
-  // VIEW 5: QUIZ ENGINE (100 CÂU HỎI CHUẨN)
+  // VIEW 5: QUIZ ENGINE (700 CÂU HỎI & KHẢO THÍ CHUẨN FPT)
   // ==========================================================================
   function prepareQuizQuestions() {
     let pool = [...DATA.QUESTIONS];
@@ -479,14 +481,37 @@
     // Filter by mode
     if (state.quizMode === 'wrong') {
       pool = pool.filter(q => state.wrongQuestions.includes(q.id));
-    } else if (state.quizMode === 'starred') {
+      state.quizQuestions = pool;
+      return;
+    }
+    
+    if (state.quizMode === 'starred') {
       pool = pool.filter(q => state.starredQuestions.includes(q.id));
-    } else if (state.quizMode === 'exam') {
-      // 40 questions random simulation or select 40
-      pool = pool.sort(() => 0.5 - Math.random()).slice(0, 40);
+      state.quizQuestions = pool;
+      return;
     }
 
-    // Filter by chapter if in practice mode
+    if (state.quizMode === 'exam-pt') {
+      // Progress Test FPT: 25 questions total (Chương 1 & Chương 2: LO1, LO2, LO4, LO5, LO6, LO8, LO9)
+      // Tỷ lệ phân bổ: 13 câu Chương 1 + 12 câu Chương 2
+      const c1Pool = pool.filter(q => q.chapter === 1).sort(() => 0.5 - Math.random());
+      const c2Pool = pool.filter(q => q.chapter === 2).sort(() => 0.5 - Math.random());
+      const selected = [...c1Pool.slice(0, 13), ...c2Pool.slice(0, 12)].sort(() => 0.5 - Math.random());
+      state.quizQuestions = selected;
+      return;
+    }
+
+    if (state.quizMode === 'exam-fe') {
+      // Final Exam FPT: 60 questions total (Tất cả 3 chương: Chương 1: 20 câu, Chương 2: 20 câu, Chương 3: 20 câu)
+      const c1Pool = pool.filter(q => q.chapter === 1).sort(() => 0.5 - Math.random());
+      const c2Pool = pool.filter(q => q.chapter === 2).sort(() => 0.5 - Math.random());
+      const c3Pool = pool.filter(q => q.chapter === 3).sort(() => 0.5 - Math.random());
+      const selected = [...c1Pool.slice(0, 20), ...c2Pool.slice(0, 20), ...c3Pool.slice(0, 20)].sort(() => 0.5 - Math.random());
+      state.quizQuestions = selected;
+      return;
+    }
+
+    // Practice mode - Filter by chapter if chosen
     if (state.quizMode === 'practice' && state.quizChapterFilter !== 'all') {
       const chapNum = parseInt(state.quizChapterFilter, 10);
       pool = pool.filter(q => q.chapter === chapNum);
@@ -501,8 +526,54 @@
     // Render palette
     renderQuizPalette();
 
+    const isExam = state.quizMode === 'exam-pt' || state.quizMode === 'exam-fe';
+
+    // Handle Exam Spec Banner
+    if (elements.quizExamSpec) {
+      if (state.quizMode === 'exam-pt') {
+        elements.quizExamSpec.style.display = 'block';
+        elements.quizExamSpec.innerHTML = `
+          <div style="padding:1.25rem">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem; margin-bottom:0.5rem">
+              <strong style="color:var(--brand-crimson); font-size:1.05rem">CẤU TRÚC ĐỀ THI PROGRESS TEST (PT) — ĐẠI HỌC FPT</strong>
+              <span class="badge-tag" style="background:#fee2e2; color:#b91c1c; font-weight:700">Trọng số: 20%</span>
+            </div>
+            <p style="font-size:0.88rem; color:var(--text-secondary); margin:0 0 0.5rem 0; line-height:1.5">
+              <strong>Số lượng:</strong> 25 câu trắc nghiệm (Chương 1: 13 câu • Chương 2: 12 câu) | <strong>Thời gian:</strong> 20 phút | <strong>Chuẩn đầu ra:</strong> LO1, LO2, LO4, LO5, LO6, LO8, LO9.
+            </p>
+            <p style="font-size:0.82rem; color:var(--text-muted); margin:0">
+              Quy chế thi: Sinh viên không được sử dụng tài liệu. Hệ thống sẽ tự động nộp bài khi hết giờ và đối soát chuẩn điểm Pass (&ge; 4.0 / 10.0).
+            </p>
+          </div>
+        `;
+      } else if (state.quizMode === 'exam-fe') {
+        elements.quizExamSpec.style.display = 'block';
+        elements.quizExamSpec.innerHTML = `
+          <div style="padding:1.25rem">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem; margin-bottom:0.5rem">
+              <strong style="color:var(--brand-crimson); font-size:1.05rem">CẤU TRÚC ĐỀ THI FINAL EXAM (FE) — ĐẠI HỌC FPT</strong>
+              <span class="badge-tag" style="background:#fee2e2; color:#b91c1c; font-weight:700">Trọng số: 30%</span>
+            </div>
+            <p style="font-size:0.88rem; color:var(--text-secondary); margin:0 0 0.5rem 0; line-height:1.5">
+              <strong>Số lượng:</strong> 60 câu trắc nghiệm (Chương 1: 20 câu • Chương 2: 20 câu • Chương 3: 20 câu) | <strong>Thời gian:</strong> 60 phút | <strong>Chuẩn đầu ra:</strong> Toàn diện LO1 &ndash; LO9.
+            </p>
+            <p style="font-size:0.82rem; color:var(--text-muted); margin:0">
+              Quy chế thi: Phòng Khảo thí tổ chức. Sinh viên không được sử dụng tài liệu. Điểm liệt học phần: &lt; 4.0 / 10.0.
+            </p>
+          </div>
+        `;
+      } else {
+        elements.quizExamSpec.style.display = 'none';
+      }
+    }
+
+    // Handle chapter filter bar visibility
+    if (elements.quizChapFilterBar) {
+      elements.quizChapFilterBar.style.display = (state.quizMode === 'practice') ? 'flex' : 'none';
+    }
+
     // Handle timer display
-    if (state.quizMode === 'exam') {
+    if (isExam) {
       elements.quizTimerWrap.style.display = 'inline-flex';
       if (!state.examTimer && !state.examSubmitted) {
         startExamTimer();
@@ -518,7 +589,7 @@
         <div style="background:#ffffff; border:1px solid var(--border-color); border-radius:var(--radius-lg); padding:3rem; text-align:center">
           <h3 style="font-size:1.25rem; font-weight:700; color:var(--text-primary); margin-bottom:0.5rem">Chưa có câu hỏi nào trong danh sách này</h3>
           <p style="color:var(--text-muted); font-size:0.95rem">
-            ${state.quizMode === 'wrong' ? 'Chúc mừng! Bạn chưa có câu hỏi nào bị đánh dấu sai.' : 'Hãy chọn lại chế độ hoặc chương học để tiếp tục luyện tập.'}
+            ${state.quizMode === 'wrong' ? 'Bạn chưa có câu hỏi nào bị đánh dấu sai.' : 'Hãy chọn lại chế độ hoặc chương học để tiếp tục luyện tập.'}
           </p>
         </div>
       `;
@@ -526,7 +597,9 @@
       return;
     }
 
-    elements.quizSubmitBtn.style.display = (state.quizMode === 'exam' && !state.examSubmitted) ? 'block' : (state.quizMode === 'practice' ? 'none' : 'block');
+    elements.quizSubmitBtn.style.display = (isExam && !state.examSubmitted) ? 'block' : 'none';
+
+    const isPracticeLike = state.quizMode === 'practice' || state.quizMode === 'wrong' || state.quizMode === 'starred';
 
     elements.quizContainer.innerHTML = state.quizQuestions.map((q, idx) => {
       const userAnswer = state.userAnswers[q.id];
@@ -536,7 +609,7 @@
 
       // Card status classes
       let statusClass = '';
-      if (state.quizMode === 'practice' && isAnswered) {
+      if (isPracticeLike && isAnswered) {
         statusClass = isCorrect ? 'status-correct' : 'status-wrong';
       } else if (state.examSubmitted) {
         statusClass = isCorrect ? 'status-correct' : 'status-wrong';
@@ -564,7 +637,7 @@
               const isSelected = userAnswer === optId;
               let highlightClass = '';
 
-              if (state.quizMode === 'practice' && isAnswered) {
+              if (isPracticeLike && isAnswered) {
                 if (optId === q.answer) highlightClass = 'is-correct';
                 else if (isSelected && !isCorrect) highlightClass = 'is-wrong';
               } else if (state.examSubmitted) {
@@ -582,14 +655,15 @@
             }).join('')}
           </div>
 
-          ${(state.quizMode === 'practice' && isAnswered) || state.examSubmitted ? `
+          ${(isPracticeLike && isAnswered) || state.examSubmitted ? `
             <div class="q-explanation-box">
-              <strong>${isCorrect ? '✓ Đáp án đúng: ' : '✗ Sai rồi! Đáp án đúng: '} ${q.answer}</strong>
-              <div style="margin-top:0.35rem">${q.explanation || 'Kiến thức cốt lõi theo giáo trình chuẩn Bộ GD&ĐT.'}</div>
+              <strong style="color: ${isCorrect ? 'var(--status-success)' : 'var(--status-danger)'}">
+                ${isCorrect ? '✓ Đáp án chính xác: ' : '✗ Chưa chính xác. Đáp án đúng: '} ${q.answer}
+              </strong>
+              <div style="margin-top:0.35rem; color:var(--text-secondary)">${q.explanation || 'Kiến thức cốt lõi theo Giáo trình Lịch sử Đảng Cộng sản Việt Nam (2021).'}</div>
               ${q.source ? `
                 <div class="q-source-badge">
-                  <span>📖</span>
-                  <span>Đối chiếu nguồn: <strong>${q.source}</strong></span>
+                  <span>Đối chiếu giáo trình: <strong>${q.source}</strong></span>
                 </div>
               ` : ''}
             </div>
@@ -597,7 +671,7 @@
 
           ${q.warning ? `
             <div class="q-warning-box">
-              <strong>⚠️ Cảnh báo bẫy thi:</strong> ${q.warning}
+              <strong>Lưu ý bẫy thi:</strong> ${q.warning}
             </div>
           ` : ''}
         </div>
@@ -615,7 +689,7 @@
 
     // Attach star button listeners
     document.querySelectorAll('.q-star-btn').forEach(btn => {
-      btn.addEventListener('click', (e) => {
+      btn.addEventListener('click', () => {
         const qId = btn.dataset.qid;
         toggleStarQuestion(qId);
       });
@@ -625,6 +699,8 @@
   function renderQuizPalette() {
     if (!elements.quizPaletteGrid) return;
 
+    const isPracticeLike = state.quizMode === 'practice' || state.quizMode === 'wrong' || state.quizMode === 'starred';
+
     elements.quizPaletteGrid.innerHTML = state.quizQuestions.map((q, idx) => {
       const userAnswer = state.userAnswers[q.id];
       const isAnswered = Boolean(userAnswer);
@@ -632,7 +708,7 @@
       const isStarred = state.starredQuestions.includes(q.id);
 
       let cellClass = '';
-      if (state.quizMode === 'practice' && isAnswered) {
+      if (isPracticeLike && isAnswered) {
         cellClass = isCorrect ? 'correct' : 'wrong';
       } else if (state.examSubmitted) {
         cellClass = isCorrect ? 'correct' : 'wrong';
@@ -686,17 +762,80 @@
       }
     }
 
-    if (state.quizMode === 'practice') {
-      renderQuiz(); // instant feedback
+    const isPracticeLike = state.quizMode === 'practice' || state.quizMode === 'wrong' || state.quizMode === 'starred';
+
+    if (isPracticeLike && qObj) {
+      // Instant feedback WITHOUT full re-render (preserves scroll position!)
+      const card = document.getElementById(`q-card-${qId}`);
+      if (card) {
+        const isCorrect = answerLetter === qObj.answer;
+        card.classList.remove('status-correct', 'status-wrong');
+        card.classList.add(isCorrect ? 'status-correct' : 'status-wrong');
+
+        // Update option labels highlight
+        card.querySelectorAll('.q-option-label').forEach(label => {
+          const input = label.querySelector('input');
+          label.classList.remove('is-correct', 'is-wrong');
+          if (input.value === qObj.answer) {
+            label.classList.add('is-correct');
+          } else if (input.value === answerLetter && !isCorrect) {
+            label.classList.add('is-wrong');
+          }
+        });
+
+        // Update or insert explanation box
+        let expBox = card.querySelector('.q-explanation-box');
+        const expHtml = `
+          <strong style="color: ${isCorrect ? 'var(--status-success)' : 'var(--status-danger)'}">
+            ${isCorrect ? '✓ Đáp án chính xác: ' : '✗ Chưa chính xác. Đáp án đúng: '} ${qObj.answer}
+          </strong>
+          <div style="margin-top:0.35rem; color:var(--text-secondary)">${qObj.explanation || 'Kiến thức cốt lõi theo Giáo trình Lịch sử Đảng Cộng sản Việt Nam (2021).'}</div>
+          ${qObj.source ? `
+            <div class="q-source-badge">
+              <span>Đối chiếu giáo trình: <strong>${qObj.source}</strong></span>
+            </div>
+          ` : ''}
+        `;
+
+        if (expBox) {
+          expBox.innerHTML = expHtml;
+        } else {
+          expBox = document.createElement('div');
+          expBox.className = 'q-explanation-box';
+          expBox.innerHTML = expHtml;
+          const warningBox = card.querySelector('.q-warning-box');
+          if (warningBox) {
+            card.insertBefore(expBox, warningBox);
+          } else {
+            card.appendChild(expBox);
+          }
+        }
+      }
+
+      // Update palette cell directly
+      if (elements.quizPaletteGrid) {
+        const cell = elements.quizPaletteGrid.querySelector(`.palette-cell[data-qid="${qId}"]`);
+        if (cell) {
+          const isCorrect = answerLetter === qObj.answer;
+          cell.className = 'palette-cell ' + (isCorrect ? 'correct' : 'wrong') + (state.starredQuestions.includes(qId) ? ' starred' : '');
+        }
+      }
     } else {
-      renderQuizPalette(); // update answered status in exam
+      // In Exam mode: just mark cell as answered
+      if (elements.quizPaletteGrid) {
+        const cell = elements.quizPaletteGrid.querySelector(`.palette-cell[data-qid="${qId}"]`);
+        if (cell) {
+          cell.classList.add('answered');
+        }
+      }
     }
+
     updateProgressUI();
   }
 
   function updateProgressUI() {
-    const totalQuestions = DATA.QUESTIONS ? DATA.QUESTIONS.length : 150;
-    const totalFlashcards = DATA.FLASHCARDS ? DATA.FLASHCARDS.length : 55;
+    const totalQuestions = DATA.QUESTIONS ? DATA.QUESTIONS.length : 700;
+    const totalFlashcards = DATA.FLASHCARDS ? DATA.FLASHCARDS.length : 67;
     const answeredCount = Object.keys(state.userAnswers).length;
     const masteredCount = state.fcMastered ? state.fcMastered.length : 0;
     const totalItems = totalQuestions + totalFlashcards;
@@ -716,7 +855,22 @@
       state.starredQuestions.push(qId);
     }
     localStorage.setItem('vnr_starred', JSON.stringify(state.starredQuestions));
-    renderQuiz();
+
+    // Update star button UI directly
+    const starBtn = document.querySelector(`.q-star-btn[data-qid="${qId}"]`);
+    if (starBtn) {
+      if (state.starredQuestions.includes(qId)) starBtn.classList.add('starred');
+      else starBtn.classList.remove('starred');
+    }
+
+    // Update palette cell star
+    if (elements.quizPaletteGrid) {
+      const cell = elements.quizPaletteGrid.querySelector(`.palette-cell[data-qid="${qId}"]`);
+      if (cell) {
+        if (state.starredQuestions.includes(qId)) cell.classList.add('starred');
+        else cell.classList.remove('starred');
+      }
+    }
   }
 
   function startExamTimer() {
@@ -755,54 +909,105 @@
 
     // Calculate score
     let correctCount = 0;
+    let c1Correct = 0, c1Total = 0;
+    let c2Correct = 0, c2Total = 0;
+    let c3Correct = 0, c3Total = 0;
+
     state.quizQuestions.forEach(q => {
-      if (state.userAnswers[q.id] === q.answer) {
-        correctCount++;
+      const isCorrect = state.userAnswers[q.id] === q.answer;
+      if (isCorrect) correctCount++;
+
+      if (q.chapter === 1) {
+        c1Total++;
+        if (isCorrect) c1Correct++;
+      } else if (q.chapter === 2) {
+        c2Total++;
+        if (isCorrect) c2Correct++;
+      } else if (q.chapter === 3) {
+        c3Total++;
+        if (isCorrect) c3Correct++;
       }
     });
 
     const total = state.quizQuestions.length;
     const score10 = (correctCount / total * 10).toFixed(1);
     const percentage = Math.round(correctCount / total * 100);
+    const isPass = parseFloat(score10) >= 4.0;
 
-    let grade = 'F';
-    let gradeColor = 'var(--status-danger)';
-    if (percentage >= 85) { grade = 'A (Xuất sắc)'; gradeColor = 'var(--status-success)'; }
-    else if (percentage >= 70) { grade = 'B (Khá giỏi)'; gradeColor = 'var(--brand-crimson)'; }
-    else if (percentage >= 50) { grade = 'C (Đạt)'; gradeColor = 'var(--brand-gold)'; }
-    else { grade = 'F (Chưa đạt)'; gradeColor = 'var(--status-danger)'; }
+    const examTitle = state.quizMode === 'exam-pt' ? 'PROGRESS TEST (PT - 20%)' : 'FINAL EXAM (FE - 30%)';
 
     // Render result card
     if (elements.quizScoreResultCard) {
       elements.quizScoreResultCard.style.display = 'block';
       elements.quizScoreResultCard.innerHTML = `
-        <h3 style="font-size:1.35rem; font-weight:700; color:var(--text-primary)">KẾT QUẢ THI THỬ VNR202</h3>
-        <div class="score-number">${score10} <span style="font-size:1.5rem; color:var(--text-muted)">/ 10</span></div>
-        <div style="font-size:1.15rem; font-weight:700; color:${gradeColor}; margin-bottom:1rem">${grade} (${percentage}%)</div>
-        
-        <div class="score-stats-row">
-          <div class="score-stat-box">
-            <h4 style="color:var(--status-success)">${correctCount}</h4>
-            <p>Câu đúng</p>
+        <div style="max-width:760px; margin:0 auto">
+          <div style="font-size:0.85rem; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:0.25rem">
+            KẾT QUẢ KHẢO THÍ CHUẨN FPT UNIVERSITY
           </div>
-          <div class="score-stat-box">
-            <h4 style="color:var(--status-danger)">${total - correctCount}</h4>
-            <p>Câu sai</p>
+          <h3 style="font-size:1.45rem; font-weight:800; color:var(--text-primary); margin-bottom:1rem">
+            BÀI THI ${examTitle}
+          </h3>
+
+          <div style="display:flex; justify-content:center; align-items:baseline; gap:0.5rem; margin-bottom:0.5rem">
+            <span class="score-number" style="font-size:3.5rem; font-weight:900; color:${isPass ? 'var(--brand-crimson)' : 'var(--status-danger)'}">
+              ${score10}
+            </span>
+            <span style="font-size:1.5rem; font-weight:700; color:var(--text-muted)">/ 10.0</span>
           </div>
-          <div class="score-stat-box">
-            <h4>${total}</h4>
-            <p>Tổng số câu</p>
+
+          <div style="margin-bottom:1.5rem">
+            <span class="badge-tag" style="font-size:0.95rem; padding:0.4rem 1.25rem; font-weight:700; background:${isPass ? 'var(--status-success-bg)' : 'var(--status-danger-bg)'}; color:${isPass ? 'var(--status-success)' : 'var(--status-danger)'}; border:1px solid ${isPass ? 'var(--status-success-border)' : 'var(--status-danger-border)'}">
+              ${isPass ? 'KẾT QUẢ: ĐẠT (PASS)' : 'KẾT QUẢ: KHÔNG ĐẠT (FAIL - Dưới 4.0)'}
+            </span>
+            <span style="font-size:0.95rem; font-weight:600; color:var(--text-secondary); margin-left:0.5rem">
+              (${correctCount}/${total} câu • ${percentage}%)
+            </span>
+          </div>
+
+          <!-- Breakdown per chapter -->
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:1rem; margin-bottom:1.5rem; text-align:left">
+            <div style="background:var(--bg-surface-alt); border:1px solid var(--border-color); border-radius:var(--radius-md); padding:1rem">
+              <div style="font-size:0.8rem; font-weight:700; color:var(--text-muted); text-transform:uppercase">Chương 1 (1930 – 1945)</div>
+              <div style="font-size:1.25rem; font-weight:800; color:var(--brand-crimson); margin:0.35rem 0">
+                ${c1Correct} / ${c1Total} câu
+              </div>
+              <div style="font-size:0.8rem; color:var(--text-secondary)">Tỷ lệ đúng: ${c1Total > 0 ? Math.round(c1Correct / c1Total * 100) : 0}%</div>
+            </div>
+
+            <div style="background:var(--bg-surface-alt); border:1px solid var(--border-color); border-radius:var(--radius-md); padding:1rem">
+              <div style="font-size:0.8rem; font-weight:700; color:var(--text-muted); text-transform:uppercase">Chương 2 (1945 – 1975)</div>
+              <div style="font-size:1.25rem; font-weight:800; color:var(--brand-crimson); margin:0.35rem 0">
+                ${c2Correct} / ${c2Total} câu
+              </div>
+              <div style="font-size:0.8rem; color:var(--text-secondary)">Tỷ lệ đúng: ${c2Total > 0 ? Math.round(c2Correct / c2Total * 100) : 0}%</div>
+            </div>
+
+            ${c3Total > 0 ? `
+              <div style="background:var(--bg-surface-alt); border:1px solid var(--border-color); border-radius:var(--radius-md); padding:1rem">
+                <div style="font-size:0.8rem; font-weight:700; color:var(--text-muted); text-transform:uppercase">Chương 3 (1975 – nay)</div>
+                <div style="font-size:1.25rem; font-weight:800; color:var(--brand-crimson); margin:0.35rem 0">
+                  ${c3Correct} / ${c3Total} câu
+                </div>
+                <div style="font-size:0.8rem; color:var(--text-secondary)">Tỷ lệ đúng: ${Math.round(c3Correct / c3Total * 100)}%</div>
+              </div>
+            ` : ''}
+          </div>
+
+          <p style="font-size:0.88rem; color:var(--text-secondary); margin-bottom:1.25rem; line-height:1.5">
+            Bạn có thể kéo xuống danh sách câu hỏi để xem chi tiết đáp án đúng, giải thích học thuật và số trang đối chiếu trong Giáo trình Lịch sử Đảng (NXB Chính trị quốc gia Sự thật).
+          </p>
+
+          <div style="display:flex; justify-content:center; gap:0.75rem; flex-wrap:wrap">
+            <button class="fc-btn primary" id="btn-re-exam">Thi đề mới</button>
+            <button class="fc-btn" id="btn-review-scroll">Xem lại đáp án & Giải thích &darr;</button>
           </div>
         </div>
-
-        <p style="font-size:0.9rem; color:var(--text-secondary); max-width:540px; margin:0 auto 1.25rem auto">
-          Bạn có thể kéo xuống dưới để xem lại từng câu hỏi, kiểm tra lời giải thích và các bẫy thi cần chú ý!
-        </p>
-
-        <button class="fc-btn primary" id="btn-re-exam">Thi lại đề khác</button>
       `;
 
       document.getElementById('btn-re-exam').addEventListener('click', resetQuiz);
+      document.getElementById('btn-review-scroll').addEventListener('click', () => {
+        elements.quizContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
     }
 
     renderQuiz();
@@ -816,6 +1021,15 @@
     if (elements.quizScoreResultCard) {
       elements.quizScoreResultCard.style.display = 'none';
     }
+
+    if (state.quizMode === 'exam-pt') {
+      state.examDurationMinutes = 20;
+      state.examTimeRemaining = 20 * 60;
+    } else if (state.quizMode === 'exam-fe') {
+      state.examDurationMinutes = 60;
+      state.examTimeRemaining = 60 * 60;
+    }
+
     renderQuiz();
   }
 
@@ -834,12 +1048,12 @@
         <h3 class="pitfall-title">${p.title}</h3>
         
         <div class="pitfall-section-box issue">
-          <div class="pitfall-label danger">⚠️ Vấn đề trong đề thi gốc:</div>
+          <div class="pitfall-label danger">Phân tích sai sót trong đề thi truyền thống:</div>
           <div>${p.issue}</div>
         </div>
 
         <div class="pitfall-section-box solution">
-          <div class="pitfall-label success">💡 Chiến lược xử lý & Chọn đáp án khi thi:</div>
+          <div class="pitfall-label success">Chiến lược xử lý & Chọn đáp án chuẩn khảo thí:</div>
           <div>${p.solution}</div>
         </div>
       </div>
@@ -901,8 +1115,8 @@
 
     elements.verifiedSourcesContainer.innerHTML = DATA.VERIFIED_SOURCES.map(cat => `
       <div class="verified-source-group" style="margin-bottom:1.5rem">
-        <h4 style="font-size:1rem; font-weight:700; color:var(--brand-crimson); margin-bottom:0.75rem; display:flex; align-items:center; gap:0.5rem">
-          <span>📌</span> ${cat.category}
+        <h4 style="font-size:1rem; font-weight:700; color:var(--brand-crimson); margin-bottom:0.75rem">
+          ${cat.category}
         </h4>
         <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(320px, 1fr)); gap:1rem">
           ${cat.items.map(item => `

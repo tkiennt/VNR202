@@ -1,4 +1,5 @@
 const fs = require('fs');
+const path = require('path');
 
 function mdToHtml(md) {
   // Normalize line endings
@@ -345,12 +346,20 @@ function renderMermaidAsHtml(chartText) {
   return `<pre class="content-code"><code>${chartText}</code></pre>`;
 }
 
+// Helper to read markdown file from docs/ or root
+function readDoc(fileName) {
+  const p = fs.existsSync(path.join('docs', fileName))
+    ? path.join('docs', fileName)
+    : fileName;
+  return fs.readFileSync(p, 'utf8');
+}
+
 // Extract chapters
-const part0 = fs.readFileSync('part0.md', 'utf8');
-const part1 = fs.readFileSync('part1.md', 'utf8');
-const part2 = fs.readFileSync('part2.md', 'utf8');
-const part3 = fs.readFileSync('part3.md', 'utf8');
-const part4 = fs.readFileSync('part4.md', 'utf8');
+const part0 = readDoc('part0.md');
+const part1 = readDoc('part1.md');
+const part2 = readDoc('part2.md');
+const part3 = readDoc('part3.md');
+const part4 = readDoc('part4.md');
 
 // Slice out question sections
 const p0Study = part0;
